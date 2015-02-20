@@ -10,6 +10,8 @@ public class Parser {
     private List<String> myValidCommands;
     private ResourceBundle myResourceBundle;
     private Pattern constantPattern;
+    private Pattern commandPattern;
+    private Pattern commentPattern;
     
     public Parser(Model currentModel){
 //        myValidCommands = currentModel.getValidCommands();
@@ -24,7 +26,6 @@ public class Parser {
         if(myValidCommands.contains(command)){
             
         }
-        
         return null;
     }
     
@@ -40,7 +41,15 @@ public class Parser {
     }
     
     private Stack<String> inputToTokens(String input){
-        return null;
+        Stack<String> tokenStack = new Stack<String>();
+        Matcher constantMatch =constantPattern.matcher(input);
+        if(constantMatch.find()){
+            input = input.split(constantPattern.toString())[1];
+            System.out.println(input.split
+                               (myResourceBundle.getString("LeadingWhitespace"))[1]);
+            tokenStack.push(constantMatch.group(0));
+        }
+        return tokenStack;
     }
     
     public static void main(String[] args){

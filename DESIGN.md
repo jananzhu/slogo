@@ -43,6 +43,12 @@ Commands:  Defines a class of objects that are used to specify a command’s nam
 ###API Example Code (Janan)
 The View class contains a command line text box that will call the model's public processCode method on the "fd 50" string contained in the box once the user hits enter. The model will take the string and break it down into a stack of forward and 50. It then runs the Parser class's parseCommand method on the stack. It will then call the runCommand method on the forward Command. The forward Command recognizes that it has the single argument, which is all it needs and so it passes a string representing the forward 50 command as an argument to the executeCommand method in model. The model looks up the forward command in a Map and sees that it corresponds to moveTurtle method in the Manager class in the view and so it calls that method with 50 as an argument in the view. The moveTurtle method moves the turtle forward 50 units in the JavaFX screen draws a trail behind it.
 
+Sunjeev
+Model in backend gets user input from frontend View and generates turtles with appropriate attributes and passes them on to frontend.
+
+Sid
+Instances of controller, model and view  in main. Model contains turtle objects and handles parsing and modifies turtle and passes turtle information to the view and moves it accordingly.
+
 ###Design Considerations:
 
 We had to consider how exactly interfacing between the GUI elements and the parsing elements in the project would work. Originally, we thought that the view would simply call parsing methods on the parser. But, in order to more clearly define the responsibilities of the view, we decided that it would be better to have a controller-class that will contain one or more views as well as handle the communications between the view and model. This has the benefit of reducing the clutter of the view to only contain the GUI elements and defining a single class that exclusively interfaces with the models.
