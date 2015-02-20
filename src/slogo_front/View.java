@@ -11,6 +11,8 @@ import javafx.geometry.Orientation;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -28,6 +30,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -65,6 +68,8 @@ public class View {
 	private TextField textField;
 	private VBox history; 
 	private ScrollPane historyScrollPane;
+	private Canvas canvas; // TODO switch to different class
+	private GraphicsContext gc;
 	// private Button pausePlayButton;
 	// private Button resetButton;
 	// private Button stepButton;
@@ -85,6 +90,8 @@ public class View {
 		root.setTop(makeMenu());
 		root.setRight(makeCommandHistory());
 		root.setBottom(makeTextField());
+		root.setCenter(makeCanvas());
+//		root.getChildren().add(makeCanvas());
 		// root.setBottom(makeControlPanel());
 		// root.setLeft(makeGraph());
 		// root.setCenter(makeAnimationScreen());
@@ -94,6 +101,44 @@ public class View {
 		scene.setOnKeyPressed(e -> handleKeyInput(e));
 	}
 
+	private Node makeCanvas(){
+		
+		canvas = new Canvas(995,300);
+		canvas.getStyleClass().add("canvas");
+//		canvas.setLayoutY(menuBar.getMaxHeight());
+//		System.out.println(menuBar.getMinHeight());
+//		System.out.println(menuBar.getScaleY());
+//		System.out.println(menuBar.getTranslateY());
+//		System.out.println(menuBar.get);
+//		canvas.setWidth(200);
+//		canvas.setHeight(300);
+		
+		// sample canvas code
+		gc =canvas.getGraphicsContext2D();
+		gc.setFill(Color.GREEN);
+		 gc.setStroke(Color.BLUE);
+	        gc.setLineWidth(5);
+	        gc.strokeLine(40, 10, 10, 40);
+	        gc.fillOval(10, 60, 30, 30);
+	        gc.strokeOval(60, 60, 30, 30);
+	        gc.fillRoundRect(110, 60, 30, 30, 10, 10);
+	        gc.strokeRoundRect(160, 60, 30, 30, 10, 10);
+	        gc.fillArc(10, 110, 30, 30, 45, 240, ArcType.OPEN);
+	        gc.fillArc(60, 110, 30, 30, 45, 240, ArcType.CHORD);
+	        gc.fillArc(110, 110, 30, 30, 45, 240, ArcType.ROUND);
+	        gc.strokeArc(10, 160, 30, 30, 45, 240, ArcType.OPEN);
+	        gc.strokeArc(60, 160, 30, 30, 45, 240, ArcType.CHORD);
+	        gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
+	        gc.fillPolygon(new double[]{10, 40, 10, 40},
+	                       new double[]{210, 210, 240, 240}, 4);
+	        gc.strokePolygon(new double[]{60, 90, 60, 90},
+	                         new double[]{210, 210, 240, 240}, 4);
+	        gc.strokePolyline(new double[]{110, 140, 110, 140},
+	                          new double[]{210, 210, 240, 240}, 4);
+		return canvas;
+		
+	}
+	
 	private Node makeTextField() {
 		textField = new TextField();
 		textField.setPrefWidth(200);
@@ -107,9 +152,8 @@ public class View {
 			String s = textField.getText();
 			if(s.toLowerCase().equals("clear")){
 				clearHistoryText();
-			}else{
-				addHistoryText(s);
 			}
+			addHistoryText(s);
 			textField.clear();
 		}
 	}
@@ -119,10 +163,10 @@ public class View {
 	}
 	
 	private void addHistoryText(String text){
-		Text a = new Text(text);
+		Text a = new Text(">> " + text);
 		a.setWrappingWidth(205);
 		history.getChildren().add(a);
-		historyScrollPane.setVvalue(historyScrollPane.getVmax()+5);
+		historyScrollPane.setVvalue(historyScrollPane.getVmax()+20);
 	}
 	
 	private void clearHistoryText(){
@@ -155,8 +199,8 @@ public class View {
 	
 	private Node makeCommandHistory() {
 		 history = new VBox(5);
-		 history.getStyleClass().add("vbox");
 		 historyScrollPane = new ScrollPane();
+		 historyScrollPane.getStyleClass().add("commandHistory");
 		 historyScrollPane.setMinWidth(205);
 		 historyScrollPane.setFitToWidth(true);
 		 historyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);

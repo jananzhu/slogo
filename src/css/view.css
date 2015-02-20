@@ -1,4 +1,7 @@
-.vbox {
+.canvas{
+	-fx-background-color: blue;
+}
+.commandHistory {
     -fx-padding: 15;
     -fx-spacing: 10;
     -fx-border-style: solid;
