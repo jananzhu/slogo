@@ -3,6 +3,7 @@ package slogo_front;
 import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
+import javax.swing.JTextField;
 
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Orientation;
@@ -17,6 +18,7 @@ import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -57,7 +59,7 @@ public class View {
 	private Scene scene;
 	// private ToolBar toolBar;
 	private MenuBar menuBar;
-
+	private TextField textField;
 	// private Button pausePlayButton;
 	// private Button resetButton;
 	// private Button stepButton;
@@ -77,12 +79,20 @@ public class View {
 		BorderPane root = new BorderPane();
 		root.setTop(makeMenu());
 		root.setRight(makeCommandHistory());
+		root.setBottom(makeTextField());
 		// root.setBottom(makeControlPanel());
 		// root.setLeft(makeGraph());
 		// root.setCenter(makeAnimationScreen());
 		scene = new Scene(root, DEFAULT_SIZE.getWidth(),
 				DEFAULT_SIZE.getHeight());
 		scene.getStylesheets().add("css/view.css");
+	}
+
+	private Node makeTextField() {
+		textField = new TextField();
+		textField.setPrefWidth(200);
+		textField.setLayoutX(0);
+		return textField;		
 	}
 
 	public Scene getScene() {
@@ -112,7 +122,7 @@ public class View {
 		return menuBar;
 
 	}
-
+	
 	private Node makeCommandHistory() {
 		 VBox history = new VBox(5);
 		 history.getStyleClass().add("vbox");
