@@ -5,6 +5,9 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Orientation;
@@ -105,39 +108,34 @@ public class View {
 		
 		canvas = new Canvas(995,300);
 		canvas.getStyleClass().add("canvas");
-//		canvas.setLayoutY(menuBar.getMaxHeight());
-//		System.out.println(menuBar.getMinHeight());
-//		System.out.println(menuBar.getScaleY());
-//		System.out.println(menuBar.getTranslateY());
-//		System.out.println(menuBar.get);
-//		canvas.setWidth(200);
-//		canvas.setHeight(300);
-		
+
 		// sample canvas code
 		gc =canvas.getGraphicsContext2D();
-		gc.setFill(Color.GREEN);
-		 gc.setStroke(Color.BLUE);
-	        gc.setLineWidth(5);
-	        gc.strokeLine(40, 10, 10, 40);
-	        gc.fillOval(10, 60, 30, 30);
-	        gc.strokeOval(60, 60, 30, 30);
-	        gc.fillRoundRect(110, 60, 30, 30, 10, 10);
-	        gc.strokeRoundRect(160, 60, 30, 30, 10, 10);
-	        gc.fillArc(10, 110, 30, 30, 45, 240, ArcType.OPEN);
-	        gc.fillArc(60, 110, 30, 30, 45, 240, ArcType.CHORD);
-	        gc.fillArc(110, 110, 30, 30, 45, 240, ArcType.ROUND);
-	        gc.strokeArc(10, 160, 30, 30, 45, 240, ArcType.OPEN);
-	        gc.strokeArc(60, 160, 30, 30, 45, 240, ArcType.CHORD);
-	        gc.strokeArc(110, 160, 30, 30, 45, 240, ArcType.ROUND);
-	        gc.fillPolygon(new double[]{10, 40, 10, 40},
-	                       new double[]{210, 210, 240, 240}, 4);
-	        gc.strokePolygon(new double[]{60, 90, 60, 90},
-	                         new double[]{210, 210, 240, 240}, 4);
-	        gc.strokePolyline(new double[]{110, 140, 110, 140},
-	                          new double[]{210, 210, 240, 240}, 4);
+		gc.setStroke(Color.BLUE);
+		gc.setLineWidth(1);
+		gc.strokeLine(750, 750, 800, 30);
+		int x = 50;
+		int y = 50;
+		while(y<10000){
+			gc.strokeLine(x, y, x, y+5);
+			y+=5;			
+		}
 		return canvas;
 		
 	}
+	
+	/**
+	 * TODO implement animation
+	 * 
+	 * @param frame
+	 */
+	private void createAnimation(KeyFrame frame) {
+		Timeline animation = new Timeline();
+		animation.setCycleCount(Animation.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
+	}
+
 	
 	private Node makeTextField() {
 		textField = new TextField();
