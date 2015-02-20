@@ -1,5 +1,7 @@
 package slogo_back;
 
-public class Commands {
+import java.util.Stack;
+
+public abstract class Commands {
 
 }
