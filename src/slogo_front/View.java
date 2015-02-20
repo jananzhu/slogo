@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javax.swing.JTextField;
 
+import javafx.event.ActionEvent;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
@@ -20,6 +21,8 @@ import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -60,6 +63,8 @@ public class View {
 	// private ToolBar toolBar;
 	private MenuBar menuBar;
 	private TextField textField;
+	private VBox history; 
+	private ScrollPane historyScrollPane;
 	// private Button pausePlayButton;
 	// private Button resetButton;
 	// private Button stepButton;
@@ -86,6 +91,7 @@ public class View {
 		scene = new Scene(root, DEFAULT_SIZE.getWidth(),
 				DEFAULT_SIZE.getHeight());
 		scene.getStylesheets().add("css/view.css");
+		scene.setOnKeyPressed(e -> handleKeyInput(e));
 	}
 
 	private Node makeTextField() {
@@ -94,11 +100,35 @@ public class View {
 		textField.setLayoutX(0);
 		return textField;		
 	}
+	
+	private void handleKeyInput(KeyEvent e) { //This entire method is part of my masterpiece.
+		KeyCode keyCode = e.getCode();
+		if (keyCode == KeyCode.ENTER) {
+			String s = textField.getText();
+			if(s.toLowerCase().equals("clear")){
+				clearHistoryText();
+			}else{
+				addHistoryText(s);
+			}
+			textField.clear();
+		}
+	}
 
 	public Scene getScene() {
 		return scene;
 	}
-
+	
+	private void addHistoryText(String text){
+		Text a = new Text(text);
+		a.setWrappingWidth(205);
+		history.getChildren().add(a);
+		historyScrollPane.setVvalue(historyScrollPane.getVmax()+5);
+	}
+	
+	private void clearHistoryText(){
+		history.getChildren().clear();
+	}
+	
 	// private Node makeToolbar() {
 	// toolBar = new ToolBar(new Button("New"), new Button("Open"),
 	// new Button("Save"), new Separator(), new Button("Clean"),
@@ -124,44 +154,19 @@ public class View {
 	}
 	
 	private Node makeCommandHistory() {
-		 VBox history = new VBox(5);
+		 history = new VBox(5);
 		 history.getStyleClass().add("vbox");
-		 ScrollPane s1 = new ScrollPane();
-//		 s1.setVmax(440);
-		 s1.setMinWidth(205);
-	     s1.setFitToWidth(true);
-	     s1.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-//		 Rectangle rect = new Rectangle(200, 200, Color.RED);
-		 Text a = new Text( "This is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilities");
+		 historyScrollPane = new ScrollPane();
+		 historyScrollPane.setMinWidth(205);
+		 historyScrollPane.setFitToWidth(true);
+		 historyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+		 Text a = new Text( "Command History: ");
 		 a.setWrappingWidth(205);
-		 Text b = new Text("This is a testThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilities");
-		 b.setWrappingWidth(205);
-		 Text c = new Text( "This is a testThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilities");
-		 c.setWrappingWidth(205);
-		 Text d = new Text( "This is a tThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilitiesest");
-		 d.setWrappingWidth(205);
-		 Text e = new Text( "This isThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilities a test");
-		 e.setWrappingWidth(205);
-		 Text f = new Text( "ThThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilitiesis is a test");
-		 f.setWrappingWidth(205);
-		 Text g = new Text( "This is a This is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilitiestest");
-		 g.setWrappingWidth(205);
-		 Text h = new Text( "This is aThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilities test");
-		 h.setWrappingWidth(205);
-		 Text i = new Text( "This is aThis is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilities test");
-		 i.setWrappingWidth(205);
-		 Text j = new Text( "This is This is a test of our abilitiesThis is a test of our abilitiesThis is a test of our abilitiesa test");
-		 j.setWrappingWidth(205);
-		 VBox.setVgrow(s1, Priority.ALWAYS);
+		 VBox.setVgrow(historyScrollPane, Priority.ALWAYS);
 		 
-		 history.getChildren().addAll(a,b,c,d,e,f,g,h,i,j);
-		 s1.setContent(history);
-//		 history.getChildren().add(rect);
-//		 s1.setPrefSize(120, 120);
-//		 s1.setContent(history);
-		 
-		 
-		 return s1;
+		 history.getChildren().addAll(a);
+		 historyScrollPane.setContent(history);
+		 return historyScrollPane; 
 	}
 
 }
