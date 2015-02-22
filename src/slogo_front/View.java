@@ -46,28 +46,6 @@ public class View {
 	// default size of the window
 	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(1200, 767);
 
-	// // information for getting labels from the resources files
-	// private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	// public static final String IMAGEFILE_SUFFIXES =
-	// String.format(".*\\.(%s)", String.join("|",
-	// ImageIO.getReaderFileSuffixes()));
-	// private static final String PAUSE_PLAY = "PAUSE_PLAY";
-	// private static final String RESET = "RESET";
-	// private static final String STEP = "STEP";
-	// private static final String LOAD_NEW_FILE = "LOAD_NEW_FILE";
-	// private static final String OPTIONS = "OPTIONS";
-	//
-	// // controls the amount of free space so individual dots are visible
-	// private static final double PERCENT_EMPTY_SPACE = .2;
-	//
-	// // spaces out the bottom menu
-	// private static final int MENU_SPACING = 50;
-	// private static final int SLIDER_SPACING = 10;
-	//
-	// // keeps the entire simulation screen on the window
-	// private static final double BUFFER_DISTANCE = 550;
-
-	// various items that are located on the screen
 	private Scene scene;
 	// private ToolBar toolBar;
 	private MenuBar menuBar;
@@ -79,31 +57,13 @@ public class View {
 	private String[] languages = {"Chinese","English","French","German","Italian","Japanese","Korean",
 			"Portugese","Russian","Spanish"};
 	private String language;
-	// private Button pausePlayButton;
-	// private Button resetButton;
-	// private Button stepButton;
-	// private MenuBar menuBar;
-	// private MenuItem fileLoad;
-	// private Slider animationSpeedSlider;
-	// private GridPane animationScreen;
-	// private double speed;
-	// private Menu menuFile;
-	//
-	// private ResourceBundle resources;
-
+	
 	public View() {
-		// speed = 1;
-		// resources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE +
-		// language);
 		BorderPane root = new BorderPane();
 		root.setTop(makeMenu());
 		root.setRight(makeCommandHistory());
 		root.setBottom(makeTextField());
 		root.setCenter(makeCanvas());
-//		root.getChildren().add(makeCanvas());
-		// root.setBottom(makeControlPanel());
-		// root.setLeft(makeGraph());
-		// root.setCenter(makeAnimationScreen());
 		scene = new Scene(root, DEFAULT_SIZE.getWidth(),
 				DEFAULT_SIZE.getHeight());
 		scene.getStylesheets().add("css/view.css");
@@ -177,15 +137,6 @@ public class View {
 		history.getChildren().clear();
 	}
 	
-	// private Node makeToolbar() {
-	// toolBar = new ToolBar(new Button("New"), new Button("Open"),
-	// new Button("Save"), new Separator(), new Button("Clean"),
-	// new Button("Compile"), new Button("Run"), new Separator(),
-	// new Button("Debug"), new Button("Profile"));
-	// return toolBar;
-	//
-	// }
-
 	private Node makeMenu() {
 		menuBar = new MenuBar();
 		language = "English";
@@ -195,7 +146,7 @@ public class View {
 		//Language
 		Menu menuLanguage = new Menu("Change Language");
 		setLanguages(menuLanguage);
-		setLanguageListener(menuLanguage);
+//		setLanguageListener(menuLanguage);
 		menuBar.getMenus().addAll(menuHelp, menuLanguage);
 		
 		
@@ -211,16 +162,18 @@ public class View {
 		}
 	}
 	
-	private void setLanguageListener(Menu languageMenu){
-		languageMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, 
-				new EventHandler<MouseEvent>() {
-			public void handle (MouseEvent e) {
-				language = languageMenu.getText();
-				System.out.println(language);
-			}
-		});
-	}
-	
+//	private void setLanguageListener(Menu languageMenu){
+//		languageMenu.getOnAction().
+//		
+//		languageMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+//				new EventHandler<MouseEvent>() {
+//			public void handle (MouseEvent e) {
+//				language = languageMenu.getText();
+//				System.out.println(language);
+//			}
+//		});
+//	}
+//	
 	private Node makeCommandHistory() {
 		 history = new VBox(5);
 		 historyScrollPane = new ScrollPane();
