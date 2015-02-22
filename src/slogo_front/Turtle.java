@@ -13,7 +13,7 @@ public class Turtle {
 	protected int myID;
 	private int xLoc;
 	private int yLoc;
-	private float heading; // from 0-360
+	private double heading; // from 0-360
 	private ImageView image; 
 	private Color penColor;
 	
@@ -27,7 +27,7 @@ public class Turtle {
 		return yLoc;
 	}
 	
-	public float getHeading(){
+	public double getHeading(){
 		return heading;
 	}
 	
@@ -48,7 +48,7 @@ public class Turtle {
 		yLoc = y;
 	}
 	
-	public void setHeading(int direction){
+	public void setHeading(double direction){
 		heading = direction;
 	}
 	
