@@ -9,6 +9,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
@@ -28,6 +29,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
@@ -73,6 +76,9 @@ public class View {
 	private ScrollPane historyScrollPane;
 	private Canvas canvas; // TODO switch to different class
 	private GraphicsContext gc;
+	private String[] languages = {"Chinese","English","French","German","Italian","Japanese","Korean",
+			"Portugese","Russian","Spanish"};
+	private String language;
 	// private Button pausePlayButton;
 	// private Button resetButton;
 	// private Button stepButton;
@@ -182,17 +188,37 @@ public class View {
 
 	private Node makeMenu() {
 		menuBar = new MenuBar();
-
+		language = "English";
 		//Command Reference Sheet
 		Menu menuHelp = new Menu("Help");
 
 		//Language
 		Menu menuLanguage = new Menu("Change Language");
-
+		setLanguages(menuLanguage);
+		setLanguageListener(menuLanguage);
 		menuBar.getMenus().addAll(menuHelp, menuLanguage);
-
+		
+		
+		
 		return menuBar;
 
+	}
+	
+	private void setLanguages(Menu languageMenu){
+		for(String l:languages){
+			MenuItem languageItem = new MenuItem(l);
+			languageMenu.getItems().add(languageItem);
+		}
+	}
+	
+	private void setLanguageListener(Menu languageMenu){
+		languageMenu.addEventHandler(MouseEvent.MOUSE_CLICKED, 
+				new EventHandler<MouseEvent>() {
+			public void handle (MouseEvent e) {
+				language = languageMenu.getText();
+				System.out.println(language);
+			}
+		});
 	}
 	
 	private Node makeCommandHistory() {
