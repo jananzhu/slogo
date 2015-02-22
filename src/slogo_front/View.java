@@ -76,7 +76,6 @@ public class View {
 		canvas.getStyleClass().add("canvas");
 		// sample canvas code
 		gc =canvas.getGraphicsContext2D();
-		
 		gc.setStroke(Color.BLUE);
 		gc.setLineWidth(1);
 		gc.strokeLine(750, 750, 800, 30);
