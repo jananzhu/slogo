@@ -74,12 +74,14 @@ public class View {
 		
 		canvas = new Canvas(995,300);
 		canvas.getStyleClass().add("canvas");
-
 		// sample canvas code
 		gc =canvas.getGraphicsContext2D();
+		
 		gc.setStroke(Color.BLUE);
 		gc.setLineWidth(1);
 		gc.strokeLine(750, 750, 800, 30);
+		gc.strokeLine(0,0, 10000, 1000);
+		
 		int x = 50;
 		int y = 50;
 		while(y<10000){
@@ -89,19 +91,6 @@ public class View {
 		return canvas;
 		
 	}
-	
-	/**
-	 * TODO implement animation
-	 * 
-	 * @param frame
-	 */
-	private void createAnimation(KeyFrame frame) {
-		Timeline animation = new Timeline();
-		animation.setCycleCount(Animation.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
-	}
-
 	
 	private Node makeTextField() {
 		textField = new TextField();
