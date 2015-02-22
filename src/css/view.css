@@ -1,5 +1,8 @@
-.canvas{
-	-fx-background-color: blue;
+.background {
+    -fx-background-color: blue;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-border-width: 1px;
 }
 .commandHistory {
     -fx-padding: 15;

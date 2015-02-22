@@ -72,8 +72,13 @@ public class View {
 
 	private Node makeCanvas(){
 		
+		VBox background = new VBox();
+		
 		canvas = new Canvas(995,300);
-		canvas.getStyleClass().add("canvas");
+		background.getStyleClass().add("background");
+		
+		//adding vbox
+		background.getChildren().add(canvas);
 
 		// sample canvas code
 		gc =canvas.getGraphicsContext2D();
@@ -86,7 +91,7 @@ public class View {
 			gc.strokeLine(x, y, x, y+5);
 			y+=5;			
 		}
-		return canvas;
+		return background;
 		
 	}
 	
