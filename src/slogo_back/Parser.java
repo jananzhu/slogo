@@ -16,6 +16,7 @@ public class Parser {
     private Pattern commentPattern;
     private Pattern listPattern;
     private Pattern variablePattern;
+    private Pattern whitespacePattern;
 
     public Parser(Model currentModel){
         //        myValidCommands = currentModel.getValidCommands();
@@ -26,6 +27,7 @@ public class Parser {
         listPattern = Pattern.compile
                 (myResourceBundle.getString("ListBlock"), Pattern.DOTALL);
         variablePattern = Pattern.compile(myResourceBundle.getString("HeadVariable"));
+        whitespacePattern = Pattern.compile(myResourceBundle.getString("LeadingWhitespace"));
 
 
     }
@@ -64,6 +66,10 @@ public class Parser {
             }else if(commentMatch.find()){
                 //skip over any comments
                 input = commentPattern.split(input)[1];
+                Matcher spaceMatch = whitespacePattern.matcher(input);
+                if(spaceMatch.find()){
+                    input = whitespacePattern.split(input)[1];
+                }
             }else if(variableMatch.find()){
                 input = headTokenToQueue(variablePattern, variableMatch,tokenQueue,input);
             }else{
@@ -76,15 +82,15 @@ public class Parser {
     private String headTokenToQueue(Pattern pattern, Matcher matcher,Queue<String> Queue,
                                     String input){
         String newInput = pattern.split(input)[1];
-        if(!newInput.matches("\\s*")){
-            newInput = newInput.split(myResourceBundle.getString("LeadingWhitespace"))[1];
+        if(!newInput.matches(whitespacePattern.toString())){
+            newInput = whitespacePattern.split(newInput)[1];
         }
         Queue.add(matcher.group(0));
         return newInput;
     }
 
     public static void main(String[] args){
-        String test = "[50   fadfasdjlf \n 3453] 2343 gdsdf :test \n#testing \n newC ";
+        String test = "if [50   fadfasdjlf \n 3453] 2343 gdsdf :test \n#testing \nnewC ";
         Parser testParser = new Parser(null);
         testParser.parseInput(test);
     }
