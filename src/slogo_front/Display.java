@@ -37,6 +37,7 @@ public class Display {
 	
 	/**
 	 * basic constructor
+	 * TODO modify to take screen dimensions/canvas
 	 * @param xCenter
 	 * @param yCenter
 	 * @param xHigh
@@ -60,7 +61,7 @@ public class Display {
 	
 	//TODO: implement this method
 	public void clearScreen(){
-
+		
 		
 	}
 	
@@ -320,8 +321,7 @@ public class Display {
 	 * @param y2
 	 */
 	private void paintLine(int x1, int x2, int y1, int y2){ 
-
-		// TODO: move turtle image as well
+		// TODO: move turtle image as well, take canvas
 		
 	}
 	
