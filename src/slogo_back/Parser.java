@@ -1,6 +1,7 @@
 package slogo_back;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -32,7 +33,7 @@ public class Parser {
 
     }
 
-    public Double parseRunCommands(Queue<String> commands){
+    public List<ISyntaxNode> parseRunCommands(Queue<String> commands){
 
         String command = commands.poll();
         if(myValidCommands.contains(command)){
@@ -41,17 +42,24 @@ public class Parser {
         return null;
     }
 
-    public List<Double> parseInput(String input){
+    public List<ISyntaxNode> parseInput(String input){
         Queue<String> tokens = inputTokenizer(input);
+        List<ISyntaxNode> commands = new ArrayList<ISyntaxNode>();
         while(!tokens.isEmpty()){
-            System.out.println(tokens.poll());
+            String command = tokens.poll();
+            if(myValidCommands.contains(command)){
+                
+            }else{
+                throw new InvalidParameterException(command + " is an invalid command");
+            }
         }
+        
         return null;
     }
 
     private Queue<String> inputTokenizer(String input){
         Queue<String> tokenQueue = new LinkedList<String>();
-        while(!input.matches("\\s*")){
+        while(!input.matches(whitespacePattern.toString())){
             Matcher constantMatch =constantPattern.matcher(input);
             Matcher listMatch = listPattern.matcher(input);
             Matcher commentMatch = commentPattern.matcher(input);
@@ -90,7 +98,7 @@ public class Parser {
     }
 
     public static void main(String[] args){
-        String test = "if [50   fadfasdjlf \n 3453] 2343 gdsdf :test \n#testing \nnewC ";
+        String test = "if  [50   fadfasdjlf \n 3453] 2343 gdsdf :test \n#testing \nnewC ";
         Parser testParser = new Parser(null);
         testParser.parseInput(test);
     }
