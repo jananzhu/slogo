@@ -16,6 +16,7 @@ public class Turtle {
 	private double heading; // from 0-360
 	private ImageView image; 
 	private Color penColor;
+	//pen up or down
 	
 	// getters
 	
