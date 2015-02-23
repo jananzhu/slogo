@@ -1,7 +1,5 @@
 package slogo_front;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 /**
@@ -14,9 +12,11 @@ public class Turtle {
 	private int xLoc;
 	private int yLoc;
 	private double heading; // from 0-360
-	private ImageView image; 
 	private Color penColor;
-	
+	private boolean penDown;
+	private boolean showTurtle;
+	private TurtleImage turtleImage;
+
 	// getters
 	
 	public int getXloc() {
@@ -31,61 +31,76 @@ public class Turtle {
 		return heading;
 	}
 	
-	public ImageView getImage(){
-		return image;
-	}
-	
 	public Color getPenColor(){
 		return penColor;
+	}
+	
+	public boolean getPenDown(){
+		return penDown;
+	}
+	
+	public boolean getShowTurtle(){
+		return showTurtle;
+	}
+	
+	public TurtleImage getTurtleImage(){
+		return turtleImage;
 	}
 	
 	// setters
 	
 	public void setXLoc(int x){
 		xLoc = x;
+		turtleImage.setXLoc(x);
 	}
 	public void setYLoc(int y){
 		yLoc = y;
+		turtleImage.setYLoc(y);
 	}
 	
 	public void setHeading(double direction){
 		heading = direction;
+		turtleImage.setHeading(direction);
 	}
 	
 	public void setImage(String imageURL){
-		image = getImageFromURL(imageURL);
+		turtleImage.setImage(imageURL);
 	}
 	
 	public void setPenColor(Color color){
 		penColor = color;
 	}
 	
+	public void setPenDown(Boolean leaveTrail){
+		penDown = leaveTrail;
+	}
+	
+	public void setShowTurtle(Boolean showTurtleImage){
+		showTurtle = showTurtleImage;
+	}
+	
 	/**
-	 * basic constructor
+	 * basic constructor for Turtle object
 	 * @param x
 	 * @param y
-	 * @param heading
-	 * @param penColor
+	 * @param direction
+	 * @param turtleID
+	 * @param color
 	 * @param imageURL
+	 * @param leaveTrail
+	 * @param showTurtleImage
 	 */
-	public Turtle(int x, int y, float direction, int turtleID, Color color, String imageURL){
+	public Turtle(int x, int y, float direction, int turtleID, Color color, 
+			String imageURL, boolean leaveTrail, boolean showTurtleImage){
 		xLoc = x;
 		yLoc = y;
 		myID = turtleID;
 		penColor = color;
 		heading = direction;
-		image = getImageFromURL(imageURL);
-	}
-	
-	/**
-	 * takes location of image, retrieves and converts to imageview
-	 * @param imageURL
-	 * @return
-	 */
-	private ImageView getImageFromURL(String imageURL){
-		ImageView i = new ImageView(new Image(getClass()
-				.getResourceAsStream(imageURL)));
-		return i;
+		penDown = leaveTrail;
+		showTurtle = showTurtleImage;
+		turtleImage = new TurtleImage(x, y, direction, imageURL);
+		
 	}
 
 }
