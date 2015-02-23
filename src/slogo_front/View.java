@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -28,15 +29,13 @@ public class View {
 
 	// default size of the window
 	private static final int xDimension = 1200;
-	private static final int yDimension = 767;
-	private static final int xDimCanvas = 995;
-	private static final int yDimCanvas = 300;
-	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(xDimension, yDimension);
+	private static final int yDimension = 800;
+//	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(xDimension, yDimension);
 	
 	private Scene scene;
 	// private ToolBar toolBar;
 	private MenuBar menuBar;
-	private TextField textField;
+	private TextField commandLine;
 	private VBox history; 
 	private ScrollPane historyScrollPane;
 	private Canvas canvas; // TODO switch to different class
@@ -45,6 +44,17 @@ public class View {
 			"Portugese","Russian","Spanish"};
 	private String language;
 	private Display display;
+//	private VBox displayBackground ;
+	//Canvas Dimensions
+	private static final int xCanvas = 1000;
+	private static final int yCanvas = 600;
+	//Command History Dimensions
+	private static final int HISTORY_WIDTH = 200;
+	private static final int HISTORY_SPACING = 5;
+	private static final int HISTORY_PADDING = 5;
+	
+	//Command Line Dimenstions
+	private static final int COMMAND_HEIGHT = 100;
 	
 	//TODO add array for turtles
 	//TODO add "addTurtle()" method
@@ -55,53 +65,51 @@ public class View {
 		root.setRight(makeCommandHistory());
 		root.setBottom(makeTextField());
 		root.setCenter(makeCanvas());
-		scene = new Scene(root, DEFAULT_SIZE.getWidth(),
-				DEFAULT_SIZE.getHeight());
+		scene = new Scene(root);
 		scene.getStylesheets().add("css/view.css");
 		scene.setOnKeyPressed(e -> handleKeyInput(e));
 	}
 
 	private Node makeCanvas(){
 		
-		VBox background = new VBox();
+//		displayBackground = new VBox();
 		
-		canvas = new Canvas(xDimCanvas,yDimCanvas);
+//		canvas = new Canvas(1000,600);
+//		canvas.getGraphicsContext2D().setStroke(Color.BLUE);
+//		canvas.getGraphicsContext2D().setLineWidth(1);
+//		canvas.getGraphicsContext2D().strokeLine(0, 0, 100, 300);
 		
-		background.getStyleClass().add("background");
+//		displayBackground.getStyleClass().add("background");
 	
-		background.getChildren().add(canvas);
-		display = new Display(xDimension, yDimension, canvas);
-		// for testing
-		Turtle myTurtle = new Turtle(0, 0, 10, 10, Color.BLUE, 
-				"", true, false);
-//		display.moveHome(myTurtle); // sets turtle to middle of screen
-//		display.moveForward(myTurtle, -100);
-//		display.moveHome(myTurtle);
-//		display.moveForward(myTurtle, 1000);
-		// end testing
-		return background;
+//		displayBackground.getChildren().add(canvas);
+		
+//		canvas.getGraphicsContext2D().setFill(Color.WHITE);
+//		canvas.getGraphicsContext2D().fillRect(0, 0, 1000,600);
+		display = new Display(xCanvas, yCanvas);
+		return display.getDisplay();
 	}
 	
-	private Display getDisplay(){
-		return display;
-	}
+//	private Display getDisplay(){
+//		return display;
+//	}
 	
 	private Node makeTextField() {
-		textField = new TextField();
-		textField.setPrefWidth(200);
-		textField.setLayoutX(0);
-		return textField;		
+		commandLine = new TextField();
+//		textField.setPrefWidth(HISTORY_WIDTH);
+		commandLine.setPrefHeight(COMMAND_HEIGHT);
+//		commandLine.setLayoutX(0);
+		return commandLine;		
 	}
 	
 	private void handleKeyInput(KeyEvent e) { //This entire method is part of my masterpiece.
 		KeyCode keyCode = e.getCode();
 		if (keyCode == KeyCode.ENTER) {
-			String s = textField.getText();
+			String s = commandLine.getText();
 			if(s.toLowerCase().equals("clear")){
 				clearHistoryText();
 			}
 			addHistoryText(s);
-			textField.clear();
+			commandLine.clear();
 		}
 	}
 
@@ -110,10 +118,10 @@ public class View {
 	}
 	
 	private void addHistoryText(String text){
-		Text a = new Text(">> " + text);
-		a.setWrappingWidth(205);
-		history.getChildren().add(a);
-		historyScrollPane.setVvalue(historyScrollPane.getVmax()+20);
+		Text newText = new Text(">> " + text);
+		newText.setWrappingWidth(HISTORY_WIDTH);
+		history.getChildren().add(newText);
+		historyScrollPane.setVvalue(historyScrollPane.getVmax());
 	}
 	
 	private void clearHistoryText(){
@@ -155,18 +163,19 @@ public class View {
 //	}
 //	
 	private Node makeCommandHistory() {
-		 history = new VBox(5);
+		 history = new VBox(HISTORY_SPACING);
 		 historyScrollPane = new ScrollPane();
 		 historyScrollPane.getStyleClass().add("commandHistory");
-		 historyScrollPane.setMinWidth(205);
-		 historyScrollPane.setFitToWidth(true);
+		 historyScrollPane.setMinWidth(HISTORY_WIDTH);
+//		 historyScrollPane.setFitToWidth(true);
 		 historyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		 Text a = new Text( "Command History: ");
-		 a.setWrappingWidth(205);
+		 Text title = new Text( "Command History: ");
+		 title.setWrappingWidth(HISTORY_WIDTH-HISTORY_PADDING);
 		 VBox.setVgrow(historyScrollPane, Priority.ALWAYS);
 		 
-		 history.getChildren().addAll(a);
+		 history.getChildren().addAll(title);
 		 historyScrollPane.setContent(history);
+		 
 		 return historyScrollPane; 
 	}
 

@@ -6,9 +6,9 @@ import javafx.scene.paint.Color;
  * class for Turtle object + properties
  */
 public class Turtle {
-	protected int myID;
-	private int xLoc;
-	private int yLoc;
+	private int myID;
+	private int xPosition;
+	private int yPosition;
 	private double heading; // from 0-360
 	private Color penColor;
 	private boolean penDown;
@@ -19,11 +19,11 @@ public class Turtle {
 	// getters
 	
 	public int getXloc() {
-		return xLoc;
+		return xPosition;
 	}
 
 	public int getYloc() {
-		return yLoc;
+		return yPosition;
 	}
 	
 	public double getHeading(){
@@ -48,12 +48,12 @@ public class Turtle {
 	
 	// setters
 	
-	public void setXLoc(int x){
-		xLoc = x;
+	public void setXPosition(int x){
+		xPosition = x;
 		turtleImage.setXLoc(x);
 	}
-	public void setYLoc(int y){
-		yLoc = y;
+	public void setYPosition(int y){
+		yPosition = y;
 		turtleImage.setYLoc(y);
 	}
 	
@@ -89,11 +89,11 @@ public class Turtle {
 	 * @param leaveTrail
 	 * @param showTurtleImage
 	 */
-	public Turtle(int x, int y, float direction, int turtleID, Color color, 
+	public Turtle(int x, int y, float direction, int id, Color color, 
 			String imageURL, boolean leaveTrail, boolean showTurtleImage){
-		xLoc = x;
-		yLoc = y;
-		myID = turtleID;
+		xPosition = x;
+		yPosition = y;
+		myID = id;
 		penColor = color;
 		heading = direction;
 		penDown = leaveTrail;
