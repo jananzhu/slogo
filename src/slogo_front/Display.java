@@ -1,11 +1,32 @@
 package slogo_front;
 
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 /**
  * currently includes methods to move turtle
+ * NOTE: API (public) methods except constructor
+ * take x & y coordinates with (0,0) in the middle
+ * of the screen
+ * 
+ * API Methods:
+ * 	- Display(int xDimension, int yDimension,
+			Canvas myCanvas)
+ *  - clearScreen() (not yet completed)
+ *  - setPen(Turtle t, boolean leaveTrail)
+ *  - showTurtle(Turtle t, boolean showTurtle)
+ *  - rotateLeft(Turtle t,double degrees)
+ *  - rotateRight(Turtle t,double degrees)
+ *  - setHeading(Turtle t, double degrees)
+ *  - setXY(Turtle t, int x, int y)
+ *  - moveForward(Turtle t, int pixels)
+ *  - moveBackward(Turtle t, int pixels)
+ *  - moveTowards(Turtle t,int x, int y)
+ *  
  * to be added:
- * 	- canvas implementation (paint methods)
+ * 	- painting implementation (painting lines on canvas)
  *  - turtle image updates 
- * @author emresonmez
  *
  */
 public class Display {
@@ -15,36 +36,71 @@ public class Display {
 	private int xBoundLow;
 	private int yBoundHigh;
 	private int yBoundLow;
+	private Canvas canvas;
+	private GraphicsContext gc;
+	private static final int linewidth = 1;
 	
 	/**
 	 * basic constructor
-	 * @param xCenter
-	 * @param yCenter
-	 * @param xHigh
-	 * @param xLow
-	 * @param yHigh
-	 * @param yLow
+	 * @param xDimension
+	 * @param yDimension
+	 * @param myCanvas
 	 */
-	public Display(int xCenter, int yCenter, int xHigh, int xLow,
-			int yHigh, int yLow){
-		xOrigin = xCenter;
-		yOrigin = yCenter;
-		xBoundHigh = xHigh;
-		xBoundLow = xLow;
-		yBoundHigh = yHigh;
-		yBoundLow = yLow;
+	public Display(int xDimension, int yDimension,
+			Canvas myCanvas){
+		xOrigin = xDimension/2;
+		yOrigin = yDimension/2;
+		xBoundHigh = xDimension;
+		xBoundLow = 0;
+		yBoundHigh = yDimension;
+		yBoundLow = 0;
+		canvas = myCanvas;
+		gc = canvas.getGraphicsContext2D();
+	}
+// old constructor
+//	public Display(int xCenter, int yCenter, int xHigh, int xLow,
+//			int yHigh, int yLow){
+//		xOrigin = xCenter;
+//		yOrigin = yCenter;
+//		xBoundHigh = xHigh;
+//		xBoundLow = xLow;
+//		yBoundHigh = yHigh;
+//		yBoundLow = yLow;
+//	}
+	
+	/*
+	 * methods for canvas properties
+	 */
+	
+	//TODO: implement this method
+	public void clearScreen(){
+		
+		
 	}
 	
 	/*
 	 * methods for turtle properties
 	 */
-	// TODO implement this method
-	public void setPen(Turtle t, boolean up){
-		
+	
+	/**
+	 * sets pen up (false) or down (true)
+	 * @param t
+	 * @param leaveTrail
+	 */
+	public void setPen(Turtle t, boolean leaveTrail){
+		t.setPenDown(leaveTrail);
 	}
 	
+	/**
+	 * TODO: implement turtle visualization
+	 * shows (true) or hides (false) turtle image on gui
+	 * @param t
+	 * @param showTurtle
+	 */
 	public void showTurtle(Turtle t, boolean showTurtle){
-	// TODO implement this method
+		t.setShowTurtle(showTurtle);
+		//TODO: reflect this change on GUI
+		
 	}
 	
 	/*
@@ -101,31 +157,43 @@ public class Display {
 	 * @param y
 	 */
 	public void setXY(Turtle t, int x, int y){
-		t.setXLoc(x);
-		t.setXLoc(y);
+		t.setXLoc(x+xOrigin);
+		t.setXLoc(y+yOrigin);
 	}
 	
-	public void moveForward(Turtle t, int pixels, boolean leaveTrail){
-		moveStraight(t,pixels,leaveTrail,true);
+	/**
+	 * set turtle back to origin (and default heading)
+	 * @param t
+	 */
+	public void moveHome(Turtle t){
+		setXY(t,xOrigin,yOrigin);
+		setHeading(t,0);
+		//TODO (emre) incorporate default direction
+	}
+	
+	/**
+	 * calls moveTowards method to move turtle forward/backward
+	 * negative pixel number moves backwards
+	 * @param t
+	 * @param pixels
+	 */
+	public void moveForward(Turtle t, int pixels){
+		moveStraight(t,pixels,t.getPenDown());
 	}
 
-	public void moveBackward(Turtle t, int pixels, boolean leaveTrail){
-		moveStraight(t,pixels,leaveTrail,false);
-	}
-	
 	/**
 	 * moves turtle toward coordinate & sets heading accordingly
 	 * @param t
 	 * @param x
 	 * @param y
-	 * @param leaveTrail
 	 */
-	public void moveTowards(Turtle t,int x, int y, boolean leaveTrail){
+	public void moveTowards(Turtle t,int x, int y){
 		int actualX = x + xOrigin;
 		int actualY = y + yOrigin;
-		t.setHeading(calculateDirection(x,y));
+		double newHeading = calculateDirection(x,y);
+		t.setHeading(newHeading);
 		int distance = (int) getDistance(t.getXloc(),t.getYloc(),actualX,actualY);
-		moveStraight(t, distance, leaveTrail,true);
+		moveStraight(t, distance, t.getPenDown());
 	}
 	
 	/**
@@ -152,7 +220,7 @@ public class Display {
 	 * @param pixels
 	 * @param leaveTrail
 	 */
-	private void moveStraight(Turtle t,int pixels,boolean leaveTrail, boolean forward){
+	private void moveStraight(Turtle t, int pixels, boolean leaveTrail){
 		boolean atTop = false;
 		boolean atBottom = false;
 		boolean atLeft = false;
@@ -165,16 +233,8 @@ public class Display {
 		double xDistance = getXDistance(heading,pixels);
 		double yDistance = getYDistance(heading,pixels);
 		
-		double xTemp = curX;
-		double yTemp = curY;
-		
-		if(forward){
-			xTemp += xDistance;
-			yTemp += yDistance;
-		}else{
-			xTemp -= xDistance;
-			yTemp -= yDistance;
-		}
+		double xTemp = curX + xDistance;
+		double yTemp = curY + yDistance;
 		
 		int finalX;
 		int finalY;
@@ -212,10 +272,9 @@ public class Display {
 		// update turtle location properties
 		t.setXLoc(finalX);
 		t.setYLoc(finalY);
-		
 		// paint line (first line if hits edge)
 		if(leaveTrail){
-			paintLine(curX, curY, finalX, finalY);	
+			paintLine(t,curX, curY, finalX, finalY);	
 		}
 		
 		// set new locations if at edge
@@ -234,8 +293,9 @@ public class Display {
 		if(atRight|atLeft|atTop|atBottom){
 			int newDistance = (int) Math.sqrt(xDistance*xDistance + // update distance 
 					yDistance*yDistance);
-			moveStraight(t,newDistance,leaveTrail,forward); // call recursively on remaining distance
+			moveStraight(t,newDistance,leaveTrail); // call recursively on remaining distance
 		}
+		
 	}
 	
 	private boolean checkEdgeHorizontal(double x){
@@ -249,7 +309,7 @@ public class Display {
 	/*
 	 * painting methods
 	 */
-	
+	// TODO implement this method
 	/**
 	 * draws line on canvas from point A to point B (points guaranteed to be in bounds)
 	 * @param x1
@@ -257,8 +317,12 @@ public class Display {
 	 * @param y1
 	 * @param y2
 	 */
-	private void paintLine(int x1, int x2, int y1, int y2){ // TODO implement this
-		
+	private void paintLine(Turtle t, int x1, int x2, int y1, int y2){ 
+		// TODO: move turtle image as well, take canvas
+		gc.setStroke(t.getPenColor());
+		gc.setLineWidth(linewidth);
+		gc.strokeLine(x1, y1, x2, y2);
+		// move image
 	}
 	
 	/*
@@ -284,4 +348,5 @@ public class Display {
 	private double degreesToRadians (double degrees){
 		return Math.toRadians(degrees);
 	}
+
 }
