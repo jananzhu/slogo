@@ -36,9 +36,74 @@ public class Display {
 	}
 	
 	/*
+	 * methods for turtle properties
+	 */
+	// TODO implement this method
+	public void setPen(Turtle t, boolean up){
+		
+	}
+	
+	public void showTurtle(Turtle t, boolean showTurtle){
+	// TODO implement this method
+	}
+	
+	/*
 	 * methods for turtle movement
 	 * input: turtle, parameters
 	 */
+	
+	/**
+	 * changes heading to rotate left
+	 * @param t
+	 * @param degrees
+	 */
+	public void rotateLeft(Turtle t,double degrees){
+		int newHeading  = (int) (t.getHeading() + degrees);
+		if(newHeading > 360){
+			newHeading -= 360;
+		}
+		t.setHeading(newHeading);
+	}
+	
+	/**
+	 * changes heading to rotate right
+	 * @param t
+	 * @param degrees
+	 */
+	public void rotateRight(Turtle t,double degrees){
+		int newHeading  = (int) (t.getHeading() - degrees);
+		if(newHeading < 0){
+			newHeading+= 360;
+		}
+		t.setHeading(newHeading);
+	}
+	
+	/**
+	 * sets turtle heading absolutely (between 0-360)
+	 * adjusts for out of bounds to reduce to between 0-360
+	 * @param t
+	 * @param degrees
+	 */
+	public void setHeading(Turtle t, double degrees){
+		double newHeading = degrees;
+		if(degrees > 360){
+			newHeading = degrees - 360*(degrees/360) - degrees%360;
+		}else if(degrees < 0){
+			newHeading = degrees + 360*(degrees/360) + 360;
+		}
+		t.setHeading(newHeading);
+	}
+	
+	/**
+	 * sets turtle position
+	 * @param t
+	 * @param x
+	 * @param y
+	 */
+	public void setXY(Turtle t, int x, int y){
+		t.setXLoc(x);
+		t.setXLoc(y);
+	}
 	
 	public void moveForward(Turtle t, int pixels, boolean leaveTrail){
 		moveStraight(t,pixels,leaveTrail,true);
@@ -46,6 +111,39 @@ public class Display {
 
 	public void moveBackward(Turtle t, int pixels, boolean leaveTrail){
 		moveStraight(t,pixels,leaveTrail,false);
+	}
+	
+	/**
+	 * moves turtle toward coordinate & sets heading accordingly
+	 * @param t
+	 * @param x
+	 * @param y
+	 * @param leaveTrail
+	 */
+	public void moveTowards(Turtle t,int x, int y, boolean leaveTrail){
+		int actualX = x + xOrigin;
+		int actualY = y + yOrigin;
+		t.setHeading(calculateDirection(x,y));
+		int distance = (int) getDistance(t.getXloc(),t.getYloc(),actualX,actualY);
+		moveStraight(t, distance, leaveTrail,true);
+	}
+	
+	/**
+	 * given point, calculates angle from "origin" (0,0)
+	 * adjusts for inverse tangent angle calculation
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	private double calculateDirection(int x, int y){
+		double rawAngle = Math.toDegrees(Math.atan(y/x));
+		if(x < 0){
+			rawAngle+=180; // second & third quadrant
+		}
+		if(y < 0){
+			rawAngle+= 360; // fourth quadrant
+		}
+		return rawAngle;
 	}
 	
 	/**
