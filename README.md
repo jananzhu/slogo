@@ -1,7 +1,7 @@
 # slogo
 A development environment that helps users write SLogo programs.
 
-##### Public Methods for Turtle Movement API (frontend)
+##### Public Methods for Turtle Movement API (frontend, in Display.java)
 
 *NOTE: All methods except the constructor for Display take x and y coordinates with the origin (0,0) at the center of the screen.*
 * Display(int xCenter, int yCenter, int xHigh, int xLow,int yHigh, int yLow)
