@@ -1,6 +1,12 @@
 # slogo
 A development environment that helps users write SLogo programs.
 
+##### To-Do's
+* Incorporate Display.java with GUI (to visualize) - Michael
+* debug Display.java - Emre
+* binding - Michael
+* help menu - Michael/Emre
+
 ##### Public Methods for Turtle Movement API (frontend, in Display.java)
 
 *NOTE: All methods except the constructor for Display take x and y coordinates with the origin (0,0) at the center of the screen.*
