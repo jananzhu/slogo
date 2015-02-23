@@ -173,25 +173,16 @@ public class Display {
 		//TODO (emre) incorporate default direction
 	}
 	
-	//TODO combine moveForward and moveBackward
 	/**
-	 * calls moveTowards method to move turtle forward
+	 * calls moveTowards method to move turtle forward/backward
+	 * negative pixel number moves backwards
 	 * @param t
 	 * @param pixels
 	 */
 	public void moveForward(Turtle t, int pixels){
-		moveStraight(t,pixels,t.getPenDown(),true);
+		moveStraight(t,pixels,t.getPenDown());
 	}
 
-	/**
-	 * calls moveTowards method to move turtle backward
-	 * @param t
-	 * @param pixels
-	 */
-	public void moveBackward(Turtle t, int pixels){
-		moveStraight(t,pixels,t.getPenDown(),false);
-	}
-	
 	/**
 	 * moves turtle toward coordinate & sets heading accordingly
 	 * @param t
@@ -204,7 +195,7 @@ public class Display {
 		double newHeading = calculateDirection(x,y);
 		t.setHeading(newHeading);
 		int distance = (int) getDistance(t.getXloc(),t.getYloc(),actualX,actualY);
-		moveStraight(t, distance, t.getPenDown(),true);
+		moveStraight(t, distance, t.getPenDown());
 	}
 	
 	/**
@@ -231,7 +222,7 @@ public class Display {
 	 * @param pixels
 	 * @param leaveTrail
 	 */
-	private void moveStraight(Turtle t, int pixels, boolean leaveTrail, boolean forward){
+	private void moveStraight(Turtle t, int pixels, boolean leaveTrail){
 		boolean atTop = false;
 		boolean atBottom = false;
 		boolean atLeft = false;
@@ -244,16 +235,8 @@ public class Display {
 		double xDistance = getXDistance(heading,pixels);
 		double yDistance = getYDistance(heading,pixels);
 		
-		double xTemp = curX;
-		double yTemp = curY;
-		
-		if(forward){
-			xTemp += xDistance;
-			yTemp += yDistance;
-		}else{
-			xTemp -= xDistance;
-			yTemp -= yDistance;
-		}
+		double xTemp = curX + xDistance;
+		double yTemp = curY + yDistance;
 		
 		int finalX;
 		int finalY;
@@ -312,7 +295,7 @@ public class Display {
 		if(atRight|atLeft|atTop|atBottom){
 			int newDistance = (int) Math.sqrt(xDistance*xDistance + // update distance 
 					yDistance*yDistance);
-			moveStraight(t,newDistance,leaveTrail,forward); // call recursively on remaining distance
+			moveStraight(t,newDistance,leaveTrail); // call recursively on remaining distance
 		}
 		
 	}
