@@ -15,5 +15,6 @@ A development environment that helps users write SLogo programs.
 * moveForward(Turtle t, int pixels)
 * moveBackward(Turtle t, int pixels)
 * moveTowards(Turtle t,int x, int y)
+* moveHome(Turtle t) (heading not yet implemented)
 
  
