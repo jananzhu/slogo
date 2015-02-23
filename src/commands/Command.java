@@ -3,14 +3,18 @@ package commands;
 import java.util.Stack;
 
 public abstract class Command {
-	
-	@SuppressWarnings("unused")
-	private Stack<String> inputStack;
-	
 	public Command(Stack<String> inStk) {
-		inputStack = inStk;
+		
 	}
 	
-	public abstract Number run();
+	public Command(Stack<String> inStk, Double opA) {
+		
+	}
+	
+	public Command(Stack<String> inStk, Double opA, Double opB) {
+		this(inStk, opA);
+	}
+	
+	public abstract Double run();
 	
 }
