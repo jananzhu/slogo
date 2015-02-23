@@ -42,6 +42,12 @@ public class Display {
 	private GraphicsContext gc;
 	private static final int linewidth = 1;
 	
+	/**
+	 * basic constructor
+	 * @param xDimension
+	 * @param yDimension
+	 * @param myCanvas
+	 */
 	public Display(int xDimension, int yDimension,
 			Canvas myCanvas){
 		xOrigin = xDimension/2;
@@ -53,16 +59,7 @@ public class Display {
 		canvas = myCanvas;
 		gc = canvas.getGraphicsContext2D();
 	}
-//	/**
-//	 * basic constructor
-//	 * TODO modify to take screen dimensions/canvas
-//	 * @param xCenter
-//	 * @param yCenter
-//	 * @param xHigh
-//	 * @param xLow
-//	 * @param yHigh
-//	 * @param yLow
-//	 */
+// old constructor
 //	public Display(int xCenter, int yCenter, int xHigh, int xLow,
 //			int yHigh, int yLow){
 //		xOrigin = xCenter;

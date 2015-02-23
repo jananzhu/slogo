@@ -4,9 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * class for Turtle Image + properties
- * @author emresonmez
- *
+ * class for Turtle Image + properties 
  */
 
 public class TurtleImage {
