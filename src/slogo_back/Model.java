@@ -16,11 +16,11 @@ public class Model {
 		mgr = manager;
 	}
 	
-	public Number toFront(String cmd, Number param){
+	public Double toFront(String cmd, Double param){
 		Method toRun;
 		try {
-			toRun = Manager.class.getMethod(cmd, Number.class);
-			return (Number) toRun.invoke(mgr, param);
+			toRun = Manager.class.getMethod(cmd, Double.class);
+			return (Double) toRun.invoke(mgr, param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -28,7 +28,7 @@ public class Model {
 	}
 	
 	public Number toBack(String cmds) {
-		Parser parser = new Parser();
-		return parser.parse(cmds);
+		Parser parser = new Parser(this);
+		return parser.parseInput(cmds);
 	}
 }
