@@ -18,6 +18,7 @@ public class Parser {
     private Pattern listPattern;
     private Pattern variablePattern;
     private Pattern whitespacePattern;
+    private CommandFactory myCommandFactory;
 
     public Parser(Model currentModel){
         //        myValidCommands = currentModel.getValidCommands();
@@ -29,32 +30,36 @@ public class Parser {
                 (myResourceBundle.getString("ListBlock"), Pattern.DOTALL);
         variablePattern = Pattern.compile(myResourceBundle.getString("HeadVariable"));
         whitespacePattern = Pattern.compile(myResourceBundle.getString("LeadingWhitespace"));
-
+        myCommandFactory = new CommandFactory();
 
     }
 
-    public List<ISyntaxNode> parseRunCommands(Queue<String> commands){
+    public ISyntaxNode buildParseTree(Queue<String> tokenQueue){
 
-        String command = commands.poll();
-        if(myValidCommands.contains(command)){
-
+        String token = tokenQueue.poll();
+        ISyntaxNode node;
+        if(myValidCommands.contains(token)){
+            node = myCommandFactory.getCommand(token,tokenQueue);
+        }else if(token.matches(constantPattern.toString())){
+            node = new ParameterNode(Double.parseDouble(token));
+        }else{
+            throw new InvalidParameterException(tokenQueue.peek() + " is  invalid syntax");
         }
-        return null;
+        return node;
     }
 
     public List<ISyntaxNode> parseInput(String input){
         Queue<String> tokens = inputTokenizer(input);
         List<ISyntaxNode> commands = new ArrayList<ISyntaxNode>();
         while(!tokens.isEmpty()){
-            String command = tokens.poll();
-            if(myValidCommands.contains(command)){
-                
+            if(myValidCommands.contains(tokens.peek())){
+                ISyntaxNode command = buildParseTree(tokens);
+                commands.add(command);
             }else{
-                throw new InvalidParameterException(command + " is an invalid command");
+                throw new InvalidParameterException(tokens.peek() + " is an invalid command");
             }
         }
-        
-        return null;
+        return commands;
     }
 
     private Queue<String> inputTokenizer(String input){
