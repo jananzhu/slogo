@@ -11,8 +11,8 @@ import javafx.scene.paint.Color;
  * of the screen
  * 
  * API Methods:
- * 	- Display(int xCenter, int yCenter, int xHigh, int xLow,
-			int yHigh, int yLow)
+ * 	- Display(int xDimension, int yDimension,
+			Canvas myCanvas)
  *  - clearScreen() (not yet completed)
  *  - setPen(Turtle t, boolean leaveTrail)
  *  - showTurtle(Turtle t, boolean showTurtle)
@@ -27,8 +27,6 @@ import javafx.scene.paint.Color;
  * to be added:
  * 	- painting implementation (painting lines on canvas)
  *  - turtle image updates 
- * 
- * @author emresonmez
  *
  */
 public class Display {
