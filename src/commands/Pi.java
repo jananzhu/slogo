@@ -1,15 +1,16 @@
 package commands;
 
-import java.util.Stack;
+import java.util.Queue;
+
+import slogo_back.Model;
 
 public class Pi extends Command {
 	
-	public Pi(Stack<String> inStk) {
-		super(inStk);
+	public Pi(Queue<String> cmdQueue, Model model) {
+		super(cmdQueue, model);
 	}
-
 	@Override
-	public Double run() {
+	public double getValue() {
 		return Math.PI;
 	}
 

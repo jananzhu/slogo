@@ -1,18 +1,22 @@
 package commands;
 
-import java.util.Stack;
+import java.util.Queue;
+
+import slogo_back.ISyntaxNode;
+import slogo_back.Model;
 
 public class Log extends Command {
 	
-	private Double opA;
+	private ISyntaxNode opA;
 
-	public Log(Stack<String> inStk, Double opA) {
-		super(inStk, opA);
-	}
+	public Log(Queue<String> cmdQueue, Model model) {
+		super(cmdQueue, model);
+		ISyntaxNode[] myParams = new ISyntaxNode[]{opA};
+		super.defineParams(myParams);	}
 
 	@Override
-	public Double run() {
-		return Math.log(opA);
+	public double getValue() {
+		return Math.log(opA.getValue());
 	}
 
 }

@@ -1,19 +1,22 @@
 package commands;
 
-import java.util.Stack;
+import java.util.Queue;
+
+import slogo_back.ISyntaxNode;
+import slogo_back.Model;
 
 public class Tan extends Command {
 	
-	private Double opA;
-	private Double opB;
+	private ISyntaxNode opA;
 
-	public Tan(Stack<String> inStk, Double opA, Double opB) {
-		super(inStk, opA, opB);
-	}
+	public Tan(Queue<String> cmdQueue, Model model) {
+		super(cmdQueue, model);
+		ISyntaxNode[] myParams = new ISyntaxNode[]{opA};
+		super.defineParams(myParams);	}
 
 	@Override
-	public Double run() {
-		return opA + opB;
+	public double getValue() {
+		return Math.tan(Math.toDegrees(opA.getValue()));
 	}
 
 }
