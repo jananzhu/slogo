@@ -44,8 +44,12 @@ import javafx.scene.text.Text;
 public class View {
 
 	// default size of the window
-	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(1200, 767);
-
+	private static final int xDimension = 1200;
+	private static final int yDimension = 767;
+	private static final int xDimCanvas = 995;
+	private static final int yDimCanvas = 300;
+	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(xDimension, yDimension);
+	
 	private Scene scene;
 	// private ToolBar toolBar;
 	private MenuBar menuBar;
@@ -57,6 +61,10 @@ public class View {
 	private String[] languages = {"Chinese","English","French","German","Italian","Japanese","Korean",
 			"Portugese","Russian","Spanish"};
 	private String language;
+	private Display display;
+	
+	//TODO add array for turtles
+	//TODO add "addTurtle()" method
 	
 	public View() {
 		BorderPane root = new BorderPane();
@@ -74,26 +82,25 @@ public class View {
 		
 		VBox background = new VBox();
 		
-		canvas = new Canvas(995,300);
+		canvas = new Canvas(xDimCanvas,yDimCanvas);
+		
 		background.getStyleClass().add("background");
-		
-		//adding vbox
+	
 		background.getChildren().add(canvas);
-		// sample canvas code
-		gc =canvas.getGraphicsContext2D();
-		gc.setStroke(Color.BLUE);
-		gc.setLineWidth(1);
-		gc.strokeLine(750, 750, 800, 30);
-		gc.strokeLine(0,0, 10000, 1000);
-		
-		int x = 50;
-		int y = 50;
-		while(y<10000){
-			gc.strokeLine(x, y, x, y+5);
-			y+=5;			
-		}
+		display = new Display(xDimension, yDimension, canvas);
+		// for testing
+		Turtle myTurtle = new Turtle(0, 0, 10, 10, Color.BLUE, 
+				"", true, false);
+//		display.moveHome(myTurtle); // sets turtle to middle of screen
+//		display.moveForward(myTurtle, -100);
+//		display.moveHome(myTurtle);
+//		display.moveForward(myTurtle, 1000);
+		// end testing
 		return background;
-		
+	}
+	
+	private Display getDisplay(){
+		return display;
 	}
 	
 	private Node makeTextField() {
@@ -141,9 +148,6 @@ public class View {
 		setLanguages(menuLanguage);
 //		setLanguageListener(menuLanguage);
 		menuBar.getMenus().addAll(menuHelp, menuLanguage);
-		
-		
-		
 		return menuBar;
 
 	}
