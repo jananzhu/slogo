@@ -4,8 +4,6 @@ import javafx.scene.paint.Color;
 
 /**
  * class for Turtle object + properties
- * @author emresonmez
- *
  */
 public class Turtle {
 	protected int myID;

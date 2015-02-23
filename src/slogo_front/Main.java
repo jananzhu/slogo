@@ -1,6 +1,7 @@
 package slogo_front;
 
 import javafx.application.Application;
+import javafx.scene.paint.Color;
 import javafx.stage.*;
 
 public class Main extends Application{
@@ -10,7 +11,6 @@ public class Main extends Application{
 
 	public void start(Stage stage) throws Exception {
 		View view = new View();
-
 		stage.setResizable(false);
         stage.setTitle("SLOGO");
         stage.setScene(view.getScene());
