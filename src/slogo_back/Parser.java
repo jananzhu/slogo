@@ -96,6 +96,8 @@ public class Parser {
 
     private String headTokenToQueue(Pattern pattern, Matcher matcher,Queue<String> Queue,
                                     String input){
+    	System.out.println(input);
+    	System.out.println(pattern.toString());
         String newInput = pattern.split(input)[1];
         if(!newInput.matches(whitespacePattern.toString())){
             newInput = whitespacePattern.split(newInput)[1];
