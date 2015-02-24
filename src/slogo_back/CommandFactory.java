@@ -25,6 +25,7 @@ public class CommandFactory {
         } else{
             throw new InvalidParameterException(userInput + " is not a command");
         }
+        commandName = "commands.";
         Class commandClass = null;
         try {
              commandClass = Class.forName(commandName);

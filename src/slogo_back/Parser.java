@@ -105,7 +105,7 @@ public class Parser {
     }
 
     public static void main(String[] args){
-        String test = "if  [50   fadfasdjlf \n 3453] 2343 gdsdf :test \n#testing \nnewC ";
+        String test = "PI";
         Parser testParser = new Parser(null,null);
         testParser.parseInput(test);
     }
