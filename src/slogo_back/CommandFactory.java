@@ -1,12 +1,12 @@
 package slogo_back;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidParameterException;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 import commands.*;
-
-import commands.Command;
 
 public class CommandFactory {
 
@@ -25,24 +25,36 @@ public class CommandFactory {
         } else{
             throw new InvalidParameterException(userInput + " is not a command");
         }
-        commandName = "commands.";
+        commandName = "commands." + commandName;
         Class commandClass = null;
         try {
-             commandClass = Class.forName(commandName);
+            commandClass = Class.forName(commandName);
         }
         catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        Constructor constructor = commandClass.getConstructors()[0];
         Command command = null;
         try {
-             command = (Command) commandClass.newInstance();
+            command = (Command) constructor.newInstance(tokens,myModel);
         }
         catch (InstantiationException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         catch (IllegalAccessException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        catch (IllegalArgumentException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (InvocationTargetException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
         return command;
     }
 }
