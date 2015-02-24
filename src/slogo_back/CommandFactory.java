@@ -2,8 +2,10 @@ package slogo_back;
 
 import java.util.Queue;
 
+import commands.Command;
+
 public class CommandFactory {
-    public Commands getCommand(String userInput, Queue<String> tokens){
+    public Command getCommand(String userInput, Queue<String> tokens, Model model){
         //TODO:Placeholder
         
         return null;
