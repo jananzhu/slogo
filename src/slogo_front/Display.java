@@ -68,7 +68,8 @@ public class Display {
 		graphics.setStroke(Color.BLUE);
 		graphics.setLineWidth(LINE_WIDTH);
 		graphics.strokeLine(xOrigin, yOrigin, xOrigin, yOrigin);
-		moveForward(turtle, 50);
+		turtle.setHeading(50);
+		moveForward(turtle, 500);
 		
 		
 	}
@@ -232,6 +233,25 @@ public class Display {
 		return rawAngle;
 	}
 	
+//	private void moveStraight(Turtle turtle, int pixels, boolean leaveTrail){
+//		int curX = turtle.getXloc();
+//		int curY = turtle.getYloc();
+//		double heading = turtle.getHeading();
+//		System.out.println("heading: " + heading);
+//		System.out.println(curX + " " + curY);
+//		int xDistance = (int) getXDistance(heading,pixels);
+//		int yDistance = (int) getYDistance(heading,pixels);
+//		int finalX = curX + xDistance;
+//		int finalY = curY - yDistance;
+//		System.out.println(finalX + " " + finalY);
+//		turtle.setXPosition(finalX);
+//		turtle.setYPosition(finalY);
+//		// paint line (first line if hits edge)
+//		if(leaveTrail){
+//			paintLine(turtle,curX, curY, finalX, finalY);	
+//		}
+//	}
+	
 	/**
 	 * given turtle and distance, moves turtle accordingly
 	 * @param turtle
@@ -338,7 +358,7 @@ public class Display {
 	 * @param y1
 	 * @param y2
 	 */
-	private void paintLine(Turtle t, int x1, int x2, int y1, int y2){ 
+	private void paintLine(Turtle t, int x1, int y1, int x2, int y2){ 
 		// TODO: move turtle image as well, take canvas
 		graphics.setStroke(t.getPenColor());
 		graphics.setLineWidth(LINE_WIDTH);
@@ -358,11 +378,13 @@ public class Display {
 	//given r and theta
 	private double getXDistance(double heading, int pixels){
 		double headingInRadians = degreesToRadians(heading);
+		System.out.println(pixels*Math.cos(headingInRadians));
 		return pixels*Math.cos(headingInRadians);
 	}
 	
 	private double getYDistance(double heading, int pixels){
 		double headingInRadians = degreesToRadians(heading);
+		System.out.println(pixels*Math.sin(headingInRadians));
 		return pixels*Math.sin(headingInRadians);
 	}
 	
