@@ -4,6 +4,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Queue;
 import java.util.regex.Matcher;
@@ -20,8 +21,9 @@ public class Parser {
     private Pattern whitespacePattern;
     private CommandFactory myCommandFactory;
 
-    public Parser(Model currentModel){
-        //        myValidCommands = currentModel.getValidCommands();
+    public Parser(Model currentModel, Map<String,String> dictionary){
+        myValidCommands = new ArrayList<String>();
+        myValidCommands.addAll(dictionary.keySet());
         myResourceBundle = ResourceBundle.getBundle("resources/languages/Syntax");
         constantPattern = Pattern.compile(myResourceBundle.getString("HeadConstant"));
         commandPattern = Pattern.compile(myResourceBundle.getString("HeadCommand"));
@@ -30,7 +32,7 @@ public class Parser {
                 (myResourceBundle.getString("ListBlock"), Pattern.DOTALL);
         variablePattern = Pattern.compile(myResourceBundle.getString("HeadVariable"));
         whitespacePattern = Pattern.compile(myResourceBundle.getString("LeadingWhitespace"));
-        myCommandFactory = new CommandFactory();
+        myCommandFactory = new CommandFactory(currentModel, dictionary);
 
     }
 
@@ -104,7 +106,7 @@ public class Parser {
 
     public static void main(String[] args){
         String test = "if  [50   fadfasdjlf \n 3453] 2343 gdsdf :test \n#testing \nnewC ";
-        Parser testParser = new Parser(null);
+        Parser testParser = new Parser(null,null);
         testParser.parseInput(test);
     }
 
