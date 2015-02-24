@@ -19,7 +19,7 @@ public class Model {
 	
 	public static void main(String[] args){
 		Model model = new Model("resources/languages/English.properties");
-		String cmds = "tan 45\n";
+		String cmds = "tan 45 ";
 		List<Double> results = model.toBack(cmds);
 		for (Double value : results) {
 			System.out.println(value);
