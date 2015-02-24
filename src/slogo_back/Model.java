@@ -75,7 +75,6 @@ public class Model {
 	}
 	
 	public List<ISyntaxNode> toBack(String cmds) {
-		myParser = new Parser(this);
 		return myParser.parseInput(cmds);
 	}
 	
