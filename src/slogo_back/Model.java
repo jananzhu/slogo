@@ -17,6 +17,15 @@ public class Model {
 	private Parser myParser;
 	private Map<String, String> cmdMap;
 	
+	public static void main(String[] args){
+		Model model = new Model("resources/languages/English.properties");
+		String cmds = "PI";
+		List<Double> results = model.toBack(cmds);
+		for (Double value : results) {
+			System.out.println(value);
+		}
+	}
+	
 	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
 		myParser = new Parser(this, cmdMap);
