@@ -3,12 +3,12 @@ package slogo_back;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import slogo_front.Manager;
 
 public class Model {
@@ -74,8 +74,13 @@ public class Model {
 		return null;
 	}
 	
-	public List<ISyntaxNode> toBack(String cmds) {
-		return myParser.parseInput(cmds);
+	public List<Double> toBack(String cmds) {
+		List<ISyntaxNode> syntaxTrees = myParser.parseInput(cmds);
+		List<Double> returnValues = new ArrayList<Double>();
+		for(ISyntaxNode node : syntaxTrees){
+		    returnValues.add(node.getValue());
+		}
+		return returnValues;
 	}
 	
 	public Parser getParser(){
