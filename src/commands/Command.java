@@ -15,11 +15,11 @@ public abstract class Command implements ISyntaxNode{
 		myCmds = cmdQueue;
 	}
 	
-	protected ISyntaxNode[] defineParams(ISyntaxNode[] params){
-		ISyntaxNode[] definedParams = new ISyntaxNode[params.length];
-		for (ISyntaxNode node : params){
-			node = myParser.buildParseTree(myCmds);
+	protected ISyntaxNode[] defineParams(int numParams){
+		ISyntaxNode[] returnParams = new ISyntaxNode[numParams];
+		for (int i = 0; i < numParams; i++){
+			returnParams[i] = myParser.buildParseTree(myCmds);
 		}
-		return definedParams;
+		return returnParams;
 	}
 }
