@@ -7,13 +7,13 @@ import slogo_back.Model;
 
 public class Pow extends Command {
 	
-	private ISyntaxNode opA;
-	private ISyntaxNode opB;
+	private final static int numParams = 2;
+	private ISyntaxNode[] myParams;
 
 	public Pow(Queue<String> cmdQueue, Model model) {
 		super(cmdQueue, model);
-		ISyntaxNode[] myParams = new ISyntaxNode[]{opA, opB};
-		super.defineParams(myParams);	}
+		myParams = super.defineParams(numParams);
+	}
 
 	@Override
 	public double getValue() {

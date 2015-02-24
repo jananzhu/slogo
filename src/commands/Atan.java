@@ -7,17 +7,17 @@ import slogo_back.Model;
 
 public class Atan extends Command {
 	
-	private ISyntaxNode opA;
+	private final static int numParams = 2;
+	private ISyntaxNode[] myParams;
 
 	public Atan(Queue<String> cmdQueue, Model model) {
 		super(cmdQueue, model);
-		ISyntaxNode[] myParams = new ISyntaxNode[]{opA};
-		super.defineParams(myParams);
+		myParams = super.defineParams(numParams);
 	}
 
 	@Override
 	public double getValue() {
-		return Math.atan(Math.toDegrees(opA.getValue()));
+		return Math.atan(Math.toDegrees(myParams[0].getValue()));
 	}
 
 }
