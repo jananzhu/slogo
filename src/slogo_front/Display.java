@@ -65,10 +65,10 @@ public class Display {
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
 		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
-		graphics.setStroke(Color.BLUE);
-		graphics.setLineWidth(LINE_WIDTH);
-		graphics.strokeLine(xOrigin, yOrigin, xOrigin, yOrigin);
-		turtle.setHeading(50);
+//		graphics.setStroke(Color.BLUE);
+//		graphics.setLineWidth(LINE_WIDTH);
+//		graphics.strokeLine(xOrigin, yOrigin, xOrigin, yOrigin);
+		turtle.setHeading(45);
 		moveForward(turtle, 500);
 		
 		
@@ -197,7 +197,8 @@ public class Display {
 	 * @param pixels
 	 */
 	public void moveForward(Turtle turtle, int pixels){
-		moveStraight(turtle,pixels,turtle.getPenDown());
+//		moveStraight(turtle,pixels,turtle.getPenDown());
+		move(turtle,pixels,turtle.getPenDown());
 	}
 
 	/**
@@ -251,6 +252,72 @@ public class Display {
 //			paintLine(turtle,curX, curY, finalX, finalY);	
 //		}
 //	}
+	// replacements for previous long methods
+	private void move(Turtle turtle, int pixels, boolean leaveTrail){
+		//starting turtle position
+		int curX = turtle.getXloc();
+		int curY = turtle.getYloc();
+		//direction of the turtle
+		double heading = turtle.getHeading();
+		
+		System.out.println("heading: " + heading);
+		System.out.println("current position"+ curX + " " + curY);
+		
+		int xDistance = (int) getXDistance(heading,pixels);
+		int yDistance = (int) getYDistance(heading,pixels);
+		System.out.println("x,y vectors " +xDistance+ " " + yDistance);
+		
+		int finalX = curX + xDistance;
+		int finalY = curY - yDistance;
+		
+		moveTurtle(turtle, curX, curY, finalX, finalY,leaveTrail);
+	}
+	
+	// TODO debug this boi
+	private void moveTurtle(Turtle turtle, int x1, int y1, int x2, int y2,boolean leaveTrail){
+		int tempX = x2;
+		int tempY = y2;
+		turtle.setXPosition(x2);
+		turtle.setYPosition(y2);
+		System.out.println("initial: " + x1 + " " + y1 + " " + x2 + " " + y2);
+		//Edge check might have height and width checks?
+		System.out.println(getOffScreen(x2,y2));
+		if(getOffScreen(x2,y2)){ // TODO ERROR IS IN LOGIC HERE
+			if(x2 > maxCanvasWidth){
+				tempX = x2 - maxCanvasWidth; // remaining X
+				x2 = minCanvasWidth;
+			}else if(x2 < minCanvasWidth){
+				tempX = Math.abs(x2);
+				x2 = maxCanvasWidth;
+			}
+			if(y2 > maxCanvasHeight){
+				tempY = y2 - maxCanvasHeight; // remaining Y
+				y2 = minCanvasHeight;
+			}else if(y2 < minCanvasHeight){
+				tempY = minCanvasHeight;
+				y2 = maxCanvasHeight;
+			}
+			turtle.setXPosition(tempX);
+			turtle.setYPosition(tempY);
+			if(leaveTrail){
+				System.out.println("temp paint: " + x1 + " " + y1 + " " + tempX + " " + tempY);
+				paintLine(turtle,x1,y1,tempX,tempY);
+			}
+			System.out.println("recursive paint: " + tempX + " " + tempY + " " + (x2-tempX) + " " + (y2-tempY));
+			moveTurtle(turtle,tempX,tempY,x2-tempX,y2-tempY,leaveTrail);	
+		}else{
+			turtle.setXPosition(x2);
+			turtle.setYPosition(y2);
+			if(leaveTrail){
+				paintLine(turtle, x1, y1, x2, y2);
+			}
+		}
+	}
+	
+	private boolean getOffScreen(int x, int y){
+		return ((x > maxCanvasWidth) | (x < minCanvasWidth) | (y > maxCanvasHeight) | (y < minCanvasHeight));
+	}
+	
 	
 	/**
 	 * given turtle and distance, moves turtle accordingly
@@ -266,9 +333,9 @@ public class Display {
 		
 		int curX = turtle.getXloc();
 		int curY = turtle.getYloc();
-		System.out.println(curX);
-		System.out.println(curY);
-		System.out.println(turtle.getHeading());
+//		System.out.println(curX);
+//		System.out.println(curY);
+//		System.out.println(turtle.getHeading());
 		double heading = turtle.getHeading();
 		
 		double xDistance = getXDistance(heading,pixels);
@@ -291,7 +358,7 @@ public class Display {
 			}else{
 				atLeft = true;
 				finalX = minCanvasWidth;
-				xDistance = xDistance - minCanvasWidth; 
+				xDistance = xDistance + minCanvasWidth; 
 			}
 		}
 		
@@ -306,13 +373,15 @@ public class Display {
 			}else{
 				atBottom = true;
 				finalY = minCanvasHeight;
-				yDistance = yDistance - minCanvasHeight; 
+				yDistance = yDistance + minCanvasHeight; 
 			}
 		}
 		
 		// update turtle location properties
 		turtle.setXPosition(finalX);
 		turtle.setYPosition(finalY);
+		System.out.println("x1: " + curX + " y1: " + curY + " x2: " + finalX + " y2: " + finalY);
+		System.out.println("heading: " + heading + " xDistance: " + xDistance + " yDistance: " + yDistance);
 		// paint line (first line if hits edge)
 		if(leaveTrail){
 			paintLine(turtle,curX, curY, finalX, finalY);	
@@ -334,6 +403,10 @@ public class Display {
 		if(atRight|atLeft|atTop|atBottom){
 			int newDistance = (int) Math.sqrt(xDistance*xDistance + // update distance 
 					yDistance*yDistance);
+			System.out.println("newDistance: " + newDistance);
+			System.out.println("newXDistance: " + getXDistance(turtle.getXloc(), newDistance));
+			System.out.println("newXDistance: " + getYDistance(turtle.getYloc(), newDistance));
+			System.out.println("angle: " + Math.toDegrees(Math.atan(getYDistance(turtle.getYloc(), newDistance)/getXDistance(turtle.getXloc(), newDistance))));
 			moveStraight(turtle,newDistance,leaveTrail); // call recursively on remaining distance
 		}
 		
@@ -371,25 +444,38 @@ public class Display {
 	 */
 	
 	private double getDistance(int x1,int y1, int x2, int y2){
-		int xDiff = x2-x1;
-		int yDiff = y2-y1;
+		int xDiff = Math.abs(x2-x1);
+		int yDiff = Math.abs(y2-y1);
 		return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
 	}
 	//given r and theta
 	private double getXDistance(double heading, int pixels){
 		double headingInRadians = degreesToRadians(heading);
-		System.out.println(pixels*Math.cos(headingInRadians));
-		return pixels*Math.cos(headingInRadians);
+//		System.out.println(pixels*Math.cos(headingInRadians));
+		return pixels*Math.cos(getMinAngle(headingInRadians));
 	}
 	
 	private double getYDistance(double heading, int pixels){
 		double headingInRadians = degreesToRadians(heading);
-		System.out.println(pixels*Math.sin(headingInRadians));
-		return pixels*Math.sin(headingInRadians);
+//		System.out.println(pixels*Math.sin(headingInRadians));
+		return pixels*Math.sin(getMinAngle(headingInRadians));
 	}
 	
 	private double degreesToRadians (double degrees){
 		return Math.toRadians(degrees);
+	}
+	
+	private double getMinAngle(double degrees){
+		if(degrees <= 90){
+			return degrees;
+		}else if(degrees <= 180){
+			return 180-degrees;
+		}else if(degrees <= 270){
+			return 270-degrees;
+		}else if(degrees <= 360){
+			return 360 - degrees;
+		}
+		return 0; // returns zero if error exists
 	}
 
 }
