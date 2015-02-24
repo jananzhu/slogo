@@ -19,7 +19,7 @@ public class Model {
 	
 	public static void main(String[] args){
 		Model model = new Model("resources/languages/English.properties");
-		String cmds = "PI";
+		String cmds = "sum 1 2\n";
 		List<Double> results = model.toBack(cmds);
 		for (Double value : results) {
 			System.out.println(value);
@@ -53,7 +53,7 @@ public class Model {
 			while (e.hasMoreElements()) {
 				String key = (String) e.nextElement();
 				String value = prop.getProperty(key);
-				for (String userCmd : value.split("|")) {
+				for (String userCmd : value.split("\\|")) {
 					cmdMap.put(userCmd, key);
 				}
 			}
