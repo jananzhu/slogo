@@ -4,17 +4,17 @@ import java.util.Queue;
 
 import slogo_back.Model;
 
-public class Remainder extends Command {
+public class Power extends Command {
 	
 	private final static int numParams = 2;
 
-	public Remainder(Queue<String> cmdQueue, Model model) {
+	public Power(Queue<String> cmdQueue, Model model) {
 		super(cmdQueue, model, numParams);
 	}
 
 	@Override
 	public double getValue() {
-		return myParams[0].getValue() % myParams[1].getValue();
+		return Math.pow(myParams[0].getValue(), myParams[1].getValue());
 	}
 
 }
