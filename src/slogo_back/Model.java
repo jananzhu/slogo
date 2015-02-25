@@ -18,15 +18,15 @@ public class Model {
 	private Map<String, String> cmdMap;
 	
 	public static void main(String[] args){
-		Model model = new Model(null,"resources/languages/English.properties");
-		String cmds = "tan 45 ";
+		Model model = new Model("resources/languages/English.properties");
+		String cmds = "difference product sum sum 10 10 10 2 50\n";
 		List<Double> results = model.toBack(cmds);
 		for (Double value : results) {
 			System.out.println(value);
 		}
 	}
 	
-	public Model(Manager mananger, String langFile){
+	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
 		myParser = new Parser(this, cmdMap);
 		
