@@ -77,6 +77,7 @@ public class Parser {
             } else if(listMatch.find()){
                 input = headTokenToQueue(listPattern, listMatch, tokenQueue, input);
             }else if(commandMatch.find()){
+                System.out.println(input);
                 input = headTokenToQueue(commandPattern, commandMatch, tokenQueue,input);
             }else if(commentMatch.find()){
                 //skip over any comments
@@ -96,9 +97,14 @@ public class Parser {
 
     private String headTokenToQueue(Pattern pattern, Matcher matcher,Queue<String> Queue,
                                     String input){
-        String newInput = pattern.split(input)[1];
-        if(!newInput.matches(whitespacePattern.toString())){
-            newInput = whitespacePattern.split(newInput)[1];
+        String newInput;
+        if(pattern.split(input).length == 1){
+            newInput = "";
+        }else{
+            newInput = pattern.split(input)[1];
+            if(!newInput.matches(whitespacePattern.toString())){
+                newInput = whitespacePattern.split(newInput)[1];
+            }
         }
         Queue.add(matcher.group(0));
         return newInput;

@@ -29,6 +29,7 @@ public class Model {
 	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
 		myParser = new Parser(this, cmdMap);
+		
 	}
 	
 	public void setManager(Manager manager){
@@ -75,13 +76,14 @@ public class Model {
 	
 	public Double toFront(String cmd, Object params){
 		Method toRun;
+		Double returnValue = null;
 		try {
 			toRun = Manager.class.getMethod(cmd, Double.class);
-			return (Double) toRun.invoke(mgr, params);
+			returnValue = (Double) toRun.invoke(mgr, params);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return returnValue;
 	}
 	
 	public List<Double> toBack(String cmds) {
