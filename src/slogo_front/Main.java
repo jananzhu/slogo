@@ -11,6 +11,7 @@ public class Main extends Application{
 
 	public void start(Stage stage) throws Exception {
 		View view = new View();
+		Manager manager = new Manager();
 		stage.setResizable(false);
         stage.setTitle("SLOGO");
         stage.setScene(view.getScene());
