@@ -10,10 +10,12 @@ public abstract class Command implements ISyntaxNode{
 	private Parser myParser;
 	private Queue<String> myCmds;
 	protected ISyntaxNode[] myParams;
+	protected Model myModel;
 	
 	public Command(Queue<String> cmdQueue, Model model) {
 		myParser = model.getParser();
 		myCmds = cmdQueue;
+		myModel = model;
 	}
 	
 	public Command(Queue<String> cmdQueue, Model model, int numParams) {
