@@ -7,8 +7,8 @@ import javafx.scene.paint.Color;
  */
 public class Turtle {
 	private int myID;
-	private int xPosition;
-	private int yPosition;
+	private double xPosition;
+	private double yPosition;
 	private double heading; // from 0-360
 	private Color penColor;
 	private boolean penDown;
@@ -18,11 +18,11 @@ public class Turtle {
 
 	// getters
 	
-	public int getXloc() {
+	public double getXloc() {
 		return xPosition;
 	}
 
-	public int getYloc() {
+	public double getYloc() {
 		return yPosition;
 	}
 	
@@ -48,11 +48,11 @@ public class Turtle {
 	
 	// setters
 	
-	public void setXPosition(int x){
+	public void setXPosition(double x){
 		xPosition = x;
 		turtleImage.setXLoc(x);
 	}
-	public void setYPosition(int y){
+	public void setYPosition(double y){
 		yPosition = y;
 		turtleImage.setYLoc(y);
 	}
