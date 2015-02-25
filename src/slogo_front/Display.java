@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 
 /**
  * currently includes methods to move turtle
- * NOTE: API (public) methods except constructor
+ * NOTE: API (protected) methods except constructor
  * take x & y coordinates with (0,0) in the middle
  * of the screen
  *  
@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
  *  - turtle image updates 
  *
  */
-public class Display {
+protected class Display {
 	//References the middle of the canvas
 	private int xOrigin;
 	private int yOrigin;
@@ -35,7 +35,7 @@ public class Display {
 	 * @param yDimension
 	 * @param myCanvas
 	 */
-	public Display(int canvasWidth, int canvasHeight){
+	protected Display(int canvasWidth, int canvasHeight){
 		canvas = new Canvas (canvasWidth,canvasHeight);
 		xOrigin = canvasWidth/2;
 		yOrigin = canvasHeight/2;
@@ -48,7 +48,7 @@ public class Display {
 		moveForward(turtle, 1000);
 	}
 	
-	public Node getDisplay(){
+	protected Node getDisplay(){
 		return canvas;
 	}
 	
@@ -62,7 +62,7 @@ public class Display {
 	 * @param turtle
 	 * @return
 	 */
-	public double clearScreen(Turtle turtle){
+	protected double clearScreen(Turtle turtle){
 		//TODO fix this
 		graphics.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),xOrigin,yOrigin);
@@ -79,7 +79,7 @@ public class Display {
 	 * @param turtle
 	 * @param leaveTrail
 	 */
-	public double setPen(Turtle turtle, boolean leaveTrail){
+	protected double setPen(Turtle turtle, boolean leaveTrail){
 		turtle.setPenDown(leaveTrail);
 		if(leaveTrail){
 			return 1;
@@ -94,7 +94,7 @@ public class Display {
 	 * @param turtle
 	 * @param showTurtle
 	 */
-	public double showTurtle(Turtle turtle, boolean showTurtle){
+	protected double showTurtle(Turtle turtle, boolean showTurtle){
 		turtle.setShowTurtle(showTurtle);
 		if(showTurtle){
 			return 1;
@@ -114,7 +114,7 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public double rotateLeft(Turtle turtle,double degrees){
+	protected double rotateLeft(Turtle turtle,double degrees){
 		int newHeading  = (int) (turtle.getHeading() + degrees);
 		if(newHeading > 360){
 			newHeading -= 360;
@@ -128,7 +128,7 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public double rotateRight(Turtle turtle,double degrees){
+	protected double rotateRight(Turtle turtle,double degrees){
 		int newHeading  = (int) (turtle.getHeading() - degrees);
 		if(newHeading < 0){
 			newHeading+= 360;
@@ -143,7 +143,7 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public double setHeading(Turtle turtle, double degrees){
+	protected double setHeading(Turtle turtle, double degrees){
 		double newHeading = degrees;
 		double oldHeading = turtle.getHeading();
 		if(degrees > 360){
@@ -161,7 +161,7 @@ public class Display {
 	 * @param x
 	 * @param y
 	 */
-	public double setXY(Turtle turtle, int x, int y){
+	protected double setXY(Turtle turtle, int x, int y){
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),x,y);
 		turtle.setXPosition(x+xOrigin);
 		turtle.setXPosition(y+yOrigin);
@@ -172,7 +172,7 @@ public class Display {
 	 * set turtle back to origin (and default heading)
 	 * @param turtle
 	 */
-	public double home(Turtle turtle){
+	protected double home(Turtle turtle){
 		double distance = setXY(turtle,xOrigin,yOrigin);
 		setHeading(turtle,0);
 		//TODO (emre) incorporate default direction
@@ -185,8 +185,7 @@ public class Display {
 	 * @param turtle
 	 * @param pixels
 	 */
-	public double moveForward(Turtle turtle, int pixels){
-//		moveStraight(turtle,pixels,turtle.getPenDown());
+	protected double moveForward(Turtle turtle, int pixels){
 		moveTurtle(turtle,pixels,turtle.getPenDown());
 		return pixels;
 	}
@@ -198,7 +197,7 @@ public class Display {
 	 * @param y
 	 * TODO change this to match
 	 */
-	public double moveTowards(Turtle turtle,int x, int y){
+	protected double moveTowards(Turtle turtle,int x, int y){
 		int actualX = x + xOrigin;
 		int actualY = y + yOrigin;
 		double oldHeading = turtle.getHeading();
