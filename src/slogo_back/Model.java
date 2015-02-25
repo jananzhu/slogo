@@ -18,7 +18,7 @@ public class Model {
 	private Map<String, String> cmdMap;
 	
 	public static void main(String[] args){
-		Model model = new Model("resources/languages/English.properties");
+		Model model = new Model(null,"resources/languages/English.properties");
 		String cmds = "tan 45 ";
 		List<Double> results = model.toBack(cmds);
 		for (Double value : results) {
@@ -26,9 +26,10 @@ public class Model {
 		}
 	}
 	
-	public Model(String langFile){
+	public Model(Manager mananger, String langFile){
 		cmdMap = createCmdMap(langFile);
 		myParser = new Parser(this, cmdMap);
+		
 	}
 	
 	public void setManager(Manager manager){
@@ -73,15 +74,16 @@ public class Model {
 		return cmdMap;
 	}
 	
-	public Double toFront(String cmd, Double param){
-		Method toRun;
+	public Double toFront(String cmd, List<Object> param){
+	    Method toRun;
+	    Double returnValue = null;
 		try {
 			toRun = Manager.class.getMethod(cmd, Double.class);
-			return (Double) toRun.invoke(mgr, param);
+			returnValue = (Double) toRun.invoke(mgr, param);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
+		return returnValue;
 	}
 	
 	public List<Double> toBack(String cmds) {
