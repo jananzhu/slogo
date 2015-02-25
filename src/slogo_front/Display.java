@@ -3,41 +3,19 @@ package slogo_front;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 /**
  * currently includes methods to move turtle
- * NOTE: API (public) methods except constructor
+ * NOTE: API (protected) methods except constructor
  * take x & y coordinates with (0,0) in the middle
  * of the screen
- * 
- * API Methods:
- * 	- Display(int xDimension, int yDimension,
-			Canvas myCanvas)
- *  - clearScreen() (not yet completed)
- *  - setPen(Turtle t, boolean leaveTrail)
- *  - showTurtle(Turtle t, boolean showTurtle)
- *  - rotateLeft(Turtle t,double degrees)
- *  - rotateRight(Turtle t,double degrees)
- *  - setHeading(Turtle t, double degrees)
- *  - setXY(Turtle t, int x, int y)
- *  - moveForward(Turtle t, int pixels)
- *  - moveBackward(Turtle t, int pixels)
- *  - moveTowards(Turtle t,int x, int y)
  *  
  * to be added:
- * 	- painting implementation (painting lines on canvas)
  *  - turtle image updates 
  *
  */
-//TODO flexible canvas size
 public class Display {
-	//Display Background (a vbox wrapper)
-//	private VBox displayBackground;
-	//Canvas dimensions
-	private int xCanvas;
-	private int yCanvas;
 	//References the middle of the canvas
 	private int xOrigin;
 	private int yOrigin;
@@ -46,7 +24,7 @@ public class Display {
 	private int minCanvasWidth = 0;
 	private int maxCanvasHeight;
 	private int minCanvasHeight = 0;
-	//instances of cancas and graphics context
+	//instances of canvas and graphics context
 	private Canvas canvas;
 	private GraphicsContext graphics;
 	private static final int LINE_WIDTH = 1;
@@ -57,7 +35,7 @@ public class Display {
 	 * @param yDimension
 	 * @param myCanvas
 	 */
-	public Display(int canvasWidth, int canvasHeight){
+	protected Display(int canvasWidth, int canvasHeight){
 		canvas = new Canvas (canvasWidth,canvasHeight);
 		xOrigin = canvasWidth/2;
 		yOrigin = canvasHeight/2;
@@ -65,27 +43,38 @@ public class Display {
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
 		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
-		graphics.setStroke(Color.BLUE);
-		graphics.setLineWidth(LINE_WIDTH);
-		graphics.strokeLine(xOrigin, yOrigin, xOrigin, yOrigin);
+		
+		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 		moveForward(turtle, 50);
-		
-		
+
+		// for testing
+		turtle.setHeading(170);
+		moveForward(turtle, 1000);
 	}
 	
-	public Node getDisplay(){
+	protected Node getDisplay(){
 		return canvas;
 	}
 	
 	/*
 	 * methods for canvas properties
 	 */
-	
-	/*
+
+	/**
 	 * CS erases turtle's trails and sends it to the home position
 	 * returns the distance turtle moved
+	 * @param turtle
+	 * @return
 	 */
-	public double clearScreen(Turtle turtle){
+
+	public void changeBackground(Color backgroundColor){
+//		graphics.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		graphics.setFill(backgroundColor);
+//		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		graphics.fillRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+	}
+	
+	protected double clearScreen(Turtle turtle){
 		//TODO fix this
 		graphics.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),xOrigin,yOrigin);
@@ -102,8 +91,13 @@ public class Display {
 	 * @param turtle
 	 * @param leaveTrail
 	 */
-	public void setPen(Turtle turtle, boolean leaveTrail){
+	protected double setPen(Turtle turtle, boolean leaveTrail){
 		turtle.setPenDown(leaveTrail);
+		if(leaveTrail){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 	
 	/**
@@ -112,10 +106,14 @@ public class Display {
 	 * @param turtle
 	 * @param showTurtle
 	 */
-	public void showTurtle(Turtle turtle, boolean showTurtle){
+	protected double showTurtle(Turtle turtle, boolean showTurtle){
 		turtle.setShowTurtle(showTurtle);
-		//TODO: reflect this change on GUI
-		
+		if(showTurtle){
+			return 1;
+		}else{
+			return 0;
+		}
+		//TODO: reflect this change on GUI	
 	}
 	
 	/*
@@ -128,12 +126,13 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public void rotateLeft(Turtle turtle,double degrees){
+	protected double rotateLeft(Turtle turtle,double degrees){
 		int newHeading  = (int) (turtle.getHeading() + degrees);
 		if(newHeading > 360){
 			newHeading -= 360;
 		}
 		turtle.setHeading(newHeading);
+		return degrees;
 	}
 	
 	/**
@@ -141,12 +140,13 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public void rotateRight(Turtle turtle,double degrees){
+	protected double rotateRight(Turtle turtle,double degrees){
 		int newHeading  = (int) (turtle.getHeading() - degrees);
 		if(newHeading < 0){
 			newHeading+= 360;
 		}
 		turtle.setHeading(newHeading);
+		return degrees;
 	}
 	
 	/**
@@ -155,14 +155,16 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public void setHeading(Turtle turtle, double degrees){
+	protected double setHeading(Turtle turtle, double degrees){
 		double newHeading = degrees;
+		double oldHeading = turtle.getHeading();
 		if(degrees > 360){
 			newHeading = degrees - 360*(degrees/360) - degrees%360;
 		}else if(degrees < 0){
 			newHeading = degrees + 360*(degrees/360) + 360;
 		}
 		turtle.setHeading(newHeading);
+		return Math.abs(oldHeading-newHeading);
 	}
 	
 	/**
@@ -171,7 +173,7 @@ public class Display {
 	 * @param x
 	 * @param y
 	 */
-	public double setXY(Turtle turtle, int x, int y){
+	protected double setXY(Turtle turtle, int x, int y){
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),x,y);
 		turtle.setXPosition(x+xOrigin);
 		turtle.setXPosition(y+yOrigin);
@@ -182,7 +184,7 @@ public class Display {
 	 * set turtle back to origin (and default heading)
 	 * @param turtle
 	 */
-	public double home(Turtle turtle){
+	protected double home(Turtle turtle){
 		double distance = setXY(turtle,xOrigin,yOrigin);
 		setHeading(turtle,0);
 		//TODO (emre) incorporate default direction
@@ -195,8 +197,9 @@ public class Display {
 	 * @param turtle
 	 * @param pixels
 	 */
-	public void moveForward(Turtle turtle, int pixels){
-		moveStraight(turtle,pixels,turtle.getPenDown());
+	protected double moveForward(Turtle turtle, int pixels){
+		moveTurtle(turtle,pixels,turtle.getPenDown());
+		return pixels;
 	}
 
 	/**
@@ -204,14 +207,17 @@ public class Display {
 	 * @param turtle
 	 * @param x
 	 * @param y
+	 * TODO change this to match
 	 */
-	public void moveTowards(Turtle turtle,int x, int y){
+	protected double moveTowards(Turtle turtle,int x, int y){
 		int actualX = x + xOrigin;
 		int actualY = y + yOrigin;
+		double oldHeading = turtle.getHeading();
 		double newHeading = calculateDirection(x,y);
 		turtle.setHeading(newHeading);
 		int distance = (int) getDistance(turtle.getXloc(),turtle.getYloc(),actualX,actualY);
-		moveStraight(turtle, distance, turtle.getPenDown());
+		moveTurtle(turtle, distance, turtle.getPenDown());
+		return Math.abs(oldHeading - newHeading);
 	}
 	
 	/**
@@ -231,100 +237,58 @@ public class Display {
 		}
 		return rawAngle;
 	}
-	
-	/**
-	 * given turtle and distance, moves turtle accordingly
-	 * @param turtle
-	 * @param pixels
-	 * @param leaveTrail
-	 */
-	private void moveStraight(Turtle turtle, int pixels, boolean leaveTrail){
-		boolean atTop = false;
-		boolean atBottom = false;
-		boolean atLeft = false;
-		boolean atRight = false;
-		
-		int curX = turtle.getXloc();
-		int curY = turtle.getYloc();
-		System.out.println(curX);
-		System.out.println(curY);
-		System.out.println(turtle.getHeading());
+//<<<<<<< HEAD
+//	
+//	/**
+//	 * given turtle and distance, moves turtle accordingly
+//	 * @param turtle
+//	 * @param pixels
+//	 * @param leaveTrail
+//	 */
+//	private void moveStraight(Turtle turtle, int pixels, boolean leaveTrail){
+//		boolean atTop = false;
+//		boolean atBottom = false;
+//		boolean atLeft = false;
+//		boolean atRight = false;
+//		
+//		int curX = turtle.getXloc();
+//		int curY = turtle.getYloc();
+//=======
+
+	// TODO update turtle image
+	private void moveTurtle(Turtle turtle, int pixels, boolean leaveTrail){
+//>>>>>>> 1274e467dd61185e827a94e5a8c2b0ca8404e144
 		double heading = turtle.getHeading();
-		
-		double xDistance = getXDistance(heading,pixels);
-		double yDistance = getYDistance(heading,pixels);
-		//michael changed this to reflect direction
-		double xTemp = curX + xDistance;
-		double yTemp = curY - yDistance;
-		
-		int finalX;
-		int finalY;
-		
-		// check if line hits edge in x direction
-		if(checkEdgeHorizontal(xTemp)){
-			finalX = (int) xTemp;
+		if(pixels == 0){ // base case
+			return;
 		}else{
-			if(xTemp > maxCanvasWidth){
-				atRight = true;
-				finalX = maxCanvasWidth;
-				xDistance = xDistance - maxCanvasWidth;
-			}else{
-				atLeft = true;
-				finalX = minCanvasWidth;
-				xDistance = xDistance - minCanvasWidth; 
+			double xDistance = getXDistance(heading,1);
+			double yDistance = getYDistance(heading,1);
+			double x = turtle.getXloc();
+			double y = turtle.getYloc();
+			double x2 = x + xDistance;
+			double y2 = y - yDistance;
+			if(getOffScreen(x2,y2)){ // next pixel is off screen
+				x = (x2+maxCanvasWidth) % maxCanvasWidth;
+				y = (y2+maxCanvasHeight) % maxCanvasHeight;
+				turtle.setXPosition(x);
+				turtle.setYPosition(y);
+				moveTurtle(turtle,pixels,leaveTrail);
+			}else{ // move turtle if next pixel is on screen
+				if(leaveTrail){
+					paintLine(turtle,x,y,x2,y2);
+				}
+				turtle.setXPosition(x2);
+				turtle.setYPosition(y2);
+				pixels--;
+				System.out.println(pixels);
+				moveTurtle(turtle,pixels,leaveTrail);
 			}
 		}
-		
-		// check if line hits edge in y direction
-		if(checkEdgeVertical(yTemp)){ // y loc is in bounds
-			finalY = (int) yTemp;
-		}else{
-			if(yTemp > maxCanvasHeight){
-				atTop = true;
-				finalY = maxCanvasHeight;
-				yDistance = yDistance - maxCanvasHeight;
-			}else{
-				atBottom = true;
-				finalY = minCanvasHeight;
-				yDistance = yDistance - minCanvasHeight; 
-			}
-		}
-		
-		// update turtle location properties
-		turtle.setXPosition(finalX);
-		turtle.setYPosition(finalY);
-		// paint line (first line if hits edge)
-		if(leaveTrail){
-			paintLine(turtle,curX, curY, finalX, finalY);	
-		}
-		
-		// set new locations if at edge
-		if(atRight){
-			turtle.setXPosition(minCanvasWidth);
-		}else if(atLeft){
-			turtle.setXPosition(maxCanvasWidth);
-		}
-		if(atTop){
-			turtle.setYPosition(minCanvasHeight);
-		}else if(atBottom){
-			turtle.setYPosition(maxCanvasHeight);
-		}
-		
-		// if turtle is at edge, continue moving turtle
-		if(atRight|atLeft|atTop|atBottom){
-			int newDistance = (int) Math.sqrt(xDistance*xDistance + // update distance 
-					yDistance*yDistance);
-			moveStraight(turtle,newDistance,leaveTrail); // call recursively on remaining distance
-		}
-		
 	}
 	
-	private boolean checkEdgeHorizontal(double x){
-		return ((x <= maxCanvasWidth) && (x >= minCanvasWidth));
-	}
-	
-	private boolean checkEdgeVertical(double y){
-		return ((y <= maxCanvasHeight) && (y >= minCanvasHeight));
+	private boolean getOffScreen(double x, double y){
+		return ((x > maxCanvasWidth) | (x < minCanvasWidth) | (y > maxCanvasHeight) | (y < minCanvasHeight));
 	}
 	
 	/*
@@ -338,36 +302,50 @@ public class Display {
 	 * @param y1
 	 * @param y2
 	 */
-	private void paintLine(Turtle t, int x1, int x2, int y1, int y2){ 
+	private void paintLine(Turtle t, double x1, double y1, double x2, double y2){ 
 		// TODO: move turtle image as well, take canvas
 		graphics.setStroke(t.getPenColor());
 		graphics.setLineWidth(LINE_WIDTH);
 		graphics.strokeLine(x1, y1, x2, y2);
-		// move image
 	}
 	
 	/*
 	 * helper methods for geometry
 	 */
 	
-	private double getDistance(int x1,int y1, int x2, int y2){
-		int xDiff = x2-x1;
-		int yDiff = y2-y1;
+	private double getDistance(double x1,double y1, double x2, double y2){
+		double xDiff = Math.abs(x2-x1);
+		double yDiff = Math.abs(y2-y1);
 		return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
 	}
 	//given r and theta
 	private double getXDistance(double heading, int pixels){
 		double headingInRadians = degreesToRadians(heading);
-		return pixels*Math.cos(headingInRadians);
+//		System.out.println(pixels*Math.cos(headingInRadians));
+		return pixels*Math.cos(getMinAngle(headingInRadians));
 	}
 	
 	private double getYDistance(double heading, int pixels){
 		double headingInRadians = degreesToRadians(heading);
-		return pixels*Math.sin(headingInRadians);
+//		System.out.println(pixels*Math.sin(headingInRadians));
+		return pixels*Math.sin(getMinAngle(headingInRadians));
 	}
 	
 	private double degreesToRadians (double degrees){
 		return Math.toRadians(degrees);
+	}
+	
+	private double getMinAngle(double degrees){
+		if(degrees <= 90){
+			return degrees;
+		}else if(degrees <= 180){
+			return 180-degrees;
+		}else if(degrees <= 270){
+			return 270-degrees;
+		}else if(degrees <= 360){
+			return 360 - degrees;
+		}
+		return 0; // returns zero if error exists
 	}
 
 }
