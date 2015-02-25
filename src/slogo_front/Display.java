@@ -3,6 +3,8 @@ package slogo_front;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 /**
@@ -43,12 +45,13 @@ public class Display {
 		maxCanvasWidth = canvasWidth;
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
-		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
-		
+		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 
+				"/images/turtle_small.png", true,true);
+		show(turtle);
 		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
-		moveForward(turtle, 50);
 
 		// for testing
+		
 		turtle.setHeading(170);
 		moveForward(turtle, 1000);
 	}
@@ -102,16 +105,40 @@ public class Display {
 		}
 	}
 	
+	protected double show(Turtle turtle){
+		return showTurtle(turtle,true);
+	}
+	
+	protected double hide(Turtle turtle){
+		return showTurtle(turtle,false);
+	}
+	
 	// TODO implement turtle visualization
-	protected double showTurtle(Turtle turtle, boolean showTurtle){
+	private double showTurtle(Turtle turtle, boolean showTurtle){
 		turtle.setShowTurtle(showTurtle);
+		drawTurtle(turtle,0,0);
 		if(showTurtle){
 			return 1;
 		}else{
 			return 0;
 		}
-		//TODO: reflect this change on GUI	
 	}
+	
+	private void drawTurtle(Turtle turtle,int x, int y){
+		Image image = turtle.getTurtleImage().getImage();
+		double widthAdj = image.getWidth()/2;
+		double heightAdj= image.getHeight()/2;
+		graphics.drawImage(turtle.getTurtleImage().getImage(), xOrigin-widthAdj, yOrigin-heightAdj);
+	}
+	
+	private void setImageXY(Turtle turtle,double x, double y){
+		ImageView image = turtle.getTurtleImage();
+		double widthAdj = image.getImage().getWidth()/2;
+		double heightAdj= image.getImage().getHeight()/2;
+		image.setTranslateX(x - widthAdj);
+		image.setTranslateY(y - heightAdj);
+	}
+	
 	
 	/**
 	 * turns turtle counterclockwise
@@ -176,6 +203,7 @@ public class Display {
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),x,y);
 		turtle.setXPosition(x+xOrigin);
 		turtle.setXPosition(y+yOrigin);
+		setImageXY(turtle,x,y);
 		return distance;
 	}
 	
@@ -188,6 +216,7 @@ public class Display {
 	protected double home(Turtle turtle){
 		double distance = setXY(turtle,xOrigin,yOrigin);
 		setHeading(turtle,defaultHeading);
+		setImageXY(turtle,xOrigin,yOrigin);
 		return distance;
 	}
 	
@@ -272,6 +301,7 @@ public class Display {
 				y = (y2+maxCanvasHeight) % maxCanvasHeight;
 				turtle.setXPosition(x);
 				turtle.setYPosition(y);
+				setImageXY(turtle,x,y);
 				moveTurtle(turtle,pixels,leaveTrail);
 			}else{ // move turtle if next pixel is on screen
 				if(leaveTrail){
@@ -279,6 +309,7 @@ public class Display {
 				}
 				turtle.setXPosition(x2);
 				turtle.setYPosition(y2);
+				setImageXY(turtle,x2,y2);
 				pixels--;
 				moveTurtle(turtle,pixels,leaveTrail);
 			}
@@ -293,6 +324,14 @@ public class Display {
 		graphics.setStroke(t.getPenColor());
 		graphics.setLineWidth(LINE_WIDTH);
 		graphics.strokeLine(x1, y1, x2, y2);
+		paintImage(t.getTurtleImage(),x2,y2,t.getHeading());
+	}
+	
+	// paint image
+	private void paintImage(ImageView image,double x, double y,double heading){
+		image.setRotate(heading - image.getRotate());
+		image.setTranslateX(x);
+		image.setTranslateY(y);
 	}
 	
 	// helper methods for geometry calculations
