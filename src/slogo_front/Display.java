@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
  *  - turtle image updates 
  *
  */
-protected class Display {
+public class Display {
 	//References the middle of the canvas
 	private int xOrigin;
 	private int yOrigin;
