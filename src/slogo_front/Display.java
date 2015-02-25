@@ -13,8 +13,7 @@ import javafx.scene.paint.Color;
  * take x & y coordinates with (0,0) in the middle
  * of the screen
  *  
- * to be added:
- *  - turtle image updates 
+ * TODO improve turtle image stuff
  *
  */
 public class Display {
@@ -51,7 +50,6 @@ public class Display {
 		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 
 		// for testing
-		
 		turtle.setHeading(170);
 		moveForward(turtle, 1000);
 	}
