@@ -73,11 +73,11 @@ public class Model {
 		return cmdMap;
 	}
 	
-	public Double toFront(String cmd, Double param){
+	public Double toFront(String cmd, Object params){
 		Method toRun;
 		try {
 			toRun = Manager.class.getMethod(cmd, Double.class);
-			return (Double) toRun.invoke(mgr, param);
+			return (Double) toRun.invoke(mgr, params);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,6 +1,7 @@
 package commands;
 
 import java.util.Queue;
+
 import slogo_back.Model;
 
 public class ClearScreen extends Command {
@@ -13,6 +14,7 @@ public class ClearScreen extends Command {
 
     @Override
     public double getValue () {
+    	return myModel.toFront(PARAM_NAME, (Object) new double[]{myParams[0].getValue()});
     }
 
 }
