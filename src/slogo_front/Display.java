@@ -280,7 +280,6 @@ public class Display {
 				turtle.setXPosition(x2);
 				turtle.setYPosition(y2);
 				pixels--;
-				System.out.println(pixels);
 				moveTurtle(turtle,pixels,leaveTrail);
 			}
 		}
