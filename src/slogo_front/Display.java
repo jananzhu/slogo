@@ -3,7 +3,6 @@ package slogo_front;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 /**
@@ -11,33 +10,12 @@ import javafx.scene.paint.Color;
  * NOTE: API (public) methods except constructor
  * take x & y coordinates with (0,0) in the middle
  * of the screen
- * 
- * API Methods:
- * 	- Display(int xDimension, int yDimension,
-			Canvas myCanvas)
- *  - clearScreen() (not yet completed)
- *  - setPen(Turtle t, boolean leaveTrail)
- *  - showTurtle(Turtle t, boolean showTurtle)
- *  - rotateLeft(Turtle t,double degrees)
- *  - rotateRight(Turtle t,double degrees)
- *  - setHeading(Turtle t, double degrees)
- *  - setXY(Turtle t, int x, int y)
- *  - moveForward(Turtle t, int pixels)
- *  - moveBackward(Turtle t, int pixels)
- *  - moveTowards(Turtle t,int x, int y)
  *  
  * to be added:
- * 	- painting implementation (painting lines on canvas)
  *  - turtle image updates 
  *
  */
-//TODO flexible canvas size
 public class Display {
-	//Display Background (a vbox wrapper)
-//	private VBox displayBackground;
-	//Canvas dimensions
-	private int xCanvas;
-	private int yCanvas;
 	//References the middle of the canvas
 	private int xOrigin;
 	private int yOrigin;
@@ -46,7 +24,7 @@ public class Display {
 	private int minCanvasWidth = 0;
 	private int maxCanvasHeight;
 	private int minCanvasHeight = 0;
-	//instances of cancas and graphics context
+	//instances of canvas and graphics context
 	private Canvas canvas;
 	private GraphicsContext graphics;
 	private static final int LINE_WIDTH = 1;
@@ -65,13 +43,9 @@ public class Display {
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
 		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
-//		graphics.setStroke(Color.BLUE);
-//		graphics.setLineWidth(LINE_WIDTH);
-//		graphics.strokeLine(xOrigin, yOrigin, xOrigin, yOrigin);
+		// for testing
 		turtle.setHeading(170);
 		moveForward(turtle, 1000);
-		
-		
 	}
 	
 	public Node getDisplay(){
@@ -81,10 +55,12 @@ public class Display {
 	/*
 	 * methods for canvas properties
 	 */
-	
-	/*
+
+	/**
 	 * CS erases turtle's trails and sends it to the home position
 	 * returns the distance turtle moved
+	 * @param turtle
+	 * @return
 	 */
 	public double clearScreen(Turtle turtle){
 		//TODO fix this
