@@ -8,18 +8,18 @@ import javafx.scene.image.ImageView;
  */
 
 public class TurtleImage {
-	private int xLoc;
-	private int yLoc;
+	private double xLoc;
+	private double yLoc;
 	private double heading; // from 0-360
 	private ImageView image; 
 	
 	// getters
 	
-	public int getXloc() {
+	public double getXloc() {
 		return xLoc;
 	}
 
-	public int getYloc() {
+	public double getYloc() {
 		return yLoc;
 	}
 	
@@ -33,10 +33,10 @@ public class TurtleImage {
 	
 	// setters
 	
-	public void setXLoc(int x){
+	public void setXLoc(double x){
 		xLoc = x;
 	}
-	public void setYLoc(int y){
+	public void setYLoc(double y){
 		yLoc = y;
 	}
 	
@@ -55,7 +55,7 @@ public class TurtleImage {
 	 * @param direction
 	 * @param imageURL
 	 */
-	public TurtleImage(int x, int y, float direction, String imageURL){
+	public TurtleImage(double x, double y, float direction, String imageURL){
 		xLoc = x;
 		yLoc = y;
 		heading = direction;

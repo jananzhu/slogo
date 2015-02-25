@@ -68,8 +68,8 @@ public class Display {
 //		graphics.setStroke(Color.BLUE);
 //		graphics.setLineWidth(LINE_WIDTH);
 //		graphics.strokeLine(xOrigin, yOrigin, xOrigin, yOrigin);
-		turtle.setHeading(45);
-		moveForward(turtle, 50);
+		turtle.setHeading(170);
+		moveForward(turtle, 1000);
 		
 		
 	}
@@ -158,7 +158,7 @@ public class Display {
 			newHeading+= 360;
 		}
 		turtle.setHeading(newHeading);
-		return degrees
+		return degrees;
 	}
 	
 	/**
@@ -211,7 +211,7 @@ public class Display {
 	 */
 	public double moveForward(Turtle turtle, int pixels){
 //		moveStraight(turtle,pixels,turtle.getPenDown());
-		move(turtle,pixels,turtle.getPenDown());
+		moveTurtle(turtle,pixels,turtle.getPenDown());
 		return pixels;
 	}
 
@@ -220,6 +220,7 @@ public class Display {
 	 * @param turtle
 	 * @param x
 	 * @param y
+	 * TODO change this to match
 	 */
 	public double moveTowards(Turtle turtle,int x, int y){
 		int actualX = x + xOrigin;
@@ -228,7 +229,7 @@ public class Display {
 		double newHeading = calculateDirection(x,y);
 		turtle.setHeading(newHeading);
 		int distance = (int) getDistance(turtle.getXloc(),turtle.getYloc(),actualX,actualY);
-		moveStraight(turtle, distance, turtle.getPenDown());
+		moveTurtle(turtle, distance, turtle.getPenDown());
 		return Math.abs(oldHeading - newHeading);
 	}
 	
@@ -249,191 +250,40 @@ public class Display {
 		}
 		return rawAngle;
 	}
-	
-//	private void moveStraight(Turtle turtle, int pixels, boolean leaveTrail){
-//		int curX = turtle.getXloc();
-//		int curY = turtle.getYloc();
-//		double heading = turtle.getHeading();
-//		System.out.println("heading: " + heading);
-//		System.out.println(curX + " " + curY);
-//		int xDistance = (int) getXDistance(heading,pixels);
-//		int yDistance = (int) getYDistance(heading,pixels);
-//		int finalX = curX + xDistance;
-//		int finalY = curY - yDistance;
-//		System.out.println(finalX + " " + finalY);
-//		turtle.setXPosition(finalX);
-//		turtle.setYPosition(finalY);
-//		// paint line (first line if hits edge)
-//		if(leaveTrail){
-//			paintLine(turtle,curX, curY, finalX, finalY);	
-//		}
-//	}
-	// replacements for previous long methods
-	private void move(Turtle turtle, int pixels, boolean leaveTrail){
-		//starting turtle position
-		int curX = turtle.getXloc();
-		int curY = turtle.getYloc();
-		//direction of the turtle
+
+	// TODO update turtle image
+	private void moveTurtle(Turtle turtle, int pixels, boolean leaveTrail){
 		double heading = turtle.getHeading();
-		
-		System.out.println("heading: " + heading);
-		System.out.println("current position"+ curX + " " + curY);
-		
-		int xDistance = (int) getXDistance(heading,pixels);
-		int yDistance = (int) getYDistance(heading,pixels);
-		System.out.println("x,y vectors " +xDistance+ " " + yDistance);
-		
-		int finalX = curX + xDistance;
-		int finalY = curY - yDistance;
-		
-		moveTurtle(turtle, curX, curY, finalX, finalY,leaveTrail);
-	}
-	
-	// TODO debug this boi
-	private void moveTurtle(Turtle turtle, int x1, int y1, int x2, int y2,boolean leaveTrail){
-		int tempX = x2;
-		int tempY = y2;
-		turtle.setXPosition(x2);
-		turtle.setYPosition(y2);
-		System.out.println("initial: " + x1 + " " + y1 + " " + x2 + " " + y2);
-		//Edge check might have height and width checks?
-		System.out.println(getOffScreen(x2,y2));
-		if(getOffScreen(x2,y2)){ // TODO ERROR IS IN LOGIC HERE
-			if(x2 > maxCanvasWidth){
-				tempX = x2 - maxCanvasWidth; // remaining X
-				x2 = minCanvasWidth;
-			}else if(x2 < minCanvasWidth){
-				tempX = Math.abs(x2);
-				x2 = maxCanvasWidth;
-			}
-			if(y2 > maxCanvasHeight){
-				tempY = y2 - maxCanvasHeight; // remaining Y
-				y2 = minCanvasHeight;
-			}else if(y2 < minCanvasHeight){
-				tempY = minCanvasHeight;
-				y2 = maxCanvasHeight;
-			}
-			turtle.setXPosition(tempX);
-			turtle.setYPosition(tempY);
-			if(leaveTrail){
-				System.out.println("temp paint: " + x1 + " " + y1 + " " + tempX + " " + tempY);
-				paintLine(turtle,x1,y1,tempX,tempY);
-			}
-			System.out.println("recursive paint: " + tempX + " " + tempY + " " + (x2-tempX) + " " + (y2-tempY));
-			moveTurtle(turtle,tempX,tempY,x2-tempX,y2-tempY,leaveTrail);	
+		if(pixels == 0){ // base case
+			return;
 		}else{
-			turtle.setXPosition(x2);
-			turtle.setYPosition(y2);
-			if(leaveTrail){
-				paintLine(turtle, x1, y1, x2, y2);
+			double xDistance = getXDistance(heading,1);
+			double yDistance = getYDistance(heading,1);
+			double x = turtle.getXloc();
+			double y = turtle.getYloc();
+			double x2 = x + xDistance;
+			double y2 = y - yDistance;
+			if(getOffScreen(x2,y2)){ // next pixel is off screen
+				x = (x2+maxCanvasWidth) % maxCanvasWidth;
+				y = (y2+maxCanvasHeight) % maxCanvasHeight;
+				turtle.setXPosition(x);
+				turtle.setYPosition(y);
+				moveTurtle(turtle,pixels,leaveTrail);
+			}else{ // move turtle if next pixel is on screen
+				if(leaveTrail){
+					paintLine(turtle,x,y,x2,y2);
+				}
+				turtle.setXPosition(x2);
+				turtle.setYPosition(y2);
+				pixels--;
+				System.out.println(pixels);
+				moveTurtle(turtle,pixels,leaveTrail);
 			}
 		}
 	}
 	
-	private boolean getOffScreen(int x, int y){
+	private boolean getOffScreen(double x, double y){
 		return ((x > maxCanvasWidth) | (x < minCanvasWidth) | (y > maxCanvasHeight) | (y < minCanvasHeight));
-	}
-	
-	
-	/**
-	 * given turtle and distance, moves turtle accordingly
-	 * @param turtle
-	 * @param pixels
-	 * @param leaveTrail
-	 */
-	private void moveStraight(Turtle turtle, int pixels, boolean leaveTrail){
-		boolean atTop = false;
-		boolean atBottom = false;
-		boolean atLeft = false;
-		boolean atRight = false;
-		
-		int curX = turtle.getXloc();
-		int curY = turtle.getYloc();
-//		System.out.println(curX);
-//		System.out.println(curY);
-//		System.out.println(turtle.getHeading());
-		double heading = turtle.getHeading();
-		
-		double xDistance = getXDistance(heading,pixels);
-		double yDistance = getYDistance(heading,pixels);
-		//michael changed this to reflect direction
-		double xTemp = curX + xDistance;
-		double yTemp = curY - yDistance;
-		
-		int finalX;
-		int finalY;
-		
-		// check if line hits edge in x direction
-		if(checkEdgeHorizontal(xTemp)){
-			finalX = (int) xTemp;
-		}else{
-			if(xTemp > maxCanvasWidth){
-				atRight = true;
-				finalX = maxCanvasWidth;
-				xDistance = xDistance - maxCanvasWidth;
-			}else{
-				atLeft = true;
-				finalX = minCanvasWidth;
-				xDistance = xDistance + minCanvasWidth; 
-			}
-		}
-		
-		// check if line hits edge in y direction
-		if(checkEdgeVertical(yTemp)){ // y loc is in bounds
-			finalY = (int) yTemp;
-		}else{
-			if(yTemp > maxCanvasHeight){
-				atTop = true;
-				finalY = maxCanvasHeight;
-				yDistance = yDistance - maxCanvasHeight;
-			}else{
-				atBottom = true;
-				finalY = minCanvasHeight;
-				yDistance = yDistance + minCanvasHeight; 
-			}
-		}
-		
-		// update turtle location properties
-		turtle.setXPosition(finalX);
-		turtle.setYPosition(finalY);
-		System.out.println("x1: " + curX + " y1: " + curY + " x2: " + finalX + " y2: " + finalY);
-		System.out.println("heading: " + heading + " xDistance: " + xDistance + " yDistance: " + yDistance);
-		// paint line (first line if hits edge)
-		if(leaveTrail){
-			paintLine(turtle,curX, curY, finalX, finalY);	
-		}
-		
-		// set new locations if at edge
-		if(atRight){
-			turtle.setXPosition(minCanvasWidth);
-		}else if(atLeft){
-			turtle.setXPosition(maxCanvasWidth);
-		}
-		if(atTop){
-			turtle.setYPosition(minCanvasHeight);
-		}else if(atBottom){
-			turtle.setYPosition(maxCanvasHeight);
-		}
-		
-		// if turtle is at edge, continue moving turtle
-		if(atRight|atLeft|atTop|atBottom){
-			int newDistance = (int) Math.sqrt(xDistance*xDistance + // update distance 
-					yDistance*yDistance);
-			System.out.println("newDistance: " + newDistance);
-			System.out.println("newXDistance: " + getXDistance(turtle.getXloc(), newDistance));
-			System.out.println("newXDistance: " + getYDistance(turtle.getYloc(), newDistance));
-			System.out.println("angle: " + Math.toDegrees(Math.atan(getYDistance(turtle.getYloc(), newDistance)/getXDistance(turtle.getXloc(), newDistance))));
-			moveStraight(turtle,newDistance,leaveTrail); // call recursively on remaining distance
-		}
-		
-	}
-	
-	private boolean checkEdgeHorizontal(double x){
-		return ((x <= maxCanvasWidth) && (x >= minCanvasWidth));
-	}
-	
-	private boolean checkEdgeVertical(double y){
-		return ((y <= maxCanvasHeight) && (y >= minCanvasHeight));
 	}
 	
 	/*
@@ -447,21 +297,20 @@ public class Display {
 	 * @param y1
 	 * @param y2
 	 */
-	private void paintLine(Turtle t, int x1, int y1, int x2, int y2){ 
+	private void paintLine(Turtle t, double x1, double y1, double x2, double y2){ 
 		// TODO: move turtle image as well, take canvas
 		graphics.setStroke(t.getPenColor());
 		graphics.setLineWidth(LINE_WIDTH);
 		graphics.strokeLine(x1, y1, x2, y2);
-		// move image
 	}
 	
 	/*
 	 * helper methods for geometry
 	 */
 	
-	private double getDistance(int x1,int y1, int x2, int y2){
-		int xDiff = Math.abs(x2-x1);
-		int yDiff = Math.abs(y2-y1);
+	private double getDistance(double x1,double y1, double x2, double y2){
+		double xDiff = Math.abs(x2-x1);
+		double yDiff = Math.abs(y2-y1);
 		return Math.sqrt(xDiff*xDiff + yDiff*yDiff);
 	}
 	//given r and theta
