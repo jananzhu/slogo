@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 import slogo_back.Model;
 
@@ -13,6 +15,8 @@ public class XCoordinate extends Command {
 
     @Override
     public double getValue () {
+        List<Double> parameterList = new ArrayList<Double>();
+        return myModel.toFront("xCor", parameterList);
     }
 
 }
