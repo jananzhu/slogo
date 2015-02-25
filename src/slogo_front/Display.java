@@ -43,6 +43,10 @@ public class Display {
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
 		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
+		
+		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		moveForward(turtle, 50);
+
 		// for testing
 		turtle.setHeading(170);
 		moveForward(turtle, 1000);
@@ -62,6 +66,14 @@ public class Display {
 	 * @param turtle
 	 * @return
 	 */
+
+	public void changeBackground(Color backgroundColor){
+//		graphics.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		graphics.setFill(backgroundColor);
+//		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		graphics.fillRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+	}
+	
 	protected double clearScreen(Turtle turtle){
 		//TODO fix this
 		graphics.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
@@ -225,9 +237,27 @@ public class Display {
 		}
 		return rawAngle;
 	}
+//<<<<<<< HEAD
+//	
+//	/**
+//	 * given turtle and distance, moves turtle accordingly
+//	 * @param turtle
+//	 * @param pixels
+//	 * @param leaveTrail
+//	 */
+//	private void moveStraight(Turtle turtle, int pixels, boolean leaveTrail){
+//		boolean atTop = false;
+//		boolean atBottom = false;
+//		boolean atLeft = false;
+//		boolean atRight = false;
+//		
+//		int curX = turtle.getXloc();
+//		int curY = turtle.getYloc();
+//=======
 
 	// TODO update turtle image
 	private void moveTurtle(Turtle turtle, int pixels, boolean leaveTrail){
+//>>>>>>> 1274e467dd61185e827a94e5a8c2b0ca8404e144
 		double heading = turtle.getHeading();
 		if(pixels == 0){ // base case
 			return;
