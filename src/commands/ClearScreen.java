@@ -6,15 +6,15 @@ import slogo_back.Model;
 
 public class ClearScreen extends Command {
 
-	private final static int numParams = 2;
+	private final static String PARAM_NAME = "clearScreen";
 
     public ClearScreen(Queue<String> cmdQueue, Model model) {
-            super(cmdQueue, model, numParams);
+            super(cmdQueue, model);
     }
 
     @Override
     public double getValue () {
-    	return myModel.toFront(PARAM_NAME, (Object) new double[]{myParams[0].getValue()});
+    	return myModel.toFront(PARAM_NAME, null);
     }
 
 }

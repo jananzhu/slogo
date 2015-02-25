@@ -1,11 +1,13 @@
 package commands;
 
 import java.util.Queue;
+
 import slogo_back.Model;
 
 public class Left extends Command {
 
-	private final static int numParams = 2;
+	private final static int numParams = 1;
+	private final static String PARAM_NAME = "left";
 
     public Left(Queue<String> cmdQueue, Model model) {
             super(cmdQueue, model, numParams);
@@ -13,6 +15,7 @@ public class Left extends Command {
 
     @Override
     public double getValue () {
+    	return myModel.toFront(PARAM_NAME, (Object) new double[]{myParams[0].getValue()});
     }
 
 }
