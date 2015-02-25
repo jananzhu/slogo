@@ -29,6 +29,9 @@ public class Display {
 	private GraphicsContext graphics;
 	private static final int LINE_WIDTH = 1;
 	
+	//Default turtle instance
+	Turtle turtle; //extend to list of turtles?
+	
 	/**
 	 * basic constructor
 	 * @param xDimension
@@ -42,7 +45,7 @@ public class Display {
 		maxCanvasWidth = canvasWidth;
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
-		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
+		turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
 		
 		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 		moveForward(turtle, 50);

@@ -105,7 +105,7 @@ public class View {
 		
 		scene = new Scene(root);
 		scene.getStylesheets().add("css/view.css");
-		scene.setOnKeyPressed(e -> handleKeyInput(e));
+//		scene.setOnKeyPressed(e -> handleKeyInput(e));
 	}
 	
 	private Node makeControlPanel(){
@@ -169,9 +169,9 @@ public class View {
 		return display.getDisplay();
 	}
 	
-//	private Display getDisplay(){
-//		return display;
-//	}
+	protected Display getDisplay(){
+		return display;
+	}
 	
 	private Node makeTextField() {
 		commandLine = new TextField();
@@ -181,30 +181,47 @@ public class View {
 		return commandLine;		
 	}
 	
-	private void handleKeyInput(KeyEvent e) { //This entire method is part of my masterpiece.
-		KeyCode keyCode = e.getCode();
-		if (keyCode == KeyCode.ENTER) {
-			String s = commandLine.getText();
-			if(s.toLowerCase().equals("clear")){
-				clearHistoryText();
-			}
-			addHistoryText(s);
-			commandLine.clear();
-		}
-	}
+	//might delete
+//	private void handleKeyInput(KeyEvent e) { //This entire method is part of my masterpiece.
+//		KeyCode keyCode = e.getCode();
+//		if (keyCode == KeyCode.ENTER) {
+//			String s = commandLineText();
+//			if(s.toLowerCase().equals("clear")){
+//				clearHistoryText();
+//			}
+//			addHistoryText(s);
+////			commandLine.clear();
+//		}
+//	}
 
 	public Scene getScene() {
 		return scene;
 	}
 	
-	private void addHistoryText(String text){
+	//gets and clears command line text
+	protected String commandLineText(){
+		String parse = commandLine.getText();
+		commandLine.clear();
+		return parse;
+	}
+	
+	//sets command line 
+	protected void setCommandLine(EventHandler<KeyEvent> handler){
+		commandLine.setOnKeyPressed(handler);
+	}
+	
+	
+	
+	
+	//figureout if this should be private somehow
+	protected void addHistoryText(String text){
 		Text newText = new Text(">> " + text);
 		newText.setWrappingWidth(HISTORY_WIDTH);
 		history.getChildren().add(newText);
 		historyScrollPane.setVvalue(historyScrollPane.getVmax());
 	}
-	
-	private void clearHistoryText(){
+	//private in the future?
+	protected void clearHistoryText(){
 		history.getChildren().clear();
 	}
 	
@@ -273,6 +290,7 @@ public class View {
 		 
 		 return historyScrollPane; 
 	}
+	
 	
 	private EventHandler changeBackground = new EventHandler<MouseEvent>() {
 	    public void handle(MouseEvent event) {

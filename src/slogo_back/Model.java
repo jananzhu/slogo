@@ -17,14 +17,14 @@ public class Model {
 	private Parser myParser;
 	private Map<String, String> cmdMap;
 	
-	public static void main(String[] args){
-		Model model = new Model("resources/languages/English.properties");
-		String cmds = "difference product sum sum 10 10 10 2 50\n";
-		List<Double> results = model.toBack(cmds);
-		for (Double value : results) {
-			System.out.println(value);
-		}
-	}
+//	public static void main(String[] args){
+//		Model model = new Model("resources/languages/English.properties");
+//		String cmds = "difference product sum sum 10 10 10 2 50\n";
+//		List<Double> results = model.toBack(cmds);
+//		for (Double value : results) {
+//			System.out.println(value);
+//		}
+//	}
 	
 	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
