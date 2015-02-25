@@ -37,13 +37,15 @@ public class Parser {
     }
 
     public ISyntaxNode buildParseTree(Queue<String> tokenQueue){
-
         String token = tokenQueue.poll();
+        Matcher listMatch = listPattern.matcher(token);
         ISyntaxNode node;
         if(myValidCommands.contains(token)){
             node = myCommandFactory.getCommand(token,tokenQueue);
         }else if(token.matches(constantPattern.toString())){
             node = new ParameterNode(Double.parseDouble(token));
+        }else if(listMatch.matches()){
+            node = new ListNode(parseInput(token));
         }else{
             throw new InvalidParameterException(tokenQueue.peek() + " is  invalid syntax");
         }
