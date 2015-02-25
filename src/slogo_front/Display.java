@@ -103,7 +103,7 @@ public class Display {
 	 * @param turtle
 	 * @param leaveTrail
 	 */
-	public int setPen(Turtle turtle, boolean leaveTrail){
+	public double setPen(Turtle turtle, boolean leaveTrail){
 		turtle.setPenDown(leaveTrail);
 		if(leaveTrail){
 			return 1;
@@ -118,15 +118,14 @@ public class Display {
 	 * @param turtle
 	 * @param showTurtle
 	 */
-	public int showTurtle(Turtle turtle, boolean showTurtle){
+	public double showTurtle(Turtle turtle, boolean showTurtle){
 		turtle.setShowTurtle(showTurtle);
 		if(showTurtle){
 			return 1;
 		}else{
 			return 0;
 		}
-		//TODO: reflect this change on GUI
-		
+		//TODO: reflect this change on GUI	
 	}
 	
 	/*
@@ -139,12 +138,13 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public void rotateLeft(Turtle turtle,double degrees){
+	public double rotateLeft(Turtle turtle,double degrees){
 		int newHeading  = (int) (turtle.getHeading() + degrees);
 		if(newHeading > 360){
 			newHeading -= 360;
 		}
 		turtle.setHeading(newHeading);
+		return degrees;
 	}
 	
 	/**
@@ -152,12 +152,13 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public void rotateRight(Turtle turtle,double degrees){
+	public double rotateRight(Turtle turtle,double degrees){
 		int newHeading  = (int) (turtle.getHeading() - degrees);
 		if(newHeading < 0){
 			newHeading+= 360;
 		}
 		turtle.setHeading(newHeading);
+		return degrees
 	}
 	
 	/**
@@ -166,14 +167,16 @@ public class Display {
 	 * @param turtle
 	 * @param degrees
 	 */
-	public void setHeading(Turtle turtle, double degrees){
+	public double setHeading(Turtle turtle, double degrees){
 		double newHeading = degrees;
+		double oldHeading = turtle.getHeading();
 		if(degrees > 360){
 			newHeading = degrees - 360*(degrees/360) - degrees%360;
 		}else if(degrees < 0){
 			newHeading = degrees + 360*(degrees/360) + 360;
 		}
 		turtle.setHeading(newHeading);
+		return Math.abs(oldHeading-newHeading);
 	}
 	
 	/**
