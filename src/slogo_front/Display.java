@@ -65,9 +65,7 @@ public class Display {
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
 		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
-		graphics.setStroke(Color.BLUE);
-		graphics.setLineWidth(LINE_WIDTH);
-		graphics.strokeLine(xOrigin, yOrigin, xOrigin, yOrigin);
+		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 		moveForward(turtle, 50);
 		
 		
@@ -85,6 +83,13 @@ public class Display {
 	 * CS erases turtle's trails and sends it to the home position
 	 * returns the distance turtle moved
 	 */
+	public void changeBackground(Color backgroundColor){
+//		graphics.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		graphics.setFill(backgroundColor);
+//		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		graphics.fillRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+	}
+	
 	public double clearScreen(Turtle turtle){
 		//TODO fix this
 		graphics.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
@@ -246,9 +251,6 @@ public class Display {
 		
 		int curX = turtle.getXloc();
 		int curY = turtle.getYloc();
-		System.out.println(curX);
-		System.out.println(curY);
-		System.out.println(turtle.getHeading());
 		double heading = turtle.getHeading();
 		
 		double xDistance = getXDistance(heading,pixels);

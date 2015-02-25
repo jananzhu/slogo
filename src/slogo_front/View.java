@@ -1,20 +1,33 @@
 package slogo_front;
 
+import java.awt.Event;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
+import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.InputEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -41,7 +54,7 @@ public class View {
 	private Canvas canvas; // TODO switch to different class
 	private GraphicsContext gc;
 	private String[] languages = {"Chinese","English","French","German","Italian","Japanese","Korean",
-			"Portugese","Russian","Spanish"};
+			"Portuguese","Russian","Spanish"};
 	private String language;
 	private Display display;
 //	private VBox displayBackground ;
@@ -56,6 +69,22 @@ public class View {
 	//Command Line Dimenstions
 	private static final int COMMAND_HEIGHT = 100;
 	
+	//Locale Resources
+	ResourceBundle labels;
+	Locale[] supportedLocales = {
+		    Locale.ENGLISH,
+		    Locale.FRENCH
+		};
+	Locale defaultLocale = Locale.ENGLISH;
+	
+	//controlPanel Buttons
+	Button clearScreen;
+	Button moveForward;
+	Button moveBackward;
+	Button turnTurtle;
+	ColorPicker turtleColor;
+	Button setColor;
+	
 	//TODO add array for turtles
 	//TODO add "addTurtle()" method
 	
@@ -65,9 +94,51 @@ public class View {
 		root.setRight(makeCommandHistory());
 		root.setBottom(makeTextField());
 		root.setCenter(makeCanvas());
+		root.setLeft(makeControlPanel());
+		System.out.println(root.getCenter().getLayoutX());
+		
+		//resource bundles
+		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle", defaultLocale);
+
+		String value = labels.getString("HELP");
+		System.out.println(value);
+		
+		
 		scene = new Scene(root);
 		scene.getStylesheets().add("css/view.css");
 		scene.setOnKeyPressed(e -> handleKeyInput(e));
+	}
+	
+	private Node makeControlPanel(){
+		VBox controlPanel = new VBox(10);
+		controlPanel.setMaxWidth(200);
+		//add language binding in properties files
+		controlPanel.getStyleClass().add("controlPanel");
+		
+		clearScreen = new Button("Clear Screen");
+		clearScreen.setMaxWidth(Double.MAX_VALUE);
+		moveForward = new Button("Move Forward");
+		moveForward.setMaxWidth(Double.MAX_VALUE);
+		moveBackward = new Button("Move Backward");
+		moveBackward.setMaxWidth(Double.MAX_VALUE);
+		turnTurtle = new Button("Turn Turtle");
+		turnTurtle.setMaxWidth(Double.MAX_VALUE);
+		turtleColor = new ColorPicker();
+		turtleColor.setMaxWidth(Double.MAX_VALUE);
+		
+		Button setColor = new Button("Set Background Color");
+		setColor.setMaxWidth(Double.MAX_VALUE);
+		setColor.setOnMouseClicked(changeBackground);
+		
+//		TilePane tileButtons = new TilePane(Orientation.VERTICAL);
+//		tileButtons.setPadding(new Insets(20, 10, 20, 0));
+//		tileButtons.setHgap(5);
+//		tileButtons.
+		controlPanel.getChildren().addAll(clearScreen,moveForward,moveBackward,turnTurtle,turtleColor, setColor);
+//		controlPanel.getChildren().add(tileButtons);
+		
+		
+		return controlPanel;
 	}
 
 	private Node makeCanvas(){
@@ -178,5 +249,12 @@ public class View {
 		 
 		 return historyScrollPane; 
 	}
+	
+	private EventHandler changeBackground = new EventHandler<MouseEvent>() {
+	    public void handle(MouseEvent event) {
+	    		display.changeBackground(turtleColor.getValue());
+	    }
+	
+	};
 
 }
