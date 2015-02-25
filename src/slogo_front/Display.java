@@ -69,7 +69,7 @@ public class Display {
 //		graphics.setLineWidth(LINE_WIDTH);
 //		graphics.strokeLine(xOrigin, yOrigin, xOrigin, yOrigin);
 		turtle.setHeading(45);
-		moveForward(turtle, 500);
+		moveForward(turtle, 50);
 		
 		
 	}
@@ -103,8 +103,13 @@ public class Display {
 	 * @param turtle
 	 * @param leaveTrail
 	 */
-	public void setPen(Turtle turtle, boolean leaveTrail){
+	public int setPen(Turtle turtle, boolean leaveTrail){
 		turtle.setPenDown(leaveTrail);
+		if(leaveTrail){
+			return 1;
+		}else{
+			return 0;
+		}
 	}
 	
 	/**
@@ -113,8 +118,13 @@ public class Display {
 	 * @param turtle
 	 * @param showTurtle
 	 */
-	public void showTurtle(Turtle turtle, boolean showTurtle){
+	public int showTurtle(Turtle turtle, boolean showTurtle){
 		turtle.setShowTurtle(showTurtle);
+		if(showTurtle){
+			return 1;
+		}else{
+			return 0;
+		}
 		//TODO: reflect this change on GUI
 		
 	}
@@ -196,9 +206,10 @@ public class Display {
 	 * @param turtle
 	 * @param pixels
 	 */
-	public void moveForward(Turtle turtle, int pixels){
+	public double moveForward(Turtle turtle, int pixels){
 //		moveStraight(turtle,pixels,turtle.getPenDown());
 		move(turtle,pixels,turtle.getPenDown());
+		return pixels;
 	}
 
 	/**
@@ -207,13 +218,15 @@ public class Display {
 	 * @param x
 	 * @param y
 	 */
-	public void moveTowards(Turtle turtle,int x, int y){
+	public double moveTowards(Turtle turtle,int x, int y){
 		int actualX = x + xOrigin;
 		int actualY = y + yOrigin;
+		double oldHeading = turtle.getHeading();
 		double newHeading = calculateDirection(x,y);
 		turtle.setHeading(newHeading);
 		int distance = (int) getDistance(turtle.getXloc(),turtle.getYloc(),actualX,actualY);
 		moveStraight(turtle, distance, turtle.getPenDown());
+		return Math.abs(oldHeading - newHeading);
 	}
 	
 	/**
