@@ -47,15 +47,13 @@ public class Display {
 		maxCanvasWidth = canvasWidth;
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
-//<<<<<<< HEAD
+		
+		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 
 				"/images/turtle_small.png", true,true);
 		show(turtle);
-//=======
-//		turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
-//		
-//>>>>>>> gl83
-		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+
+		
 
 		// for testing
 		turtle.setHeading(170);
