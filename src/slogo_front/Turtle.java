@@ -1,5 +1,7 @@
 package slogo_front;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
 /**
@@ -13,69 +15,64 @@ public class Turtle {
 	private Color penColor;
 	private boolean penDown;
 	private boolean showTurtle;
-	private TurtleImage turtleImage;
-
+	private ImageView turtleImage;
 
 	// getters
 	
-	public double getXloc() {
+	protected double getXloc() {
 		return xPosition;
 	}
 
-	public double getYloc() {
+	protected double getYloc() {
 		return yPosition;
 	}
 	
-	public double getHeading(){
+	protected double getHeading(){
 		return heading;
 	}
 	
-	public Color getPenColor(){
+	protected Color getPenColor(){
 		return penColor;
 	}
 	
-	public boolean getPenDown(){
+	protected boolean getPenDown(){
 		return penDown;
 	}
 	
-	public boolean getShowTurtle(){
+	protected boolean getShowTurtle(){
 		return showTurtle;
 	}
 	
-	public TurtleImage getTurtleImage(){
+	protected ImageView getTurtleImage(){
 		return turtleImage;
 	}
 	
 	// setters
-	
-	public void setXPosition(double x){
+	protected void setXPosition(double x){
 		xPosition = x;
-		turtleImage.setXLoc(x);
 	}
-	public void setYPosition(double y){
+	protected void setYPosition(double y){
 		yPosition = y;
-		turtleImage.setYLoc(y);
 	}
 	
-	public void setHeading(double direction){
+	protected void setHeading(double direction){
 		heading = direction;
-		turtleImage.setHeading(direction);
 	}
 	
-	public void setImage(String imageURL){
-		turtleImage.setImage(imageURL);
-	}
-	
-	public void setPenColor(Color color){
+	protected void setPenColor(Color color){
 		penColor = color;
 	}
 	
-	public void setPenDown(Boolean leaveTrail){
+	protected void setPenDown(Boolean leaveTrail){
 		penDown = leaveTrail;
 	}
 	
-	public void setShowTurtle(Boolean showTurtleImage){
+	protected void setShowTurtle(Boolean showTurtleImage){
 		showTurtle = showTurtleImage;
+	}
+	
+	protected void setImage(String imageURL){
+		turtleImage = getImageFromURL(imageURL);
 	}
 	
 	/**
@@ -89,7 +86,7 @@ public class Turtle {
 	 * @param leaveTrail
 	 * @param showTurtleImage
 	 */
-	public Turtle(int x, int y, float direction, int id, Color color, 
+	protected Turtle(int x, int y, float direction, int id, Color color, 
 			String imageURL, boolean leaveTrail, boolean showTurtleImage){
 		xPosition = x;
 		yPosition = y;
@@ -98,8 +95,19 @@ public class Turtle {
 		heading = direction;
 		penDown = leaveTrail;
 		showTurtle = showTurtleImage;
-		turtleImage = new TurtleImage(x, y, direction, imageURL);
+		turtleImage = getImageFromURL(imageURL);
 		
+	}
+	
+	/**
+	 * takes location of image, retrieves and converts to imageview
+	 * @param imageURL
+	 * @return
+	 */
+	private ImageView getImageFromURL(String imageURL){
+		ImageView i = new ImageView(new Image(getClass()
+				.getResourceAsStream(imageURL)));
+		return i;
 	}
 
 }
