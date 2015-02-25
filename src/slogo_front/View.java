@@ -15,6 +15,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -53,8 +54,7 @@ public class View {
 	private ScrollPane historyScrollPane;
 	private Canvas canvas; // TODO switch to different class
 	private GraphicsContext gc;
-	private String[] languages = {"Chinese","English","French","German","Italian","Japanese","Korean",
-			"Portuguese","Russian","Spanish"};
+	private String[] languages = {"English","French"};
 	private String language;
 	private Display display;
 //	private VBox displayBackground ;
@@ -81,28 +81,27 @@ public class View {
 	Button clearScreen;
 	Button moveForward;
 	Button moveBackward;
+	Label degreeLabel;
+	TextField degreeField;
 	Button turnTurtle;
 	ColorPicker turtleColor;
 	Button setColor;
+	Button setPen;
+	
 	
 	//TODO add array for turtles
 	//TODO add "addTurtle()" method
 	
 	public View() {
+		//resource bundles
+		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle", defaultLocale);
+		//creating borderpane
 		BorderPane root = new BorderPane();
 		root.setTop(makeMenu());
 		root.setRight(makeCommandHistory());
 		root.setBottom(makeTextField());
 		root.setCenter(makeCanvas());
 		root.setLeft(makeControlPanel());
-		System.out.println(root.getCenter().getLayoutX());
-		
-		//resource bundles
-		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle", defaultLocale);
-
-		String value = labels.getString("HELP");
-		System.out.println(value);
-		
 		
 		scene = new Scene(root);
 		scene.getStylesheets().add("css/view.css");
@@ -115,47 +114,57 @@ public class View {
 		//add language binding in properties files
 		controlPanel.getStyleClass().add("controlPanel");
 		
-		clearScreen = new Button("Clear Screen");
+		clearScreen = new Button();
 		clearScreen.setMaxWidth(Double.MAX_VALUE);
-		moveForward = new Button("Move Forward");
+//		clearScreen.textProperty().bind(labels.("CLEAR"));
+		
+		moveForward = new Button();
 		moveForward.setMaxWidth(Double.MAX_VALUE);
-		moveBackward = new Button("Move Backward");
+		
+		moveBackward = new Button();
 		moveBackward.setMaxWidth(Double.MAX_VALUE);
-		turnTurtle = new Button("Turn Turtle");
-		turnTurtle.setMaxWidth(Double.MAX_VALUE);
+		
+		degreeLabel = new Label();
+		degreeField = new TextField ();
+		degreeField.setMaxWidth(50);
+		
+		
+		turnTurtle = new Button();
+		
+		HBox degree = new HBox();
+		degree.getChildren().addAll(degreeLabel,degreeField, turnTurtle);
+		degree.setSpacing(10);
+		degree.setMaxWidth(Double.MAX_VALUE);
+		
 		turtleColor = new ColorPicker();
 		turtleColor.setMaxWidth(Double.MAX_VALUE);
 		
-		Button setColor = new Button("Set Background Color");
+		setColor = new Button();
 		setColor.setMaxWidth(Double.MAX_VALUE);
 		setColor.setOnMouseClicked(changeBackground);
 		
-//		TilePane tileButtons = new TilePane(Orientation.VERTICAL);
-//		tileButtons.setPadding(new Insets(20, 10, 20, 0));
-//		tileButtons.setHgap(5);
-//		tileButtons.
-		controlPanel.getChildren().addAll(clearScreen,moveForward,moveBackward,turnTurtle,turtleColor, setColor);
-//		controlPanel.getChildren().add(tileButtons);
+		setPen = new Button();
+		setPen.setMaxWidth(Double.MAX_VALUE);
 		
+		setLabels();
+		
+		controlPanel.getChildren().addAll(clearScreen,moveForward,moveBackward,degree,turtleColor, setColor, setPen);
 		
 		return controlPanel;
 	}
 
+	private void setLabels() {
+//		System.out.println(labels.getString("CLEAR"));
+		clearScreen.setText(labels.getString("CLEAR"));
+		moveForward.setText(labels.getString("FORWARD"));
+		moveBackward.setText(labels.getString("BACKWARD"));
+		degreeLabel.setText(labels.getString("DEGREE"));
+		turnTurtle.setText(labels.getString("TURN"));
+		setColor.setText(labels.getString("BACKGROUND"));
+		setPen.setText(labels.getString("PEN"));
+	}
+
 	private Node makeCanvas(){
-		
-//		displayBackground = new VBox();
-		
-//		canvas = new Canvas(1000,600);
-//		canvas.getGraphicsContext2D().setStroke(Color.BLUE);
-//		canvas.getGraphicsContext2D().setLineWidth(1);
-//		canvas.getGraphicsContext2D().strokeLine(0, 0, 100, 300);
-		
-//		displayBackground.getStyleClass().add("background");
-	
-//		displayBackground.getChildren().add(canvas);
-		
-//		canvas.getGraphicsContext2D().setFill(Color.WHITE);
-//		canvas.getGraphicsContext2D().fillRect(0, 0, 1000,600);
 		display = new Display(xCanvas, yCanvas);
 		return display.getDisplay();
 	}
@@ -215,11 +224,26 @@ public class View {
 	}
 	
 	private void setLanguages(Menu languageMenu){
-		for(String l:languages){
-			MenuItem languageItem = new MenuItem(l);
-			languageMenu.getItems().add(languageItem);
+			MenuItem english = new MenuItem("English");
+			english.setOnAction(new EventHandler<ActionEvent>() {
+	            public void handle(ActionEvent t) {
+	            	labels = ResourceBundle.getBundle("resources.languages/LabelsBundle", supportedLocales[0]);
+	            	setLabels();
+	            }
+	        });
+			
+			MenuItem french = new MenuItem("French");
+			french.setOnAction(new EventHandler<ActionEvent>() {
+	            public void handle(ActionEvent t) {
+	            	labels = ResourceBundle.getBundle("resources.languages/LabelsBundle", supportedLocales[1]);
+	            	setLabels();
+	            }
+	        });
+			
+			
+			languageMenu.getItems().addAll(english, french);
 		}
-	}
+	
 	
 //	private void setLanguageListener(Menu languageMenu){
 //		languageMenu.getOnAction().
@@ -253,6 +277,14 @@ public class View {
 	private EventHandler changeBackground = new EventHandler<MouseEvent>() {
 	    public void handle(MouseEvent event) {
 	    		display.changeBackground(turtleColor.getValue());
+	    }
+	
+	};
+	
+	private EventHandler changePenColor = new EventHandler<MouseEvent>() {
+	    public void handle(MouseEvent event) {
+	    	//TODO turtle within display or in view? think about allowances for multiple turtles
+	    		//displaychangeBackground(turtleColor.getValue());
 	    }
 	
 	};
