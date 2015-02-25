@@ -31,6 +31,9 @@ public class Display {
 	private static final int LINE_WIDTH = 1;
 	private static final int defaultHeading = 0;
 	
+	//Default turtle instance
+	Turtle turtle; //extend to list of turtles?
+	
 	/**
 	 * basic constructor
 	 * @param xDimension
@@ -44,9 +47,14 @@ public class Display {
 		maxCanvasWidth = canvasWidth;
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
+//<<<<<<< HEAD
 		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 
 				"/images/turtle_small.png", true,true);
 		show(turtle);
+//=======
+//		turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, "", true,true );
+//		
+//>>>>>>> gl83
 		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 
 		// for testing
