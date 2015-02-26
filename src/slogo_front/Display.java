@@ -379,50 +379,13 @@ public class Display {
 		}
 		return rawAngle;
 	}
-	 
+	
 	/**
-	 * moves turtle recursively given number of pixels
+	 * moves turtle forward/backward depending on sign of pixels
 	 * @param turtle
 	 * @param pixels
 	 * @param leaveTrail
 	 */
-	private void moveTurtleTwo(Turtle turtle, double pixels, boolean leaveTrail){
-		double heading = turtle.getHeading();
-		if(pixels<0){
-			heading+=180;
-		}
-		if(pixels == 1){ // base case
-			updateTurtleImage(turtle); // update image at very end
-			return;
-		}else{
-			double xDistance = getXDistance(heading,1);
-			double yDistance = getYDistance(heading,1);
-			double x = turtle.getXloc();
-			double y = turtle.getYloc();
-			double x2 = x + xDistance;
-			double y2 = y - yDistance;
-			if(getOffScreen(x2,y2)){ // next pixel is off screen
-				x = (x2+maxCanvasWidth) % maxCanvasWidth;
-				y = (y2+maxCanvasHeight) % maxCanvasHeight;
-				turtle.setXPosition(x);
-				turtle.setYPosition(y);
-				moveTurtle(turtle,pixels,leaveTrail);
-			}else{ // move turtle if next pixel is on screen
-				if(leaveTrail){
-					paintLine(turtle,x,y,x2,y2);
-				}
-				turtle.setXPosition(x2);
-				turtle.setYPosition(y2);
-				if(pixels > 0){
-					pixels--;
-				}else{
-					pixels++;
-				}
-				moveTurtle(turtle,pixels,leaveTrail);
-			}
-		}
-	}
-	
 	private void moveTurtle(Turtle turtle, double pixels, boolean leaveTrail){
 		double heading = turtle.getHeading();
 		if(pixels<0){
