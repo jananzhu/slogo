@@ -164,7 +164,7 @@ public class View {
 		setTurtleImage.setOnMouseClicked(changeTurtleImage);
 
 		varList = new ListView<String>();
-		variableItems = FXCollections.observableArrayList("Variables");
+		variableItems = FXCollections.observableArrayList();
 		varList.setMaxHeight(250);
 		// testing
 
@@ -232,7 +232,7 @@ public class View {
 		variables.put(variable, value);
 		variableItems.clear();
 		for (String s : variables.keySet()) {
-			variableItems.add(variable + ": " + value);
+			variableItems.add(s + ": " + variables.get(s));
 		}
 		varList.setItems(variableItems);
 	}
