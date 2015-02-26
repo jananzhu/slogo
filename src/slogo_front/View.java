@@ -101,7 +101,7 @@ public class View {
 		// resource bundles
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle",
 				defaultLocale);
-		// creating borderpane
+		
 		BorderPane root = new BorderPane();
 
 		root.setTop(makeMenu());
@@ -129,7 +129,6 @@ public class View {
 		clearCommandHistory.setMaxWidth(Double.MAX_VALUE);
 		clearCommandHistory.setOnMouseClicked(clearHistory);
 		
-
 		moveForward = new Button();
 		moveForward.setMaxWidth(Double.MAX_VALUE);
 		moveForward.setOnMouseClicked(forwardEvent);
@@ -137,10 +136,6 @@ public class View {
 		moveBackward = new Button();
 		moveBackward.setMaxWidth(Double.MAX_VALUE);
 		moveBackward.setOnMouseClicked(backwardEvent);
-
-//		degreeLabel = new Label();
-//		degreeField = new TextField();
-//		degreeField.setMaxWidth(50);
 
 		turnDegree = new Slider();
 		turnDegree.setMin(-180);
@@ -154,11 +149,6 @@ public class View {
 		turnTurtle = new Button();
 		turnTurtle.setMaxWidth(Double.MAX_VALUE);
 		turnTurtle.setOnMouseClicked(turnEvent);
-
-//		HBox degree = new HBox();
-//		degree.getChildren().addAll(degreeLabel, degreeField, turnTurtle);
-//		degree.setSpacing(10);
-//		degree.setMaxWidth(Double.MAX_VALUE);
 
 		turtleColor = new ColorPicker();
 		turtleColor.setMaxWidth(Double.MAX_VALUE);
@@ -195,12 +185,10 @@ public class View {
 	}
 
 	private void setLabels() {
-		// System.out.println(labels.getString("CLEAR"));
 		clearScreen.setText(labels.getString("CLEAR"));
 		clearCommandHistory.setText(labels.getString("CLEARHISTORY"));
 		moveForward.setText(labels.getString("FORWARD"));
 		moveBackward.setText(labels.getString("BACKWARD"));
-//		degreeLabel.setText(labels.getString("DEGREE"));
 		turnTurtle.setText(labels.getString("TURN"));
 		setColor.setText(labels.getString("BACKGROUND"));
 		setPen.setText(labels.getString("PEN"));
