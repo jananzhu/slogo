@@ -15,7 +15,7 @@ public class Forward extends Command {
 
     @Override
     public double getValue () {
-    	return myModel.toFront(PARAM_NAME, (Object) new double[]{myParams[0].getValue()});
+    	return myModel.toFront(PARAM_NAME, new double[]{myParams[0].getValue()});
     }
 
 }

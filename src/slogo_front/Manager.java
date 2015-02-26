@@ -38,68 +38,68 @@ public class Manager {
 	/*
 	 * BACKEND AND FRONTEND API INTEGRATION
 	 */
-	 public double home(){
+	 public double home(double[] var){
 		 return display.home(turtle);
 	 }
 	
-	 public double hideTurtle(){
+	 public double hideTurtle(double[] var){
 		 return display.hide(turtle);
 	 }
 	
-	 public double showTurtle(){
+	 public double showTurtle(double[] var){
 		 return display.show(turtle);
 	 }
 	
-	 public double penUp(){
+	 public double penUp(double[] var){
 		 return display.penUp(turtle);
 	 }
 	
-	 public double penDown(){
+	 public double penDown(double[] var){
 		 return display.penDown(turtle);
 	 }
 	
-	 public double setXY(double x, double y){
-		 return display.setXY(turtle, x, y);
+	 public double setXY(double[] pos){
+		 return display.setXY(turtle, pos[0], pos[1]);
 	 }
 	
-	 public double towards(double x, double y){
-		 return display.towards(turtle, x, y);
+	 public double towards(double[] pos){
+		 return display.towards(turtle, pos[0], pos[1]);
 	 }
 	
-	 public double setHeading(double degrees){
-		 return display.setHeading(turtle, degrees);
+	 public double setHeading(double[] degrees){
+		 return display.setHeading(turtle, degrees[0]);
 	 }
 	
-	 public double right(double degrees){
-		 return display.right(turtle, degrees);
+	 public double right(double[] degrees){
+		 return display.right(turtle, degrees[0]);
 	 }
 	
-	 public double left(double degrees){
-		 return display.left(turtle, degrees);
+	 public double left(double[] degrees){
+		 return display.left(turtle, degrees[0]);
 	 }
 	
-	 public double back(double pixels){
-		 return display.back(turtle, pixels);
+	 public double back(double[] pixels){
+		 return display.back(turtle, pixels[0]);
 	 }
 	
-	 public double forward(double pixels){
-		 return display.forward(turtle, pixels);
+	 public double forward(double[] pixels){
+		 return display.forward(turtle, pixels[0]);
 	 }
 	
-	 public double xCor(){
+	 public double xCor(double[] var){
 		 return display.xCor(turtle);
 		 
 	 }
 	
-	 public double yCor(){
+	 public double yCor(double[] var){
 		 return display.yCor(turtle);
 	 }
 	
-	 public double isPenDown(){
+	 public double isPenDown(double[] var){
 		 return display.isPenDown(turtle);
 	 }
 	
-	 public double isShowing(){
+	 public double isShowing(double[] var){
 		 return display.showing(turtle);
 	 }
 
