@@ -326,8 +326,15 @@ public class View {
 			fileChooser.setTitle("Open Resource File");
 			File file = fileChooser.showOpenDialog(fileSystem);
 			// some method to change the imageview in display
-//			System.out.println(file.getPath());
-			manager.getTurtle().setImage("/images/");
+			String filePath = "C:"+file.getPath();
+			int index = filePath.indexOf("/images");
+//			System.out.println(index);
+//			System.out.println(filePath);
+//			System.out.println(filePath.substring(index));
+			Turtle turtle = manager.getTurtle();
+			display.hide(turtle);
+			manager.getTurtle().setImage(filePath.substring(index));
+			display.show(turtle);
 		}
 
 	};
