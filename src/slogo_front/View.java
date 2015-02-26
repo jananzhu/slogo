@@ -76,6 +76,7 @@ public class View {
 
 	// controlPanel Buttons
 	Button clearScreen;
+	Button clearCommandHistory;
 	Button moveForward;
 	Button moveBackward;
 	Label degreeLabel;
@@ -94,7 +95,7 @@ public class View {
 		// resource bundles
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle",
 				defaultLocale);
-		// creating borderpane
+		
 		BorderPane root = new BorderPane();
 
 		root.setTop(makeMenu());
@@ -117,7 +118,11 @@ public class View {
 		clearScreen = new Button();
 		clearScreen.setMaxWidth(Double.MAX_VALUE);
 		clearScreen.setOnMouseClicked(clear);
-
+		
+		clearCommandHistory = new Button();
+		clearCommandHistory.setMaxWidth(Double.MAX_VALUE);
+		clearCommandHistory.setOnMouseClicked(clearHistory);
+		
 		moveForward = new Button();
 		moveForward.setMaxWidth(Double.MAX_VALUE);
 		moveForward.setOnMouseClicked(forwardEvent);
@@ -125,10 +130,6 @@ public class View {
 		moveBackward = new Button();
 		moveBackward.setMaxWidth(Double.MAX_VALUE);
 		moveBackward.setOnMouseClicked(backwardEvent);
-
-//		degreeLabel = new Label();
-//		degreeField = new TextField();
-//		degreeField.setMaxWidth(50);
 
 		turnDegree = new Slider();
 		turnDegree.setMin(-180);
@@ -142,11 +143,6 @@ public class View {
 		turnTurtle = new Button();
 		turnTurtle.setMaxWidth(Double.MAX_VALUE);
 		turnTurtle.setOnMouseClicked(turnEvent);
-
-//		HBox degree = new HBox();
-//		degree.getChildren().addAll(degreeLabel, degreeField, turnTurtle);
-//		degree.setSpacing(10);
-//		degree.setMaxWidth(Double.MAX_VALUE);
 
 		turtleColor = new ColorPicker();
 		turtleColor.setMaxWidth(Double.MAX_VALUE);
@@ -175,7 +171,7 @@ public class View {
 
 		setLabels();
 
-		controlPanel.getChildren().addAll(clearScreen, moveForward,
+		controlPanel.getChildren().addAll(clearScreen, clearCommandHistory, moveForward,
 				moveBackward, turnDegree, turnTurtle , turtleColor, setColor, setPen,
 				setTurtleImage,varList);
 
@@ -183,11 +179,10 @@ public class View {
 	}
 
 	private void setLabels() {
-		// System.out.println(labels.getString("CLEAR"));
 		clearScreen.setText(labels.getString("CLEAR"));
+		clearCommandHistory.setText(labels.getString("CLEARHISTORY"));
 		moveForward.setText(labels.getString("FORWARD"));
 		moveBackward.setText(labels.getString("BACKWARD"));
-//		degreeLabel.setText(labels.getString("DEGREE"));
 		turnTurtle.setText(labels.getString("TURN"));
 		setColor.setText(labels.getString("BACKGROUND"));
 		setPen.setText(labels.getString("PEN"));
@@ -298,12 +293,22 @@ public class View {
 	private Node makeCommandHistory() {
 		commandList = new ListView<String>();
 		commandList.setMaxWidth(200);
-		commandItems = FXCollections.observableArrayList("Command History");
-		commandList.setItems(commandItems);
+		resetHistory();
 
 		return commandList;
 	}
-
+	
+	private void resetHistory(){
+		commandItems = FXCollections.observableArrayList("Command History");
+		commandList.setItems(commandItems);
+//<<<<<<< HEAD
+//
+//		return commandList;
+//=======
+		commandList.setOnMouseClicked(historyEvent);
+//>>>>>>> 375cf0ed2f1dda40b8fa24bfb24b3455cdc035cc
+	}
+	
 	// set manager
 	protected void setManager(Manager m) {
 		manager = m;
@@ -341,8 +346,14 @@ public class View {
 
 	private EventHandler<MouseEvent> clear = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-
 			display.clearScreen(manager.getTurtle());
+		}
+
+	};
+	
+	private EventHandler<MouseEvent> clearHistory = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent event) {
+			resetHistory();
 		}
 
 	};
