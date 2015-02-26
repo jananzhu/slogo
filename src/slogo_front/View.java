@@ -339,6 +339,7 @@ public class View {
 	private EventHandler<MouseEvent> clear = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			display.clearScreen(manager.getTurtle());
+			addHistoryText("clearscreen");
 		}
 
 	};
@@ -363,13 +364,17 @@ public class View {
 			// multiple turtles
 			double degree = turnDegree.getValue();
 			display.setHeading(manager.getTurtle(), degree);
+			if(degree >= 0){
+				addHistoryText("left " + (int) degree);
+			}else{
+				addHistoryText("right " + (int) Math.abs(degree));
+			}
 		}
 
 	};
 
 	private EventHandler<MouseEvent> changePenColor = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-
 			manager.getTurtle().setPenColor(turtleColor.getValue());
 
 		}
@@ -421,6 +426,7 @@ public class View {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
 			display.forward(manager.getTurtle(), 100);
+			addHistoryText("forward 100");
 		}
 
 	};
@@ -430,6 +436,7 @@ public class View {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
 			display.back(manager.getTurtle(), 100);
+			addHistoryText("backward 100");
 		}
 
 	};
