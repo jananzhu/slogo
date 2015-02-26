@@ -29,6 +29,8 @@ public class Manager {
 	Manager(View defaultView) {
 		view = defaultView;
 		display = view.getDisplay();
+		defaultView.setManager(this);
+		
 		model = new Model("resources/languages/English.properties");
 		model.setManager(this);
 		initialize();
@@ -102,11 +104,15 @@ public class Manager {
 	 public double isShowing(){
 		 return display.showing(turtle);
 	 }
+	 
+	 public Turtle getTurtle(){
+		 return turtle;
+	 }
 
 	private void initialize() {
 		// setting handlers
 		view.setCommandLine(parse);
-		view.setMoveForward(forwardEvent);
+//		view.setMoveForward(forwardEvent);
 	}
 
 	// private EventHandler parse = new EventHandler<KeyEvent>() {
@@ -139,13 +145,13 @@ public class Manager {
 		}
 	};
 
-	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
-		public void handle(MouseEvent event) {
-			// TODO turtle within display or in view? think about allowances for
-			// multiple turtles
-			display.forward(turtle, 100);
-		}
-
-	};
+//	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
+//		public void handle(MouseEvent event) {
+//			// TODO turtle within display or in view? think about allowances for
+//			// multiple turtles
+//			display.forward(turtle, 100);
+//		}
+//
+//	};
 
 }

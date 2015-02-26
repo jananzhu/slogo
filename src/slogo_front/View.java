@@ -36,6 +36,7 @@ import javafx.stage.Stage;
 public class View {
 
 	private Scene scene;
+	private Manager manager;
 	// html
 	WebView browser = new WebView();
 	Scene secondScene = new Scene(browser);
@@ -114,9 +115,12 @@ public class View {
 		// forwardField.setMaxWidth(50);
 		moveForward = new Button();
 		moveForward.setMaxWidth(Double.MAX_VALUE);
+		moveForward.setOnMouseClicked(forwardEvent);
 
 		moveBackward = new Button();
 		moveBackward.setMaxWidth(Double.MAX_VALUE);
+		moveBackward.setOnMouseClicked(backwardEvent);
+		
 
 		degreeLabel = new Label();
 		degreeField = new TextField();
@@ -288,15 +292,19 @@ public class View {
 
 		return historyScrollPane;
 	}
-
+	//set manager
+	protected void setManager(Manager m){
+		manager = m;
+	}
+	
 	// sets command line
 	protected void setCommandLine(EventHandler<KeyEvent> handler) {
 		commandLine.setOnKeyPressed(handler);
 	}
 	
-	protected void setMoveForward(EventHandler<MouseEvent> handler){
-		moveForward.setOnMouseClicked(handler);
-	}
+//	protected void setMoveForward(EventHandler<MouseEvent> handler){
+//		moveForward.setOnMouseClicked(handler);
+//	}
 
 	private EventHandler<MouseEvent> changeTurtleImage = new EventHandler<MouseEvent>() {
 		// within manager?
@@ -339,6 +347,24 @@ public class View {
 			popUp.setScene(secondScene);
 
 			popUp.show();
+		}
+
+	};
+	
+	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent event) {
+			// TODO turtle within display or in view? think about allowances for
+			// multiple turtles
+			display.forward(manager.getTurtle(), 100);
+		}
+
+	};
+	
+	private EventHandler<MouseEvent> backwardEvent = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent event) {
+			// TODO turtle within display or in view? think about allowances for
+			// multiple turtles
+			display.back(manager.getTurtle(), 100);
 		}
 
 	};
