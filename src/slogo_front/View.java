@@ -6,11 +6,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
-import javafx.beans.Observable;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -166,7 +161,7 @@ public class View {
 		setTurtleImage.setOnMouseClicked(changeTurtleImage);
 
 		varList = new ListView<String>();
-		variableItems = FXCollections.observableArrayList();
+		variableItems = FXCollections.observableArrayList("Variables");
 		varList.setMaxHeight(250);
 		// testing
 
@@ -233,7 +228,7 @@ public class View {
 		variables.put(variable, value);
 		variableItems.clear();
 		for (String s : variables.keySet()) {
-			variableItems.add(s + ": " + variables.get(s));
+			variableItems.add(variable + ": " + value);
 		}
 		varList.setItems(variableItems);
 	}
@@ -332,6 +327,15 @@ public class View {
 			fileChooser.setTitle("Open Resource File");
 			File file = fileChooser.showOpenDialog(fileSystem);
 			// some method to change the imageview in display
+			String filePath = "C:"+file.getPath();
+			int index = filePath.indexOf("/images");
+//			System.out.println(index);
+//			System.out.println(filePath);
+//			System.out.println(filePath.substring(index));
+			Turtle turtle = manager.getTurtle();
+			display.hide(turtle);
+			manager.getTurtle().setImage(filePath.substring(index));
+			display.show(turtle);
 		}
 
 	};
@@ -395,7 +399,7 @@ public class View {
 		}
 
 	};
-
+	
 	private EventHandler<MouseEvent> historyEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
@@ -420,7 +424,7 @@ public class View {
 //			}
 		}
 	};
-	
+
 	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for

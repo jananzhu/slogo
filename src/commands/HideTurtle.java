@@ -1,15 +1,15 @@
 package commands;
 
+import java.util.Map;
 import java.util.Queue;
-
 import slogo_back.Model;
 
 public class HideTurtle extends Command {
 
 	private final static String PARAM_NAME = "hideTurtle";
 
-    public HideTurtle(Queue<String> cmdQueue, Model model) {
-            super(cmdQueue, model);
+    public HideTurtle(Queue<String> cmdQueue, Model model,Map<String,Double> variableMap) {
+            super(cmdQueue, model, variableMap);
     }
 
     @Override
