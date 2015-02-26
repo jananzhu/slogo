@@ -108,6 +108,10 @@ public class Manager {
 	 public Turtle getTurtle(){
 		 return turtle;
 	 }
+	 
+	 public Model getModel(){
+		 return model;
+	 }
 
 	private void initialize() {
 		// setting handlers
@@ -148,7 +152,7 @@ public class Manager {
 
 		}
 	};
-
+	
 //	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
 //		public void handle(MouseEvent event) {
 //			// TODO turtle within display or in view? think about allowances for
