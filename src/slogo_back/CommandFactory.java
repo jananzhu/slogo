@@ -36,7 +36,7 @@ public class CommandFactory {
         Constructor constructor = commandClass.getConstructors()[0];
         Command command = null;
         try {
-            command = (Command) constructor.newInstance(tokens,myModel);
+            command = (Command) constructor.newInstance(tokens,myModel, myModel.getVarMap());
         }
         catch (InstantiationException e) {
             // TODO Auto-generated catch block

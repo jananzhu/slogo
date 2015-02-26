@@ -1,5 +1,6 @@
 package commands;
 
+import java.util.Map;
 import java.util.Queue;
 import slogo_back.Model;
 
@@ -7,8 +8,8 @@ public class IfElse extends Command {
 
     private final static int numParams = 3;
     
-    public IfElse (Queue<String> cmdQueue, Model model, int numParams) {
-        super(cmdQueue, model, numParams);
+    public IfElse (Queue<String> cmdQueue, Model model, int numParams,Map<String,Double> variableMap) {
+        super(cmdQueue, model, numParams, variableMap);
     }
 
     @Override
