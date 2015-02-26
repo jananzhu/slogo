@@ -165,8 +165,6 @@ public class View {
 		varList.setMaxHeight(250);
 		// testing
 
-		addVariableText("x",2);
-		addVariableText("x",200);
 		addVariableText("y (demo)",10);
 		addVariableText("x (demo)",250);
 
