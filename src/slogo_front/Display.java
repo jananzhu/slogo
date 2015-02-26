@@ -257,6 +257,14 @@ public class Display {
 		return distance;
 	}
 	
+	protected double xCor(Turtle turtle){
+		return turtle.getXloc()+xOrigin;
+	}
+	
+	protected double yCor(Turtle turtle){
+		return turtle.getYloc()+yOrigin;
+	}
+	
 	/**
 	 * moves turtle to center of screen
 	 * returns distance turtle moved
