@@ -35,7 +35,6 @@ public class Display {
 	// TODO move arrayList to manager class
 //	private ArrayList<Turtle> turtles = new ArrayList<>();
 	
-	
 	/**
 	 * basic constructor
 	 * @param xDimension
