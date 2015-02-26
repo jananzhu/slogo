@@ -7,7 +7,7 @@ public class ListNode implements ISyntaxNode {
     private List<ISyntaxNode> myCommands;
 
     public ListNode(List<ISyntaxNode> commandBlock){
-        
+        myCommands = commandBlock;
     }
     
     @Override
