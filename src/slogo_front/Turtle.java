@@ -19,6 +19,9 @@ public class Turtle {
 	private ImageView turtleImage;
 	
 	// getters
+	protected int getID(){
+		return myID;
+	}
 	
 	protected double getXloc() {
 		return xPosition;

@@ -57,22 +57,23 @@ public class Display {
 		maxCanvasWidth = canvasWidth;
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
-		// for testing
-		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 1, 
-				"/images/turtle_small.png", true,true);
-		Turtle turtle2 = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE,1,
-				"/images/turtle_small.png", true,true);
-		turtle.setHeading(170);
-		turtle2.setHeading(50);
-		forward(turtle2,10);
-		moveForward(turtle, 10000); // observer observable
-		turtle.setHeading(60);
-		turtle.setPenWidth(3);
-		moveForward(turtle,100);
-		left(turtle,50);
 		background.getGraphicsContext2D().rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		
+		// for testing
+//		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 1, 
+//				"/images/turtle_small.png", true,true);
+//		Turtle turtle2 = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE,1,
+//				"/images/turtle_small.png", true,true);
+//		turtle.setHeading(170);
+//		turtle2.setHeading(50);
+//		forward(turtle2,10);
+//		moveForward(turtle, 10000); // observer observable
+//		turtle.setHeading(60);
+//		turtle.setPenWidth(3);
+//		moveForward(turtle,100);
+//		left(turtle,50);
+		
 	}
-	
 	protected Node getDisplay(){
 		return overlay;
 	}
@@ -93,6 +94,30 @@ public class Display {
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),xOrigin,yOrigin);
 		home(turtle);
 		return distance;
+	}
+	
+	/**
+	 * adds turtle to array list of turtles
+	 * returns number of turtles in array list
+	 * @param turtle
+	 * @return
+	 */
+	protected int addTurtle(Turtle turtle){
+		turtles.add(turtle);
+		return turtles.size();
+	}
+	
+	/**
+	 * removes turtle image from display & from active turtles list
+	 * returns number of turtles in array list
+	 * @param turtle
+	 */
+	protected int removeTurtle(Turtle turtle){
+		if(turtle.getShowTurtle()){
+			hide(turtle);
+		}
+		turtles.remove(turtle);
+		return turtles.size();
 	}
 	
 	/**
@@ -128,6 +153,11 @@ public class Display {
 		return 1;
 	}
 
+	/**
+	 * draws image of turtle given specifications
+	 * of location in turtle object
+	 * @param turtle
+	 */
 	private void drawTurtleImage(Turtle turtle){
 		ImageView turtleImage = turtle.getTurtleImage();
 		turtleImage.setRotate(turtle.getAdjustedHeading());
@@ -148,6 +178,10 @@ public class Display {
 		overlay.getChildren().remove(turtle.getTurtleImage());
 	}
 	
+	/**
+	 * updates turtle image to reflect changes in turtle
+	 * @param turtle
+	 */
 	private void updateTurtleImage(Turtle turtle){
 		removeTurtleImage(turtle);
 		if(turtle.getShowTurtle()){
