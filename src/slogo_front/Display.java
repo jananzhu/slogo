@@ -3,20 +3,15 @@ package slogo_front;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 /**
  * currently includes methods to move turtle
  * NOTE: API (protected) methods except constructor
  * take x & y coordinates with (0,0) in the middle
  * of the screen
- *  
- * TODO improve turtle image stuff
  *
  */
 public class Display {
@@ -31,12 +26,15 @@ public class Display {
 	//instances of canvas and graphics context
 	private Pane overlay;
 	private Canvas canvas;
+	private Canvas background;
 	private GraphicsContext graphics;
 	private static final int LINE_WIDTH = 1;
 	private static final int defaultHeading = 0;
 	
 	//Default turtle instance
 	Turtle turtle; //extend to list of turtles?
+	
+	
 	
 	/**
 	 * basic constructor
@@ -48,8 +46,9 @@ public class Display {
 		//trying a vbox
 		overlay = new Pane();
 		canvas = new Canvas (canvasWidth,canvasHeight);
+		background = new Canvas(canvasWidth,canvasHeight);
 		overlay.setPrefSize(1000, 600);
-		overlay.getChildren().add(canvas);
+		overlay.getChildren().addAll(background,canvas);
 		
 		xOrigin = canvasWidth/2;
 		yOrigin = canvasHeight/2;
@@ -69,7 +68,7 @@ public class Display {
 		turtle.setPenWidth(3);
 		moveForward(turtle,100);
 		left(turtle,50);
-		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		background.getGraphicsContext2D().rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 	}
 	
 	protected Node getDisplay(){
@@ -77,8 +76,8 @@ public class Display {
 	}
 	
 	protected void changeBackground(Color backgroundColor){
-		graphics.setFill(backgroundColor);
-		graphics.fillRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		background.getGraphicsContext2D().setFill(backgroundColor);
+		background.getGraphicsContext2D().fillRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 	}
 	
 	/**
