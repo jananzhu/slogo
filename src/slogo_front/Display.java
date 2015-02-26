@@ -300,7 +300,7 @@ public class Display {
 	protected double setXY(Turtle turtle, double x, double y){
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),x,y);
 		turtle.setXPosition(x+xOrigin);
-		turtle.setXPosition(y+yOrigin);
+		turtle.setXPosition(yOrigin-y);
 		updateTurtleImage(turtle);
 		return distance;
 	}
