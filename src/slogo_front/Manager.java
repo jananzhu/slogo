@@ -65,7 +65,7 @@ public class Manager {
 	 }
 	
 	 public double setHeading(double degrees){
-		 return display.setHeading(turtle, degree);
+		 return display.setHeading(turtle, degrees);
 	 }
 	
 	 public double right(double degrees){
@@ -84,15 +84,25 @@ public class Manager {
 		 return display.forward(turtle, pixels);
 	 }
 	
-	 public double xCor(){}
+//	 public double xCor(){
+////		 return turtle.getXloc();
+//		 //being implemented rightnow
+//		 
+//	 }
 	
-	 public double yCor(){}
+//	 public double yCor(){}
 	
-	 public double isPenDown(){}
+//	 public double isPenDown(){
+//		 return display.penDown(turtle);
+//	 }
 	
-	 public double isPenUp(){}
-	
-	 public double isShowing(){}
+//	 public double isPenUp(){
+//		 return display.penUp(turtle);
+//	 }
+//	
+//	 public double isShowing(){
+//		 return turtle.getShowTurtle();
+//	 }
 
 	private void initialize() {
 		// setting handlers
@@ -134,7 +144,7 @@ public class Manager {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
-			display.forward(turtle, 10);
+			display.forward(turtle, 100);
 		}
 
 	};
