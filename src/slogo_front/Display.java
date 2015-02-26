@@ -32,8 +32,8 @@ public class Display {
 	private GraphicsContext graphics;
 	private static final int defaultHeading = 0;
 	
-	//Default turtle instance
-	private ArrayList<Turtle> turtles = new ArrayList<>();
+	// TODO move arrayList to manager class
+//	private ArrayList<Turtle> turtles = new ArrayList<>();
 	
 	
 	/**
@@ -94,29 +94,30 @@ public class Display {
 		return distance;
 	}
 	
-	/**
-	 * adds turtle to array list of turtles
-	 * returns number of turtles in array list
-	 * @param turtle
-	 * @return
-	 */
-	protected int addTurtle(Turtle turtle){
-		turtles.add(turtle);
-		return turtles.size();
-	}
+	// TODO add these methods to manager class
+//	/**
+//	 * adds turtle to array list of turtles
+//	 * returns number of turtles in array list
+//	 * @param turtle
+//	 * @return
+//	 */
+//	protected int addTurtle(Turtle turtle){
+//		turtles.add(turtle);
+//		return turtles.size();
+//	}
 	
-	/**
-	 * removes turtle image from display & from active turtles list
-	 * returns number of turtles in array list
-	 * @param turtle
-	 */
-	protected int removeTurtle(Turtle turtle){
-		if(turtle.getShowTurtle()){
-			hide(turtle);
-		}
-		turtles.remove(turtle);
-		return turtles.size();
-	}
+//	/**
+//	 * removes turtle image from display & from active turtles list
+//	 * returns number of turtles in array list
+//	 * @param turtle
+//	 */
+//	protected int removeTurtle(Turtle turtle){
+//		if(turtle.getShowTurtle()){
+//			hide(turtle);
+//		}
+//		turtles.remove(turtle);
+//		return turtles.size();
+//	}
 	
 	/**
 	 * puts pen down
