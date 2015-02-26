@@ -35,7 +35,9 @@ public class Manager {
 		// turtle = new Turtle(0,0,0, )
 	}
 
-	// direct API between front and backend
+	/*
+	 * BACKEND AND FRONTEND API INTEGRATION
+	 */
 	 public double home(){
 		 return display.home(turtle);
 	 }
@@ -84,25 +86,22 @@ public class Manager {
 		 return display.forward(turtle, pixels);
 	 }
 	
-//	 public double xCor(){
-////		 return turtle.getXloc();
-//		 //being implemented rightnow
-//		 
-//	 }
+	 public double xCor(){
+		 return display.xCor(turtle);
+		 
+	 }
 	
-//	 public double yCor(){}
+	 public double yCor(){
+		 return display.yCor(turtle);
+	 }
 	
-//	 public double isPenDown(){
-//		 return display.penDown(turtle);
-//	 }
+	 public double isPenDown(){
+		 return display.isPenDown(turtle);
+	 }
 	
-//	 public double isPenUp(){
-//		 return display.penUp(turtle);
-//	 }
-//	
-//	 public double isShowing(){
-//		 return turtle.getShowTurtle();
-//	 }
+	 public double isShowing(){
+		 return display.showing(turtle);
+	 }
 
 	private void initialize() {
 		// setting handlers
