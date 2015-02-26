@@ -165,6 +165,7 @@ public class View {
 
 		varList = new ListView<String>();
 		variableItems = FXCollections.observableArrayList("Variables");
+		varList.setMaxHeight(250);
 		// testing
 		addVariableText("x", 2);
 
@@ -172,7 +173,7 @@ public class View {
 
 		controlPanel.getChildren().addAll(clearScreen, moveForward,
 				moveBackward, turnDegree, turnTurtle , turtleColor, setColor, setPen,
-				setTurtleImage, varList);
+				setTurtleImage,varList);
 
 		return controlPanel;
 	}

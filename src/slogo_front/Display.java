@@ -45,7 +45,7 @@ public class Display {
 		overlay = new Pane();
 		canvas = new Canvas (canvasWidth,canvasHeight);
 		background = new Canvas(canvasWidth,canvasHeight);
-		overlay.setPrefSize(1000, 600);
+		overlay.setPrefSize(canvasWidth, canvasHeight);
 		overlay.getChildren().addAll(background,canvas);
 		
 		xOrigin = canvasWidth/2;
