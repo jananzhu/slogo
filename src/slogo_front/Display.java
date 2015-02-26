@@ -1,5 +1,7 @@
 package slogo_front;
 
+import java.util.ArrayList;
+
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -33,7 +35,7 @@ public class Display {
 	
 	//Default turtle instance
 	Turtle turtle; //extend to list of turtles?
-	
+	private ArrayList<Turtle> turtles = new ArrayList<>();
 	
 	
 	/**
