@@ -1,9 +1,12 @@
 package slogo_front;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -11,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -45,6 +49,12 @@ public class View {
 	private VBox history;
 	private ScrollPane historyScrollPane;
 	private Display display;
+	private ListView varList;
+	private ListView commandList;
+	private ObservableList<String> commandItems;
+	private ObservableList<String> variableItems;
+	private HashMap<String,Double> variables = new HashMap<>();
+	
 	// private VBox displayBackground ;
 	// Canvas Dimensions
 	private static final int xCanvas = 1000;
@@ -73,6 +83,7 @@ public class View {
 	Button setColor;
 	Button setPen;
 	Button setTurtleImage;
+	
 
 	// TODO add array for turtles
 	// TODO add "addTurtle()" method
@@ -103,15 +114,7 @@ public class View {
 
 		clearScreen = new Button();
 		clearScreen.setMaxWidth(Double.MAX_VALUE);
-		// clearScreen.textProperty().bind(labels.("CLEAR"));
 
-		// HBox forward = new HBox();
-		// forward.getChildren().addAll(degreeLabel,degreeField, turnTurtle);
-		// forward.setSpacing(10);
-		// forward.setMaxWidth(Double.MAX_VALUE);
-		// forwardLabel = new Label();
-		// forwardField = new TextField ();
-		// forwardField.setMaxWidth(50);
 		moveForward = new Button();
 		moveForward.setMaxWidth(Double.MAX_VALUE);
 
@@ -142,12 +145,17 @@ public class View {
 		setTurtleImage = new Button();
 		setTurtleImage.setMaxWidth(Double.MAX_VALUE);
 		setTurtleImage.setOnMouseClicked(changeTurtleImage);
-
+		
+		varList = new ListView<String>();
+		variableItems = FXCollections.observableArrayList("Variables");
+		// testing
+		addVariableText("x",2);
+		
 		setLabels();
 
 		controlPanel.getChildren().addAll(clearScreen, moveForward,
 				moveBackward, degree, turtleColor, setColor, setPen,
-				setTurtleImage);
+				setTurtleImage,varList);
 
 		return controlPanel;
 	}
@@ -181,20 +189,6 @@ public class View {
 		return commandLine;
 	}
 
-	// might delete
-	// private void handleKeyInput(KeyEvent e) { //This entire method is part of
-	// my masterpiece.
-	// KeyCode keyCode = e.getCode();
-	// if (keyCode == KeyCode.ENTER) {
-	// String s = commandLineText();
-	// if(s.toLowerCase().equals("clear")){
-	// clearHistoryText();
-	// }
-	// addHistoryText(s);
-	// // commandLine.clear();
-	// }
-	// }
-
 	public Scene getScene() {
 		return scene;
 	}
@@ -208,10 +202,17 @@ public class View {
 
 	// figureout if this should be private somehow
 	protected void addHistoryText(String text) {
-		Text newText = new Text(">> " + text);
-		newText.setWrappingWidth(HISTORY_WIDTH);
-		history.getChildren().add(newText);
-		historyScrollPane.setVvalue(historyScrollPane.getVmax());
+		commandItems.add(">> "  + text);
+		commandList.setItems(commandItems);
+	}
+	
+	protected void addVariableText(String variable, double value) {
+		variables.put(variable, value);
+		variableItems.clear();
+		for(String s:variables.keySet()){
+			variableItems.add(variable + ": " + value);
+		}
+		varList.setItems(variableItems);
 	}
 
 	// private in the future?
@@ -273,20 +274,12 @@ public class View {
 	// }
 	//
 	private Node makeCommandHistory() {
-		history = new VBox(HISTORY_SPACING);
-		historyScrollPane = new ScrollPane();
-		historyScrollPane.getStyleClass().add("commandHistory");
-		historyScrollPane.setMinWidth(HISTORY_WIDTH);
-		// historyScrollPane.setFitToWidth(true);
-		historyScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-		Text title = new Text("Command History: ");
-		title.setWrappingWidth(HISTORY_WIDTH - HISTORY_PADDING);
-		VBox.setVgrow(historyScrollPane, Priority.ALWAYS);
-
-		history.getChildren().addAll(title);
-		historyScrollPane.setContent(history);
-
-		return historyScrollPane;
+		commandList = new ListView<String>();
+		commandList.setMaxWidth(200);
+		commandItems = FXCollections.observableArrayList ("Command History");
+		commandList.setItems(commandItems);
+		
+		return commandList;
 	}
 
 	// sets command line
