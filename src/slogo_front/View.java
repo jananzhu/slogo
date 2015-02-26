@@ -2,6 +2,7 @@ package slogo_front;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -301,12 +302,7 @@ public class View {
 	private void resetHistory(){
 		commandItems = FXCollections.observableArrayList("Command History");
 		commandList.setItems(commandItems);
-//<<<<<<< HEAD
-//
-//		return commandList;
-//=======
 		commandList.setOnMouseClicked(historyEvent);
-//>>>>>>> 375cf0ed2f1dda40b8fa24bfb24b3455cdc035cc
 	}
 	
 	// set manager
@@ -399,14 +395,30 @@ public class View {
 
 	};
 	
-//	protected void setUpAlert(){
-//		Dialogs.create()
-//        .owner(stage)
-//        .title("Information Dialog")
-//        .masthead(null)
-//        .message("I have a great message for you!")
-//        .showInformation();
-//	}
+	private EventHandler<MouseEvent> historyEvent = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent event) {
+			// TODO turtle within display or in view? think about allowances for
+			// multiple turtles
+			String s = (String) commandList.getSelectionModel().getSelectedItem();
+			s = s.substring(3, s.length()); // remove ">> "
+			System.out.println(s);
+			
+			if (s.toLowerCase().equals("clear")) {
+				clearHistoryText();
+			}
+//			addHistoryText(s);
+
+			// TODO throw error here
+//			try{
+				List<Double> results = manager.getModel().toBack(s.toLowerCase() + "\n");
+				for (Double value : results) {
+					System.out.println(value);
+				}
+//			}catch(InvalidParameterException e){
+				
+//			}
+		}
+	};
 
 	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
