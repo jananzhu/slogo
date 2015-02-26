@@ -1,14 +1,11 @@
 package slogo_front;
 
-import java.awt.Event;
+import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Dimension2D;
-import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -21,17 +18,16 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.input.InputEvent;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 // TODO please comment this code tonight
 /**
@@ -41,21 +37,15 @@ import javafx.scene.text.Text;
  */
 public class View {
 
-	// default size of the window
-	private static final int xDimension = 1200;
-	private static final int yDimension = 800;
-//	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(xDimension, yDimension);
-	
 	private Scene scene;
+	//html
+	WebView browser = new WebView();
+	Scene secondScene = new Scene(browser);
 	// private ToolBar toolBar;
 	private MenuBar menuBar;
 	private TextField commandLine;
 	private VBox history; 
 	private ScrollPane historyScrollPane;
-	private Canvas canvas; // TODO switch to different class
-	private GraphicsContext gc;
-	private String[] languages = {"English","French"};
-	private String language;
 	private Display display;
 //	private VBox displayBackground ;
 	//Canvas Dimensions
@@ -87,6 +77,7 @@ public class View {
 	ColorPicker turtleColor;
 	Button setColor;
 	Button setPen;
+	Button setTurtleImage;
 	
 	
 	//TODO add array for turtles
@@ -97,6 +88,7 @@ public class View {
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle", defaultLocale);
 		//creating borderpane
 		BorderPane root = new BorderPane();
+		
 		root.setTop(makeMenu());
 		root.setRight(makeCommandHistory());
 		root.setBottom(makeTextField());
@@ -146,9 +138,13 @@ public class View {
 		setPen = new Button();
 		setPen.setMaxWidth(Double.MAX_VALUE);
 		
+		setTurtleImage = new Button();
+		setTurtleImage.setMaxWidth(Double.MAX_VALUE);
+		setTurtleImage.setOnMouseClicked(changeTurtleImage);
+		
 		setLabels();
 		
-		controlPanel.getChildren().addAll(clearScreen,moveForward,moveBackward,degree,turtleColor, setColor, setPen);
+		controlPanel.getChildren().addAll(clearScreen,moveForward,moveBackward,degree,turtleColor, setColor, setPen, setTurtleImage);
 		
 		return controlPanel;
 	}
@@ -162,6 +158,7 @@ public class View {
 		turnTurtle.setText(labels.getString("TURN"));
 		setColor.setText(labels.getString("BACKGROUND"));
 		setPen.setText(labels.getString("PEN"));
+		setTurtleImage.setText(labels.getString("IMAGE"));
 	}
 
 	private Node makeCanvas(){
@@ -227,9 +224,11 @@ public class View {
 	
 	private Node makeMenu() {
 		menuBar = new MenuBar();
-		language = "English";
 		//Command Reference Sheet
 		Menu menuHelp = new Menu("Help");
+		MenuItem commandReference = new MenuItem("Command Reference");
+		commandReference.setOnAction(launchWebView);
+		menuHelp.getItems().add(commandReference);
 
 		//Language
 		Menu menuLanguage = new Menu("Change Language");
@@ -292,17 +291,51 @@ public class View {
 	}
 	
 	
-	private EventHandler changeBackground = new EventHandler<MouseEvent>() {
+	private EventHandler<MouseEvent> changeTurtleImage = new EventHandler<MouseEvent>() {
+	    public void handle(MouseEvent event) {
+	    	Stage fileSystem = new Stage();
+	    	FileChooser fileChooser = new FileChooser();
+	    	fileChooser.setTitle("Open Resource File");
+	    	File file = fileChooser.showOpenDialog(fileSystem);
+	    	//some method to change the imageview in display
+	    }
+	
+	};
+	
+	private EventHandler<MouseEvent> changeBackground = new EventHandler<MouseEvent>() {
 	    public void handle(MouseEvent event) {
 	    		display.changeBackground(turtleColor.getValue());
 	    }
 	
 	};
 	
-	private EventHandler changePenColor = new EventHandler<MouseEvent>() {
+	private EventHandler<MouseEvent> changePenColor = new EventHandler<MouseEvent>() {
 	    public void handle(MouseEvent event) {
 	    	//TODO turtle within display or in view? think about allowances for multiple turtles
 	    		//displaychangeBackground(turtleColor.getValue());
+	    }
+	
+	};
+	
+	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
+	    public void handle(MouseEvent event) {
+	    	//TODO turtle within display or in view? think about allowances for multiple turtles
+	    		//displaychangeBackground(turtleColor.getValue());
+	    }
+	
+	};
+	
+	//opens window for help page
+	private EventHandler<ActionEvent> launchWebView = new EventHandler<ActionEvent>() {
+	    public void handle(ActionEvent event) {
+ 
+            browser.getEngine().load(getClass()
+            	    .getResource("/html/english.html")
+            	    .toExternalForm());
+	    	Stage popUp = new Stage();
+	    	popUp.setScene(secondScene);
+	    	
+	    	popUp.show();
 	    }
 	
 	};
