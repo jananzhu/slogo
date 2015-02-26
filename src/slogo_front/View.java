@@ -167,8 +167,8 @@ public class View {
 
 		addVariableText("x",2);
 		addVariableText("x",200);
-		addVariableText("y",10);
-		addVariableText("x",250);
+		addVariableText("y (demo)",10);
+		addVariableText("x (demo)",250);
 
 		setLabels();
 
@@ -228,7 +228,7 @@ public class View {
 		variables.put(variable, value);
 		variableItems.clear();
 		for (String s : variables.keySet()) {
-			variableItems.add(variable + ": " + value);
+			variableItems.add(s + ": " + variables.get(s));
 		}
 		varList.setItems(variableItems);
 	}
