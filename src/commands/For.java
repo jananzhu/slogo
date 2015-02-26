@@ -1,6 +1,8 @@
 package commands;
 
 public class For extends Command {
+    
+    
 
     @Override
     public double getValue () {
