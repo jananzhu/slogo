@@ -18,13 +18,13 @@ import javafx.scene.paint.Color;
  */
 public class Display {
 	//References the middle of the canvas
-	private int xOrigin;
-	private int yOrigin;
+	private double xOrigin;
+	private double yOrigin;
 	//Outer bounds of the display
-	private int maxCanvasWidth;
-	private int minCanvasWidth = 0;
-	private int maxCanvasHeight;
-	private int minCanvasHeight = 0;
+	private double maxCanvasWidth;
+	private double minCanvasWidth = 0;
+	private double maxCanvasHeight;
+	private double minCanvasHeight = 0;
 	//instances of canvas and graphics context
 	private Pane overlay;
 	private Canvas canvas;
@@ -41,7 +41,7 @@ public class Display {
 	 * @param yDimension
 	 * @param myCanvas
 	 */
-	protected Display(int canvasWidth, int canvasHeight){
+	protected Display(double canvasWidth, double canvasHeight){
 		//trying a vbox
 		overlay = new Pane();
 		canvas = new Canvas (canvasWidth,canvasHeight);
@@ -195,7 +195,7 @@ public class Display {
 	 * @return
 	 */
 	protected double left(Turtle turtle,double degrees){
-		int newHeading  = (int) (turtle.getHeading() + degrees);
+		double newHeading  =  turtle.getHeading() + degrees;
 		if(newHeading > 360){
 			newHeading -= 360;
 		}
@@ -212,7 +212,7 @@ public class Display {
 	 * @return
 	 */
 	protected double right(Turtle turtle,double degrees){
-		int newHeading  = (int) (turtle.getHeading() - degrees);
+		double newHeading  = turtle.getHeading() - degrees;
 		if(newHeading < 0){
 			newHeading+= 360;
 		}
@@ -249,7 +249,7 @@ public class Display {
 	 * @param y
 	 * @return
 	 */
-	protected double setXY(Turtle turtle, int x, int y){
+	protected double setXY(Turtle turtle, double x, double y){
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),x,y);
 		turtle.setXPosition(x+xOrigin);
 		turtle.setXPosition(y+yOrigin);
@@ -277,7 +277,7 @@ public class Display {
 	 * @param pixels
 	 * @return
 	 */
-	protected double forward(Turtle turtle, int pixels){
+	protected double forward(Turtle turtle, double pixels){
 		return moveForward(turtle, pixels);
 	}
 	
@@ -288,11 +288,11 @@ public class Display {
 	 * @param pixels
 	 * @return
 	 */
-	protected double back(Turtle turtle, int pixels){
+	protected double back(Turtle turtle, double pixels){
 		return moveForward(turtle,pixels*-1);
 	}
 	
-	private double moveForward(Turtle turtle, int pixels){
+	private double moveForward(Turtle turtle, double pixels){
 		moveTurtle(turtle,pixels,turtle.getPenDown());
 		return pixels;
 	}
@@ -305,7 +305,7 @@ public class Display {
 	 * @param y
 	 * @return
 	 */
-	protected double towards(Turtle turtle,int x, int y){
+	protected double towards(Turtle turtle,double x, double y){
 		double oldHeading = turtle.getHeading();
 		double newHeading = calculateDirection(x,y);
 		turtle.setHeading(newHeading);
@@ -319,7 +319,7 @@ public class Display {
 	 * @param y
 	 * @return
 	 */
-	private double calculateDirection(int x, int y){
+	private double calculateDirection(double x, double y){
 		double rawAngle = Math.toDegrees(Math.atan(y/x));
 		if(x < 0){
 			rawAngle+=180; // second & third quadrant
@@ -336,7 +336,7 @@ public class Display {
 	 * @param pixels
 	 * @param leaveTrail
 	 */
-	private void moveTurtle(Turtle turtle, int pixels, boolean leaveTrail){
+	private void moveTurtle(Turtle turtle, double pixels, boolean leaveTrail){
 		double heading = turtle.getHeading();
 		if(pixels == 0){ // base case
 			updateTurtleImage(turtle); // update image at very end
@@ -398,7 +398,7 @@ public class Display {
 	 * @param pixels
 	 * @return
 	 */
-	private double getXDistance(double heading, int pixels){
+	private double getXDistance(double heading, double pixels){
 		double headingInRadians = degreesToRadians(heading);
 		return pixels*Math.cos(getMinAngle(headingInRadians));
 	}
@@ -409,7 +409,7 @@ public class Display {
 	 * @param pixels
 	 * @return
 	 */
-	private double getYDistance(double heading, int pixels){
+	private double getYDistance(double heading, double pixels){
 		double headingInRadians = degreesToRadians(heading);
 		return pixels*Math.sin(getMinAngle(headingInRadians));
 	}
