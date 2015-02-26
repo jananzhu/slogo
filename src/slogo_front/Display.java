@@ -5,7 +5,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 
 /**
  * currently includes methods to move turtle
@@ -26,6 +29,7 @@ public class Display {
 	private int maxCanvasHeight;
 	private int minCanvasHeight = 0;
 	//instances of canvas and graphics context
+	private Pane overlay;
 	private Canvas canvas;
 	private GraphicsContext graphics;
 	private static final int LINE_WIDTH = 1;
@@ -41,27 +45,35 @@ public class Display {
 	 * @param myCanvas
 	 */
 	protected Display(int canvasWidth, int canvasHeight){
+		//trying a vbox
+		overlay = new Pane();
 		canvas = new Canvas (canvasWidth,canvasHeight);
+		overlay.setPrefSize(1000, 600);
+		overlay.getChildren().add(canvas);
+		
 		xOrigin = canvasWidth/2;
 		yOrigin = canvasHeight/2;
 		maxCanvasWidth = canvasWidth;
 		maxCanvasHeight = canvasHeight;
 		graphics = canvas.getGraphicsContext2D();
-		
-		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
-		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 
-				"/images/turtle_small.png", true,true);
-		show(turtle);
-
-		
-
 		// for testing
+		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 1, 
+				"/images/turtle_small.png", true,true);
+		Turtle turtle2 = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE,1,
+				"/images/turtle_small.png", true,true);
 		turtle.setHeading(170);
-		moveForward(turtle, 1000);
+		turtle2.setHeading(50);
+		forward(turtle2,10);
+		moveForward(turtle, 10000); // observer observable
+		turtle.setHeading(60);
+		turtle.setPenWidth(3);
+		moveForward(turtle,100);
+		left(turtle,50);
+		graphics.rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 	}
 	
 	protected Node getDisplay(){
-		return canvas;
+		return overlay;
 	}
 	
 	protected void changeBackground(Color backgroundColor){
@@ -110,39 +122,37 @@ public class Display {
 	}
 	
 	protected double show(Turtle turtle){
-		return showTurtle(turtle,true);
+		turtle.setShowTurtle(true);
+		drawTurtleImage(turtle);
+		return 1;
+	}
+
+	private void drawTurtleImage(Turtle turtle){
+		ImageView turtleImage = turtle.getTurtleImage();
+		turtleImage.setRotate(turtle.getAdjustedHeading());
+		double widthAdj = turtleImage.getImage().getWidth() / 2;
+		double heightAdj= turtleImage.getImage().getHeight() / 2;
+		turtleImage.setTranslateX(turtle.getXloc() - widthAdj);
+		turtleImage.setTranslateY(turtle.getYloc() - heightAdj);
+		overlay.getChildren().add(turtleImage);
 	}
 	
 	protected double hide(Turtle turtle){
-		return showTurtle(turtle,false);
+		removeTurtleImage(turtle);
+		turtle.setShowTurtle(false);
+		return 0;
+	}
+
+	private void removeTurtleImage(Turtle turtle){
+		overlay.getChildren().remove(turtle.getTurtleImage());
 	}
 	
-	// TODO implement turtle visualization
-	private double showTurtle(Turtle turtle, boolean showTurtle){
-		turtle.setShowTurtle(showTurtle);
-		drawTurtle(turtle,0,0);
-		if(showTurtle){
-			return 1;
-		}else{
-			return 0;
+	private void updateTurtleImage(Turtle turtle){
+		removeTurtleImage(turtle);
+		if(turtle.getShowTurtle()){
+			drawTurtleImage(turtle);
 		}
 	}
-	
-	private void drawTurtle(Turtle turtle,int x, int y){
-		Image image = turtle.getTurtleImage().getImage();
-		double widthAdj = image.getWidth()/2;
-		double heightAdj= image.getHeight()/2;
-		graphics.drawImage(turtle.getTurtleImage().getImage(), xOrigin-widthAdj, yOrigin-heightAdj);
-	}
-	
-	private void setImageXY(Turtle turtle,double x, double y){
-		ImageView image = turtle.getTurtleImage();
-		double widthAdj = image.getImage().getWidth()/2;
-		double heightAdj= image.getImage().getHeight()/2;
-		image.setTranslateX(x - widthAdj);
-		image.setTranslateY(y - heightAdj);
-	}
-	
 	
 	/**
 	 * turns turtle counterclockwise
@@ -157,6 +167,7 @@ public class Display {
 			newHeading -= 360;
 		}
 		turtle.setHeading(newHeading);
+		updateTurtleImage(turtle);
 		return degrees;
 	}
 	
@@ -173,6 +184,7 @@ public class Display {
 			newHeading+= 360;
 		}
 		turtle.setHeading(newHeading);
+		updateTurtleImage(turtle);
 		return degrees;
 	}
 	
@@ -192,6 +204,7 @@ public class Display {
 			newHeading = degrees + 360*(degrees/360) + 360;
 		}
 		turtle.setHeading(newHeading);
+		updateTurtleImage(turtle);
 		return Math.abs(oldHeading-newHeading);
 	}
 	
@@ -207,7 +220,7 @@ public class Display {
 		double distance = getDistance(turtle.getXloc(),turtle.getYloc(),x,y);
 		turtle.setXPosition(x+xOrigin);
 		turtle.setXPosition(y+yOrigin);
-		setImageXY(turtle,x,y);
+		updateTurtleImage(turtle);
 		return distance;
 	}
 	
@@ -220,7 +233,7 @@ public class Display {
 	protected double home(Turtle turtle){
 		double distance = setXY(turtle,xOrigin,yOrigin);
 		setHeading(turtle,defaultHeading);
-		setImageXY(turtle,xOrigin,yOrigin);
+		updateTurtleImage(turtle);
 		return distance;
 	}
 	
@@ -263,6 +276,7 @@ public class Display {
 		double oldHeading = turtle.getHeading();
 		double newHeading = calculateDirection(x,y);
 		turtle.setHeading(newHeading);
+		updateTurtleImage(turtle);
 		return Math.abs(oldHeading - newHeading);
 	}
 	
@@ -292,6 +306,7 @@ public class Display {
 	private void moveTurtle(Turtle turtle, int pixels, boolean leaveTrail){
 		double heading = turtle.getHeading();
 		if(pixels == 0){ // base case
+			updateTurtleImage(turtle);
 			return;
 		}else{
 			double xDistance = getXDistance(heading,1);
@@ -305,7 +320,6 @@ public class Display {
 				y = (y2+maxCanvasHeight) % maxCanvasHeight;
 				turtle.setXPosition(x);
 				turtle.setYPosition(y);
-				setImageXY(turtle,x,y);
 				moveTurtle(turtle,pixels,leaveTrail);
 			}else{ // move turtle if next pixel is on screen
 				if(leaveTrail){
@@ -313,7 +327,6 @@ public class Display {
 				}
 				turtle.setXPosition(x2);
 				turtle.setYPosition(y2);
-				setImageXY(turtle,x2,y2);
 				pixels--;
 				moveTurtle(turtle,pixels,leaveTrail);
 			}
@@ -326,7 +339,7 @@ public class Display {
 	
 	private void paintLine(Turtle t, double x1, double y1, double x2, double y2){ 
 		graphics.setStroke(t.getPenColor());
-		graphics.setLineWidth(LINE_WIDTH);
+		graphics.setLineWidth(t.getPenWidth());
 		graphics.strokeLine(x1, y1, x2, y2);
 		paintImage(t.getTurtleImage(),x2,y2,t.getHeading());
 	}
