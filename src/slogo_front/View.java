@@ -2,9 +2,15 @@ package slogo_front;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import javafx.beans.Observable;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -300,6 +306,7 @@ public class View {
 		commandList.setMaxWidth(200);
 		commandItems = FXCollections.observableArrayList("Command History");
 		commandList.setItems(commandItems);
+		commandList.setOnMouseClicked(historyEvent);
 
 		return commandList;
 	}
@@ -378,16 +385,32 @@ public class View {
 		}
 
 	};
-	
-//	protected void setUpAlert(){
-//		Dialogs.create()
-//        .owner(stage)
-//        .title("Information Dialog")
-//        .masthead(null)
-//        .message("I have a great message for you!")
-//        .showInformation();
-//	}
 
+	private EventHandler<MouseEvent> historyEvent = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent event) {
+			// TODO turtle within display or in view? think about allowances for
+			// multiple turtles
+			String s = (String) commandList.getSelectionModel().getSelectedItem();
+			s = s.substring(3, s.length()); // remove ">> "
+			System.out.println(s);
+			
+			if (s.toLowerCase().equals("clear")) {
+				clearHistoryText();
+			}
+//			addHistoryText(s);
+
+			// TODO throw error here
+//			try{
+				List<Double> results = manager.getModel().toBack(s.toLowerCase() + "\n");
+				for (Double value : results) {
+					System.out.println(value);
+				}
+//			}catch(InvalidParameterException e){
+				
+//			}
+		}
+	};
+	
 	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
