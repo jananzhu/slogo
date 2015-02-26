@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javafx.beans.property.MapProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 import slogo_front.Manager;
 
@@ -92,7 +90,7 @@ public class Model {
 		return cmdMap;
 	}
 	
-	public ObservableMap getVarMap() {
+	public ObservableMap<String, Double> getVarMap() {
 		return varMap;
 	}
 	
