@@ -13,10 +13,11 @@ public class Turtle {
 	private double yPosition;
 	private double heading; // from 0-360
 	private Color penColor;
+	private double penWidth;
 	private boolean penDown;
 	private boolean showTurtle;
 	private ImageView turtleImage;
-
+	
 	// getters
 	
 	protected double getXloc() {
@@ -31,8 +32,17 @@ public class Turtle {
 		return heading;
 	}
 	
+	protected double getAdjustedHeading(){
+		// heading for image
+		return 360-heading;
+	}
+	
 	protected Color getPenColor(){
 		return penColor;
+	}
+	
+	protected double getPenWidth(){
+		return penWidth;
 	}
 	
 	protected boolean getPenDown(){
@@ -59,9 +69,12 @@ public class Turtle {
 		heading = direction;
 	}
 	
-	
 	protected void setPenColor(Color color){
 		penColor = color;
+	}
+	
+	protected void setPenWidth(double width){
+		penWidth = width;
 	}
 	
 	protected void setPenDown(Boolean leaveTrail){
@@ -87,12 +100,13 @@ public class Turtle {
 	 * @param leaveTrail
 	 * @param showTurtleImage
 	 */
-	protected Turtle(int x, int y, float direction, int id, Color color, 
+	protected Turtle(double x, double y, float direction, int id, Color color, double lineWidth,
 			String imageURL, boolean leaveTrail, boolean showTurtleImage){
 		xPosition = x;
 		yPosition = y;
 		myID = id;
 		penColor = color;
+		penWidth = lineWidth;
 		heading = direction;
 		penDown = leaveTrail;
 		showTurtle = showTurtleImage;
