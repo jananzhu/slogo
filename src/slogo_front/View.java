@@ -150,6 +150,9 @@ public class View {
 		variableItems = FXCollections.observableArrayList("Variables");
 		// testing
 		addVariableText("x",2);
+		addVariableText("x",200);
+		addVariableText("y",10);
+		addVariableText("x",250);
 		
 		setLabels();
 

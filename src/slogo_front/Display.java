@@ -408,7 +408,11 @@ public class Display {
 				}
 				turtle.setXPosition(x2);
 				turtle.setYPosition(y2);
-				pixels--;
+				if(pixels>0){
+					pixels--;
+				}else{
+					pixels++;
+				}
 				moveTurtle(turtle,pixels,leaveTrail);
 			}
 		}
