@@ -87,9 +87,37 @@ public class Display {
 //		left(turtle,50);
 		
 	}
+	
+	// queries
+	
 	protected Node getDisplay(){
 		return overlay;
 	}
+	
+	protected double xCor(Turtle turtle){
+		return turtle.getXloc()+xOrigin;
+	}
+	
+	protected double yCor(Turtle turtle){
+		return turtle.getYloc()+yOrigin;
+	}
+	
+	protected double showing(Turtle turtle){
+		if(turtle.getShowTurtle()){
+			return 1;
+		}else{
+			return 0;
+		}
+	}
+	
+	protected double isPenDown(Turtle turtle){
+		if(turtle.getPenDown()){
+			return 1;
+		}
+		return 0;
+	}
+	
+	// actions 
 	
 	protected void changeBackground(Color backgroundColor){
 		background.getGraphicsContext2D().setFill(backgroundColor);
