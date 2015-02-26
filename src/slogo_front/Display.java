@@ -42,7 +42,6 @@ public class Display {
 	 * @param myCanvas
 	 */
 	protected Display(double canvasWidth, double canvasHeight){
-		//trying a vbox
 		overlay = new Pane();
 		canvas = new Canvas (canvasWidth,canvasHeight);
 		background = new Canvas(canvasWidth,canvasHeight);
@@ -56,20 +55,25 @@ public class Display {
 		graphics = canvas.getGraphicsContext2D();
 		background.getGraphicsContext2D().rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 		
-		// for testing
-//		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 1, 
-//				"/images/turtle_small.png", true,true);
-//		Turtle turtle2 = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE,1,
-//				"/images/turtle_small.png", true,true);
-//		turtle.setHeading(170);
-//		turtle2.setHeading(50);
-//		forward(turtle2,10);
-//		moveForward(turtle, 10000); // observer observable
-//		turtle.setHeading(60);
-//		turtle.setPenWidth(3);
-//		moveForward(turtle,100);
-//		left(turtle,50);
-		
+//		test();
+	}
+	
+	/**
+	 * testing area
+	 */
+	private void test(){
+		Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 1, 
+				"/images/turtle_small.png", true,true);
+		Turtle turtle2 = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE,1,
+				"/images/turtle_small.png", true,true);
+		turtle.setHeading(170);
+		turtle2.setHeading(50);
+		forward(turtle2,10);
+		moveForward(turtle, 10000); // observer observable
+		turtle.setHeading(60);
+		turtle.setPenWidth(3);
+		moveForward(turtle,100);
+		left(turtle,50);
 	}
 	
 	// queries
