@@ -338,5 +338,14 @@ public class View {
 		}
 
 	};
+	
+//	protected void setUpAlert(){
+//		Dialogs.create()
+//        .owner(stage)
+//        .title("Information Dialog")
+//        .masthead(null)
+//        .message("I have a great message for you!")
+//        .showInformation();
+//	}
 
 }

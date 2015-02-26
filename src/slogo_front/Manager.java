@@ -129,11 +129,15 @@ public class Manager {
 				view.addHistoryText(parse);
 				System.out.println(parse);
 
-				// testing model methods
-				List<Double> results = model.toBack(parse + "\n");
-				for (Double value : results) {
-					System.out.println(value);
-				}
+				// TODO throw error here
+//				try{
+					List<Double> results = model.toBack(parse + "\n");
+					for (Double value : results) {
+						System.out.println(value);
+					}
+//				}catch(InvalidParameterException e){
+					
+//				}
 			}
 
 		}
