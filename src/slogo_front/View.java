@@ -167,7 +167,11 @@ public class View {
 		variableItems = FXCollections.observableArrayList("Variables");
 		varList.setMaxHeight(250);
 		// testing
-		addVariableText("x", 2);
+
+		addVariableText("x",2);
+		addVariableText("x",200);
+		addVariableText("y",10);
+		addVariableText("x",250);
 
 		setLabels();
 
@@ -374,6 +378,15 @@ public class View {
 		}
 
 	};
+	
+//	protected void setUpAlert(){
+//		Dialogs.create()
+//        .owner(stage)
+//        .title("Information Dialog")
+//        .masthead(null)
+//        .message("I have a great message for you!")
+//        .showInformation();
+//	}
 
 	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {

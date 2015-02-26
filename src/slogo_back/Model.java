@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import slogo_front.Manager;
@@ -50,6 +52,11 @@ public class Model {
 	
 	public void setManager(Manager manager){
 		mgr = manager;
+		System.out.println("printing methods");
+		Class c = mgr.getClass();
+		for (Method method : c.getDeclaredMethods()) {
+		    System.out.println( method.toString());
+		}
 	}
 	
 	public Map<String, String> createCmdMap(String filename) {
@@ -102,11 +109,11 @@ public class Model {
 		return varMap.get(key);
 	}
 	
-	public Double toFront(String cmd, Object params){
+	public Double toFront(String cmd, double[] params){
 		Method toRun;
 		Double returnValue = null;
 		try {
-			toRun = Manager.class.getMethod(cmd, Double.class);
+			toRun = Manager.class.getMethod(cmd, double[].class);
 			returnValue = (Double) toRun.invoke(mgr, params);
 		} catch (Exception e) {
 			e.printStackTrace();
