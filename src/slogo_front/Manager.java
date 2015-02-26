@@ -131,7 +131,7 @@ public class Manager {
 
 				// TODO throw error here
 //				try{
-					List<Double> results = model.toBack(parse + "\n");
+					List<Double> results = model.toBack(parse.toLowerCase() + "\n");
 					for (Double value : results) {
 						System.out.println(value);
 					}
