@@ -1,5 +1,6 @@
 package slogo_front;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import slogo_back.Model;
@@ -21,7 +22,8 @@ public class Manager {
 	Display display;
 	private static final int xCanvas = 1000;
 	private static final int yCanvas = 600;
-	
+	private ArrayList<Turtle> turtles = new ArrayList<>();
+	private int turtleCount = 1;
 	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, Color.BLACK, 1,
 			"/images/turtle_small.png", true, true);
 	Model model;
@@ -115,6 +117,9 @@ public class Manager {
 
 	private void initialize() {
 		// setting handlers
+		Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, Color.BLACK, turtleCount,
+				"/images/turtle_small.png", true, true);
+		turtles.add(turtle);
 		view.setCommandLine(parse);
 //		view.setMoveForward(forwardEvent);
 	}
@@ -152,7 +157,30 @@ public class Manager {
 
 		}
 	};
+	// TODO add these methods
+//	/**
+//	 * adds turtle to array list of turtles
+//	 * returns number of turtles in array list
+//	 * @param turtle
+//	 * @return
+//	 */
+//	protected int addTurtle(Turtle turtle){
+//		turtles.add(turtle);
+//		return turtles.size();
+//	}
 	
+//	/**
+//	 * removes turtle image from display & from active turtles list
+//	 * returns number of turtles in array list
+//	 * @param turtle
+//	 */
+//	protected int removeTurtle(Turtle turtle){
+//		if(turtle.getShowTurtle()){
+//			hide(turtle);
+//		}
+//		turtles.remove(turtle);
+//		return turtles.size();
+//	}
 //	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
 //		public void handle(MouseEvent event) {
 //			// TODO turtle within display or in view? think about allowances for
