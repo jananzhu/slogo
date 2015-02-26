@@ -9,6 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
 import slogo_front.Manager;
 
 public class Model {
@@ -16,6 +19,7 @@ public class Model {
 	private Manager mgr;
 	private Parser myParser;
 	private Map<String, String> cmdMap;
+	private ObservableMap<String, Double> varMap;
 	
 //	public static void main(String[] args){
 //		Model model = new Model("resources/languages/English.properties");
@@ -26,10 +30,22 @@ public class Model {
 //		}
 //	}
 	
+	
+	/*
+	 * Code for adding listener
+	 * 
+	 * varMap.addListener(new MapChangeListener() {
+            @Override
+            public void onChanged(MapChangeListener.Change change) {
+                System.out.println("Detected a change! ");
+            }
+        });
+	 */
 	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
 		myParser = new Parser(this, cmdMap);
-		
+		Map<String, Double> map = new HashMap<>();
+		varMap = FXCollections.observableMap(map);
 	}
 	
 	public void setManager(Manager manager){
@@ -72,6 +88,18 @@ public class Model {
 			}
 		}
 		return cmdMap;
+	}
+	
+	public ObservableMap<String, Double> getVarMap() {
+		return varMap;
+	}
+	
+	public void setVar(String key, Double value) {
+		varMap.put(key, value);
+	}
+	
+	public Double getVar(String key) {
+		return varMap.get(key);
 	}
 	
 	public Double toFront(String cmd, Object params){
