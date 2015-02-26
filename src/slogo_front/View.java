@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -27,11 +28,16 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Popup;
+import javafx.stage.Stage;
 
 // TODO please comment this code tonight
 /**
@@ -47,6 +53,9 @@ public class View {
 //	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(xDimension, yDimension);
 	
 	private Scene scene;
+	//html
+	WebView browser = new WebView();
+	Scene secondScene = new Scene(browser);
 	// private ToolBar toolBar;
 	private MenuBar menuBar;
 	private TextField commandLine;
@@ -97,6 +106,7 @@ public class View {
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle", defaultLocale);
 		//creating borderpane
 		BorderPane root = new BorderPane();
+		
 		root.setTop(makeMenu());
 		root.setRight(makeCommandHistory());
 		root.setBottom(makeTextField());
@@ -230,6 +240,9 @@ public class View {
 		language = "English";
 		//Command Reference Sheet
 		Menu menuHelp = new Menu("Help");
+		MenuItem commandReference = new MenuItem("Command Reference");
+		commandReference.setOnAction(launchWebView);
+		menuHelp.getItems().add(commandReference);
 
 		//Language
 		Menu menuLanguage = new Menu("Change Language");
@@ -303,6 +316,30 @@ public class View {
 	    public void handle(MouseEvent event) {
 	    	//TODO turtle within display or in view? think about allowances for multiple turtles
 	    		//displaychangeBackground(turtleColor.getValue());
+	    }
+	
+	};
+	
+	private EventHandler launchWebView = new EventHandler<ActionEvent>() {
+	    public void handle(ActionEvent event) {
+//	    	Label secondLabel = new Label("Hello");
+            
+//            Pane secondaryLayout = new Pane();
+////            secondaryLayout.getChildren().add(secondLabel);
+//            secondaryLayout.getChildren().add(browser);
+             
+            
+            browser.getEngine().load(getClass()
+            	    .getResource("/html/english.html")
+            	    .toExternalForm());
+//	    	webEngine.load();
+	    	Stage popUp = new Stage();
+	    	popUp.setScene(secondScene);
+	    	
+	    	popUp.show();
+//	    	System.out.println("hello");
+	    	
+	    	
 	    }
 	
 	};

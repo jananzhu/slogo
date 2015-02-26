@@ -26,8 +26,8 @@ public class Manager {
 	Manager(View defaultView){
 		view = defaultView;
 		display = view.getDisplay();
-//		model = new Model("/resources/languages/English.properties");
-//		model.setManager(this);
+		model = new Model("resources/languages/English.properties");
+		model.setManager(this);
 		initialize();
 //		turtle = new Turtle(0,0,0, )
 	}
