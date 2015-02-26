@@ -19,6 +19,7 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -54,8 +55,8 @@ public class View {
 	private ListView commandList;
 	private ObservableList<String> commandItems;
 	private ObservableList<String> variableItems;
-	private HashMap<String,Double> variables = new HashMap<>();
-	
+	private HashMap<String, Double> variables = new HashMap<>();
+
 	// private VBox displayBackground ;
 	// Canvas Dimensions
 	private static final int xCanvas = 1000;
@@ -80,11 +81,11 @@ public class View {
 	Label degreeLabel;
 	TextField degreeField;
 	Button turnTurtle;
+	Slider turnDegree;
 	ColorPicker turtleColor;
 	Button setColor;
 	Button setPen;
 	Button setTurtleImage;
-	
 
 	// TODO add array for turtles
 	// TODO add "addTurtle()" method
@@ -115,6 +116,7 @@ public class View {
 
 		clearScreen = new Button();
 		clearScreen.setMaxWidth(Double.MAX_VALUE);
+		clearScreen.setOnMouseClicked(clear);
 
 		moveForward = new Button();
 		moveForward.setMaxWidth(Double.MAX_VALUE);
@@ -123,18 +125,28 @@ public class View {
 		moveBackward = new Button();
 		moveBackward.setMaxWidth(Double.MAX_VALUE);
 		moveBackward.setOnMouseClicked(backwardEvent);
-		
 
-		degreeLabel = new Label();
-		degreeField = new TextField();
-		degreeField.setMaxWidth(50);
+//		degreeLabel = new Label();
+//		degreeField = new TextField();
+//		degreeField.setMaxWidth(50);
 
+		turnDegree = new Slider();
+		turnDegree.setMin(-180);
+		turnDegree.setMax(180);
+		turnDegree.setValue(0);
+		turnDegree.setShowTickLabels(true);
+		turnDegree.setShowTickMarks(true);
+		turnDegree.setMajorTickUnit(90);
+		turnDegree.setMinorTickCount(10);
+		turnDegree.setBlockIncrement(5);
 		turnTurtle = new Button();
+		turnTurtle.setMaxWidth(Double.MAX_VALUE);
+		turnTurtle.setOnMouseClicked(turnEvent);
 
-		HBox degree = new HBox();
-		degree.getChildren().addAll(degreeLabel, degreeField, turnTurtle);
-		degree.setSpacing(10);
-		degree.setMaxWidth(Double.MAX_VALUE);
+//		HBox degree = new HBox();
+//		degree.getChildren().addAll(degreeLabel, degreeField, turnTurtle);
+//		degree.setSpacing(10);
+//		degree.setMaxWidth(Double.MAX_VALUE);
 
 		turtleColor = new ColorPicker();
 		turtleColor.setMaxWidth(Double.MAX_VALUE);
@@ -145,21 +157,22 @@ public class View {
 
 		setPen = new Button();
 		setPen.setMaxWidth(Double.MAX_VALUE);
+		setPen.setOnMouseClicked(changePenColor);
 
 		setTurtleImage = new Button();
 		setTurtleImage.setMaxWidth(Double.MAX_VALUE);
 		setTurtleImage.setOnMouseClicked(changeTurtleImage);
-		
+
 		varList = new ListView<String>();
 		variableItems = FXCollections.observableArrayList("Variables");
 		// testing
-		addVariableText("x",2);
-		
+		addVariableText("x", 2);
+
 		setLabels();
 
 		controlPanel.getChildren().addAll(clearScreen, moveForward,
-				moveBackward, degree, turtleColor, setColor, setPen,
-				setTurtleImage,varList);
+				moveBackward, turnDegree, turnTurtle , turtleColor, setColor, setPen,
+				setTurtleImage, varList);
 
 		return controlPanel;
 	}
@@ -169,7 +182,7 @@ public class View {
 		clearScreen.setText(labels.getString("CLEAR"));
 		moveForward.setText(labels.getString("FORWARD"));
 		moveBackward.setText(labels.getString("BACKWARD"));
-		degreeLabel.setText(labels.getString("DEGREE"));
+//		degreeLabel.setText(labels.getString("DEGREE"));
 		turnTurtle.setText(labels.getString("TURN"));
 		setColor.setText(labels.getString("BACKGROUND"));
 		setPen.setText(labels.getString("PEN"));
@@ -206,14 +219,14 @@ public class View {
 
 	// figureout if this should be private somehow
 	protected void addHistoryText(String text) {
-		commandItems.add(">> "  + text);
+		commandItems.add(">> " + text);
 		commandList.setItems(commandItems);
 	}
-	
+
 	protected void addVariableText(String variable, double value) {
 		variables.put(variable, value);
 		variableItems.clear();
-		for(String s:variables.keySet()){
+		for (String s : variables.keySet()) {
 			variableItems.add(variable + ": " + value);
 		}
 		varList.setItems(variableItems);
@@ -280,24 +293,25 @@ public class View {
 	private Node makeCommandHistory() {
 		commandList = new ListView<String>();
 		commandList.setMaxWidth(200);
-		commandItems = FXCollections.observableArrayList ("Command History");
+		commandItems = FXCollections.observableArrayList("Command History");
 		commandList.setItems(commandItems);
-		
+
 		return commandList;
 	}
-	//set manager
-	protected void setManager(Manager m){
+
+	// set manager
+	protected void setManager(Manager m) {
 		manager = m;
 	}
-	
+
 	// sets command line
 	protected void setCommandLine(EventHandler<KeyEvent> handler) {
 		commandLine.setOnKeyPressed(handler);
 	}
-	
-//	protected void setMoveForward(EventHandler<MouseEvent> handler){
-//		moveForward.setOnMouseClicked(handler);
-//	}
+
+	// protected void setMoveForward(EventHandler<MouseEvent> handler){
+	// moveForward.setOnMouseClicked(handler);
+	// }
 
 	private EventHandler<MouseEvent> changeTurtleImage = new EventHandler<MouseEvent>() {
 		// within manager?
@@ -311,20 +325,36 @@ public class View {
 
 	};
 
+	private EventHandler<MouseEvent> clear = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent event) {
+
+			display.clearScreen(manager.getTurtle());
+		}
+
+	};
+	
 	private EventHandler<MouseEvent> changeBackground = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			display.changeBackground(turtleColor.getValue());
 		}
 
 	};
-
-	private EventHandler<MouseEvent> changePenColor = new EventHandler<MouseEvent>() {
+	
+	private EventHandler<MouseEvent> turnEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
-			// displaychangeBackground(turtleColor.getValue());
+			double degree = turnDegree.getValue();
+			display.setHeading(manager.getTurtle(), degree);
+		}
 
-			// method for within manager, because turtle is within manager
+	};
+
+	private EventHandler<MouseEvent> changePenColor = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent event) {
+
+			manager.getTurtle().setPenColor(turtleColor.getValue());
+
 		}
 
 	};
@@ -343,7 +373,7 @@ public class View {
 		}
 
 	};
-	
+
 	private EventHandler<MouseEvent> forwardEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
@@ -352,7 +382,7 @@ public class View {
 		}
 
 	};
-	
+
 	private EventHandler<MouseEvent> backwardEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
