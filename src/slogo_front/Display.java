@@ -30,11 +30,9 @@ public class Display {
 	private Canvas canvas;
 	private Canvas background;
 	private GraphicsContext graphics;
-	private static final int LINE_WIDTH = 1;
 	private static final int defaultHeading = 0;
 	
 	//Default turtle instance
-	Turtle turtle; //extend to list of turtles?
 	private ArrayList<Turtle> turtles = new ArrayList<>();
 	
 	
@@ -341,7 +339,7 @@ public class Display {
 	private void moveTurtle(Turtle turtle, int pixels, boolean leaveTrail){
 		double heading = turtle.getHeading();
 		if(pixels == 0){ // base case
-			updateTurtleImage(turtle);
+			updateTurtleImage(turtle); // update image at very end
 			return;
 		}else{
 			double xDistance = getXDistance(heading,1);
@@ -376,16 +374,8 @@ public class Display {
 		graphics.setStroke(t.getPenColor());
 		graphics.setLineWidth(t.getPenWidth());
 		graphics.strokeLine(x1, y1, x2, y2);
-		paintImage(t.getTurtleImage(),x2,y2,t.getHeading());
 	}
-	
-	// paint image
-	private void paintImage(ImageView image,double x, double y,double heading){
-		image.setRotate(heading - image.getRotate());
-		image.setTranslateX(x);
-		image.setTranslateY(y);
-	}
-	
+		
 	// helper methods for geometry calculations
 	
 	/**
