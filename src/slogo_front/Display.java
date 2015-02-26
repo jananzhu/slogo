@@ -70,6 +70,7 @@ public class Display {
 		turtle.setPenWidth(3);
 		moveForward(turtle,100);
 		left(turtle,50);
+//		clearScreen(turtle);
 		background.getGraphicsContext2D().rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 	}
 	
