@@ -20,6 +20,7 @@ public class Parser {
     private Pattern variablePattern;
     private Pattern whitespacePattern;
     private CommandFactory myCommandFactory;
+    private Model myModel;
 
     public Parser(Model currentModel, Map<String,String> dictionary){
         myValidCommands = new ArrayList<String>();
@@ -33,10 +34,11 @@ public class Parser {
         variablePattern = Pattern.compile(myResourceBundle.getString("HeadVariable"));
         whitespacePattern = Pattern.compile(myResourceBundle.getString("LeadingWhitespace"));
         myCommandFactory = new CommandFactory(currentModel, dictionary);
+        myModel = currentModel;
 
     }
 
-    public ISyntaxNode buildParseTree(Queue<String> tokenQueue){
+    public ISyntaxNode buildParseTree(Queue<String> tokenQueue, Map<String,Double> variableMap){
         String token = tokenQueue.poll();
         Matcher listMatch = listPattern.matcher(token);
         ISyntaxNode node;
@@ -45,7 +47,9 @@ public class Parser {
         }else if(token.matches(constantPattern.toString())){
             node = new ParameterNode(Double.parseDouble(token));
         }else if(listMatch.matches()){
-            node = new ListNode(parseInput(token));
+            node = new ListNode(parseInput(token.substring(1, token.length()-1)));
+        }else if(token.matches(variablePattern.toString())){
+            node = new VariableNode(token.substring(1, token.length()),myModel.getVarMap());
         }else{
             throw new InvalidParameterException(tokenQueue.peek() + " is  invalid syntax");
         }
@@ -57,7 +61,7 @@ public class Parser {
         List<ISyntaxNode> commands = new ArrayList<ISyntaxNode>();
         while(!tokens.isEmpty()){
             if(myValidCommands.contains(tokens.peek())){
-                ISyntaxNode command = buildParseTree(tokens);
+                ISyntaxNode command = buildParseTree(tokens,myModel.getVarMap());
                 commands.add(command);
             }else{
                 throw new InvalidParameterException(tokens.peek() + " is an invalid command");

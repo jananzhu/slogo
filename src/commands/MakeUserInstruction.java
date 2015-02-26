@@ -1,6 +1,7 @@
 package commands;
 
 import java.security.InvalidParameterException;
+import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 import slogo_back.Model;
@@ -10,8 +11,8 @@ public class MakeUserInstruction extends Command {
     private static final int numParams = 1;
     private String variableName;
     
-    public MakeUserInstruction (Queue<String> cmdQueue, Model model, int numParams) {
-        super(cmdQueue, model, numParams);
+    public MakeUserInstruction (Queue<String> cmdQueue, Model model, int numParams,Map<String,Double> variableMap) {
+        super(cmdQueue, model, numParams, variableMap);
         String nextToken = cmdQueue.peek();
         if(nextToken.matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))){
             variableName = nextToken;
