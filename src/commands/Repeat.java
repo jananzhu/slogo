@@ -16,9 +16,8 @@ public class Repeat extends Command {
     public double getValue () {
         int repeatTimes = (int) myParams[0].getValue();
         Double retValue = null;
-        while(repeatTimes > 0){
+        while(repeatTimes-- > 0){
             retValue = myParams[1].getValue();
-            repeatTimes --;
         }
         return retValue;
     }

@@ -16,12 +16,11 @@ public class DoTimes extends Command {
     
     public DoTimes (Queue<String> cmdQueue,
                     Model model,
-                    int numParams,
                     Map<String, Double> variableMap) {
         super(cmdQueue, model, numParams, variableMap);
         String parameterString = cmdQueue.peek();
         String[] parameters = parameterString.split("\\s*");
-        if(parameters.length != 2){
+        if(parameters.length != numParams){
             throw new InvalidParameterException();
         }
         if(parameters[0].matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))
@@ -41,8 +40,8 @@ public class DoTimes extends Command {
     @Override
     public double getValue () {
         double returnValue = 0;
-        for(int i = 1; i<myLimit; i++){
-            myVariableMap.put(myVariable,(double) i);
+        for(double i = 1; i<=myLimit; i++){
+            myVariableMap.put(myVariable, i);
             returnValue = myParams[1].getValue();
         }
         return returnValue;        

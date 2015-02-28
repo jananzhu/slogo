@@ -1,0 +1,30 @@
+MakeUserInstruction
+
+Creates a UserInstruction
+Creates a local variable map, mapping strings to numbers. Specified variable names go in the keys, nothing goes in the values (yet)
+	Make sure the order of the keys is exactly the order in which the variables are specified in the TO command
+Pass the variable map to the UserInstruction
+Do nothing with the block of commands, pass string directly to the UserInstruction
+Store the custom UserInstruction object
+
+
+UserInstruction
+
+Take the arguments passed in and populates the local variable map (also check for duplicate variable names?)
+Calls on parser, passing the block of commands along with the local variable map
+	Gets back a ListNode
+Execute ListNode
+
+
+Calling on UserInstruction
+
+Take the instance of the specific UserInstrucion and call instance.clone(instance, args)
+	clone(UserInstruction, ) will return a copy of itself with the new arguments
+Call on newInstance.getValue()
+
+
+Parser
+
+Normally would look through global variables if a variable is encountered during parsing
+	If a local variable map is also passed in, look through both maps (we need to determine how to handle duplicate variable names)
+	
