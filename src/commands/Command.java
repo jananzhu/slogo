@@ -1,5 +1,7 @@
 package commands;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import slogo_back.ISyntaxNode;
@@ -8,10 +10,11 @@ import slogo_back.Parser;
 
 public abstract class Command implements ISyntaxNode{
 	private Parser myParser;
-	private Queue<String> myCmds;
+	protected Queue<String> myCmds;
 	protected ISyntaxNode[] myParams;
 	protected Model myModel;
 	protected Map<String,Double> myVariableMap;
+	protected List<String> myNewVariableNames;
 	
 	public Command(Queue<String> cmdQueue, Model model, Map<String, Double> variableMap) {
 		myParser = model.getParser();
@@ -22,8 +25,11 @@ public abstract class Command implements ISyntaxNode{
 	
 	public Command(Queue<String> cmdQueue, Model model, int numParams, Map<String, Double> variableMap) {
 		this(cmdQueue, model, variableMap);
+		myNewVariableNames = defineVariableNames();
 		myParams = defineParams(numParams);
 	}
+	
+	
 	
 	private ISyntaxNode[] defineParams(int numParams){
 		ISyntaxNode[] returnParams = new ISyntaxNode[numParams];
@@ -31,5 +37,14 @@ public abstract class Command implements ISyntaxNode{
 			returnParams[i] = myParser.buildParseTree(myCmds,myVariableMap);
 		}
 		return returnParams;
+	}
+	
+	/**
+	 * Used by control statement commands that make new variables
+	 *  to retain access to variable names after building the parse tree.
+	 * @return
+	 */
+	protected List<String> defineVariableNames(){
+	    return new ArrayList<String>();
 	}
 }

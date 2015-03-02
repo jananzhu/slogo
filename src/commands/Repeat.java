@@ -8,7 +8,7 @@ public class Repeat extends Command {
     
     private static final int numParams = 2;
 
-    public Repeat (Queue<String> cmdQueue, Model model, int numParams,Map<String,Double> variableMap) {
+    public Repeat (Queue<String> cmdQueue, Model model,Map<String,Double> variableMap) {
         super(cmdQueue, model, numParams, variableMap);
     }
 
@@ -16,9 +16,12 @@ public class Repeat extends Command {
     public double getValue () {
         int repeatTimes = (int) myParams[0].getValue();
         Double retValue = null;
-        while(repeatTimes >= 0){
+        int currentIteration = 1;
+        while(repeatTimes > 0){
+            myVariableMap.put("repcount", (double) currentIteration);
             retValue = myParams[1].getValue();
-            repeatTimes --;
+            repeatTimes--;
+            currentIteration++;
         }
         return retValue;
     }

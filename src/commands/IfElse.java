@@ -8,7 +8,7 @@ public class IfElse extends Command {
 
     private final static int numParams = 3;
     
-    public IfElse (Queue<String> cmdQueue, Model model, int numParams,Map<String,Double> variableMap) {
+    public IfElse (Queue<String> cmdQueue, Model model,Map<String,Double> variableMap) {
         super(cmdQueue, model, numParams, variableMap);
     }
 

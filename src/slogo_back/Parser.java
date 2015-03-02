@@ -51,7 +51,7 @@ public class Parser {
         }else if(token.matches(variablePattern.toString())){
             node = new VariableNode(token.substring(1, token.length()),myModel.getVarMap());
         }else{
-            throw new InvalidParameterException(tokenQueue.peek() + " is  invalid syntax");
+            throw new InvalidParameterException(token + " is  invalid syntax");
         }
         return node;
     }
@@ -104,10 +104,10 @@ public class Parser {
     private String headTokenToQueue(Pattern pattern, Matcher matcher,Queue<String> Queue,
                                     String input){
         String newInput;
-        if(pattern.split(input).length == 1){
+        if(pattern.split(input).length <= 1){
             newInput = "";
         }else{
-            newInput = pattern.split(input)[1];
+        	newInput = pattern.split(input)[1];
             if(!newInput.matches(whitespacePattern.toString())){
                 newInput = whitespacePattern.split(newInput)[1];
             }
