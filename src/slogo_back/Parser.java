@@ -51,7 +51,7 @@ public class Parser {
         }else if(token.matches(variablePattern.toString())){
             node = new VariableNode(token.substring(1, token.length()),myModel.getVarMap());
         }else{
-            throw new InvalidParameterException(token + " is  invalid syntax");
+            throw new InvalidParameterException(token + " is invalid syntax");
         }
         return node;
     }
@@ -81,9 +81,8 @@ public class Parser {
             if(constantMatch.find()){
                 input = headTokenToQueue(constantPattern, constantMatch, tokenQueue, input);
             } else if(listMatch.find()){
-                input = headTokenToQueue(listPattern, listMatch, tokenQueue, input);
+                input = processListToken(listPattern, listMatch, tokenQueue, input);
             }else if(commandMatch.find()){
-                System.out.println(input);
                 input = headTokenToQueue(commandPattern, commandMatch, tokenQueue,input);
             }else if(commentMatch.find()){
                 //skip over any comments
@@ -107,19 +106,50 @@ public class Parser {
         if(pattern.split(input).length <= 1){
             newInput = "";
         }else{
-        	newInput = pattern.split(input)[1];
+            newInput = pattern.split(input)[1];
             if(!newInput.matches(whitespacePattern.toString())){
-                newInput = whitespacePattern.split(newInput)[1];
+                try{
+                    newInput = whitespacePattern.split(newInput)[1];
+                }
+                catch(ArrayIndexOutOfBoundsException e){
+                    System.out.println("Offending input is: " + newInput);
+                }
             }
         }
         Queue.add(matcher.group(0));
         return newInput;
     }
 
-    public static void main(String[] args){
-        String test = "PI";
-        Parser testParser = new Parser(null,null);
-        testParser.parseInput(test);
+    private String processListToken(Pattern pattern, Matcher matcher, Queue<String> queue, 
+                                    String input){
+        System.out.println("My input is :" + input);
+        int index = 0;
+        int braceCount = 0;
+        while(index < input.length()){
+            char currentChar = input.charAt(index);
+            if(currentChar == '['){
+                braceCount++;
+            }
+            if(currentChar == ']'){
+                braceCount--;
+            }
+            if(braceCount == 0){
+                break;
+            }
+            index++;
+        }
+        if(braceCount != 0){
+            throw new InvalidParameterException("Error with bracket closure");
+        }
+        queue.add(input.substring(0, index+1));
+        String newString;
+        if(index>= input.length()-1){
+            newString = "";
+        }else{
+            newString = input.substring(index+1,input.length()-1);
+        }
+        newString = newString.trim();
+        return newString;
     }
 
 }
