@@ -1,5 +1,6 @@
 package slogo_front;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,8 +40,23 @@ public class Manager {
 		// turtle = new Turtle(0,0,0, )
 	}
 
+	public Double toGUI(String methodName, int[] turtleID, double[] params){
+		// add getter for turtles from turtleID & display from turtle ID
+		
+		Method toRun;
+		Double returnValue = null;
+		try {
+			toRun = Display.class.getMethod(methodName, Turtle[].class, double[].class); // TODO modify all methods in display
+//			returnValue = (Double) toRun.invoke(display,list of turtles , params); // TODO change display to getter w/ ID
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return returnValue;
+	}
+
 	/*
 	 * BACKEND AND FRONTEND API INTEGRATION
+	 * generic signature: list of turtles, list of double parameters (degrees, heading, x/y coordinates ,etc)
 	 */
 	 public double home(double[] var){
 		 return display.home(turtle);
@@ -131,7 +147,7 @@ public class Manager {
 	// }
 	//
 	// };
-
+	
 	private EventHandler<KeyEvent> parse = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent event) {
 			String parse;
