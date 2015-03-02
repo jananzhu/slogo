@@ -51,7 +51,7 @@ public class Parser {
         }else if(token.matches(variablePattern.toString())){
             node = new VariableNode(token.substring(1, token.length()),myModel.getVarMap());
         }else{
-            throw new InvalidParameterException(tokenQueue.peek() + " is  invalid syntax");
+            throw new InvalidParameterException(token + " is  invalid syntax");
         }
         return node;
     }
