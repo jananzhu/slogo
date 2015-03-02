@@ -162,7 +162,7 @@ public class View {
 
 		varList = new ListView<String>();
 		variableItems = FXCollections.observableArrayList("Variables");
-		varList.setMaxHeight(250);
+		varList.setMaxHeight(200);
 		// testing
 
 		addVariableText("y (demo)",10);
