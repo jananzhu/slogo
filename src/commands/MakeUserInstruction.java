@@ -8,7 +8,7 @@ import slogo_back.Model;
 
 public class MakeUserInstruction extends Command {
 
-    private static final int numParams = 1;
+    private static final int numParams = 3;
     private String variableName;
     
     public MakeUserInstruction (Queue<String> cmdQueue, Model model, int numParams,Map<String,Double> variableMap) {

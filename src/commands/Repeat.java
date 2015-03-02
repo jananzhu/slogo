@@ -20,7 +20,7 @@ public class Repeat extends Command {
         while(repeatTimes > 0){
             myVariableMap.put("repcount", (double) currentIteration);
             retValue = myParams[1].getValue();
-            repeatTimes --;
+            repeatTimes--;
             currentIteration++;
         }
         return retValue;
