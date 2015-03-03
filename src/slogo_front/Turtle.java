@@ -9,6 +9,7 @@ import javafx.scene.paint.Color;
  */
 public class Turtle {
 	private int myID;
+	private int displayID;
 	private double xPosition;
 	private double yPosition;
 	private double heading; // from 0-360
@@ -21,6 +22,10 @@ public class Turtle {
 	// getters
 	protected int getID(){
 		return myID;
+	}
+	
+	protected int getDisplayID(){
+		return displayID;
 	}
 	
 	protected double getXloc() {
@@ -68,6 +73,10 @@ public class Turtle {
 		yPosition = y;
 	}
 	
+	protected void setDisplayID(int id){
+		displayID = id;
+	}
+	
 	protected void setHeading(double direction){
 		heading = direction;
 	}
@@ -103,11 +112,12 @@ public class Turtle {
 	 * @param leaveTrail
 	 * @param showTurtleImage
 	 */
-	protected Turtle(double x, double y, float direction, int id, Color color, double lineWidth,
+	protected Turtle(double x, double y, float direction, int id, int display, Color color, double lineWidth,
 			String imageURL, boolean leaveTrail, boolean showTurtleImage){
 		xPosition = x;
 		yPosition = y;
 		myID = id;
+		displayID = display; 
 		penColor = color;
 		penWidth = lineWidth;
 		heading = direction;
