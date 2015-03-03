@@ -16,7 +16,9 @@ public class For extends Command {
     private int myEnd;
     private int myIncrement;
 
-    private final static int numParams = 2;
+    //TODO: Note that numParams is currently set to 1 instead of 2 because first "param" is parsed through 
+    // defineVariableNames. Not sure if this is a good permanent solution. B
+    private final static int numParams = 1;
 
     public For (Queue<String> cmdQueue, Model model,Map<String,Double> variableMap) {
         super(cmdQueue, model, numParams, variableMap);
@@ -26,9 +28,13 @@ public class For extends Command {
     protected List<String> defineVariableNames(){
         List<String> variableNames = new ArrayList<String>();
         
-        String parameterString = myCmds.peek();
-        String[] parameters = parameterString.split("\\s*");
+        String parameterString = myCmds.poll();
+        parameterString = parameterString.substring(1, parameterString.length()-1);
+        String[] parameters = parameterString.split("\\s+");
         if(parameters.length != 4){
+            for(String s: parameters){
+                System.out.println("Parameter is" + s);
+            }
             throw new InvalidParameterException(parameterString + " does not contain 4 parameters");
         }
         if(parameters[0].matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))
@@ -49,7 +55,7 @@ public class For extends Command {
         double returnValue = 0;
         for(int i = myStart; i<myEnd; i+=myIncrement){
             myVariableMap.put(myNewVariableNames.get(0),(double) i);
-            returnValue = myParams[1].getValue();
+            returnValue = myParams[0].getValue();
         }
         return returnValue;
     }
