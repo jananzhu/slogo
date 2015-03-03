@@ -25,7 +25,7 @@ public class Manager {
 	private static final int yCanvas = 600;
 	private ArrayList<Turtle> turtles = new ArrayList<>();
 	private int turtleCount = 1;
-	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, Color.BLACK, 1,
+	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, Color.BLACK, 1,1,
 			"/images/turtle_small.png", true, true);
 	Model model;
 
@@ -39,7 +39,15 @@ public class Manager {
 		initialize();
 		// turtle = new Turtle(0,0,0, )
 	}
-
+	
+	/**
+	 * reflection to GUI (for methods in display)
+	 * TODO make helper methods more efficient (remove loops)
+	 * @param methodName
+	 * @param turtleID
+	 * @param params
+	 * @return
+	 */
 	public Double toGUI(String methodName, int[] turtleID, double[] params){
 		// add getter for turtles from turtleID & display from turtle ID
 		
@@ -47,13 +55,32 @@ public class Manager {
 		Double returnValue = null;
 		try {
 			toRun = Display.class.getMethod(methodName, Turtle[].class, double[].class); // TODO modify all methods in display
-//			returnValue = (Double) toRun.invoke(display,list of turtles , params); // TODO change display to getter w/ ID
+			returnValue = (Double) toRun.invoke(checkDisplays(turtleID),turtles.get(turtleID[0]), params); //change to arraylist of turtles 
+			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return returnValue;
 	}
-
+	
+	private Turtle[] getTurtles(int [] turtleID){ // TODO make more efficient
+		Turtle[] turtleList = new Turtle[turtleID.length];
+		for(int i = 0 ; i < turtleID.length; i++){
+			turtleList[i] = turtles.get(i);
+		}
+		return turtleList;
+	}
+	
+	private int checkDisplays(int[] turtleID){ // TODO make more efficient
+		int display = turtles.get(turtleID[0]).getDisplayID();
+		for(int i : turtleID){
+			if (turtles.get(i).getDisplayID() != display){
+				return -1;
+			}
+		}
+		return display;
+	}
+	
 	/*
 	 * BACKEND AND FRONTEND API INTEGRATION
 	 * generic signature: list of turtles, list of double parameters (degrees, heading, x/y coordinates ,etc)
@@ -133,7 +160,7 @@ public class Manager {
 
 	private void initialize() {
 		// setting handlers
-		Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, Color.BLACK, turtleCount,
+		Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0,0, Color.BLACK, turtleCount,
 				"/images/turtle_small.png", true, true);
 		turtles.add(turtle);
 		view.setCommandLine(parse);
