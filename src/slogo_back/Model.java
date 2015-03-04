@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Stack;
 
-import javax.annotation.PostConstruct;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -21,7 +21,7 @@ public class Model {
 	private Manager mgr;
 	private Parser myParser;
 	private Map<String, String> cmdMap;
-	private ObservableMap<String, Double> varMap;
+	private ObservableMap<String, Stack<Double>> varMap;
 	
 //	public static void main(String[] args){
 //		Model model = new Model("resources/languages/English.properties");
@@ -46,7 +46,7 @@ public class Model {
 	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
 		myParser = new Parser(this, cmdMap);
-		Map<String, Double> map = new HashMap<>();
+		Map<String, Stack<Double>> map = new HashMap<>();
 		varMap = FXCollections.observableMap(map);
 	}
 	
@@ -92,19 +92,31 @@ public class Model {
 		return cmdMap;
 	}
 	
-	public ObservableMap<String, Double> getVarMap() {
+	public ObservableMap<String, Stack<Double>> getVarMap() {
 		return varMap;
 	}
 	
 	public void setVar(String key, Double value) {
-		varMap.put(key, value);
+		if (varMap.containsKey(key))
+			varMap.get(key).add(value);
+		else {
+			Stack<Double> temp = new Stack<>();
+			temp.push(value);
+			varMap.put(key, temp);
+		}
 	}
 	
 	public Double getVar(String key) {
-		return varMap.get(key);
+		return varMap.get(key).peek();
+	}
+	
+	public void popVar(String key) {
+		varMap.get(key).pop();
 	}
 	
 	public Double toFront(String cmd, double[] params){
+		return mgr.toGUI(cmd, new int[]{1}, params);		//Check to make sure turtles index from 1
+		/*
 		Method toRun;
 		Double returnValue = null;
 		try {
@@ -114,6 +126,7 @@ public class Model {
 			e.printStackTrace();
 		}
 		return returnValue;
+		*/
 	}
 	
 	public List<Double> toBack(String cmds) {

@@ -9,7 +9,7 @@ import slogo_back.Model;
 import slogo_back.Parser;
 
 public abstract class Command implements ISyntaxNode{
-	private Parser myParser;
+	protected Parser myParser;
 	protected Queue<String> myCmds;
 	protected ISyntaxNode[] myParams;
 	protected Model myModel;
@@ -35,7 +35,7 @@ public abstract class Command implements ISyntaxNode{
 		ISyntaxNode[] returnParams = new ISyntaxNode[numParams];
 		for (int i = 0; i < numParams; i++){
 		    System.out.println("numParams is" + numParams);
-		        System.out.println("Calling buildParseTree from define " + i + "th parameter");
+		    System.out.println("Calling buildParseTree from define " + i + "th parameter");
 			returnParams[i] = myParser.buildParseTree(myCmds,myVariableMap);
 		}
 		return returnParams;
