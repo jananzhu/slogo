@@ -40,7 +40,6 @@ public class Parser {
 
     public ISyntaxNode buildParseTree(Queue<String> tokenQueue, Map<String,Double> variableMap){
         String token = tokenQueue.poll();
-        System.out.println("Token is " + token);
         Matcher listMatch = listPattern.matcher(token);
         ISyntaxNode node;
         if(myValidCommands.contains(token)){
@@ -62,7 +61,6 @@ public class Parser {
         List<ISyntaxNode> commands = new ArrayList<ISyntaxNode>();
         while(!tokens.isEmpty()){
             if(myValidCommands.contains(tokens.peek())){
-                System.out.println("parseInput calling");
                 ISyntaxNode command = buildParseTree(tokens,myModel.getVarMap());
                 commands.add(command);
             }else{
@@ -72,8 +70,7 @@ public class Parser {
         return commands;
     }
 
-    private Queue<String> inputTokenizer(String input){
-        System.out.println("making tokens");
+    public Queue<String> inputTokenizer(String input){
         Queue<String> tokenQueue = new LinkedList<String>();
         while(!input.matches(whitespacePattern.toString())){
             Matcher constantMatch =constantPattern.matcher(input);
