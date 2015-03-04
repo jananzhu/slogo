@@ -52,11 +52,6 @@ public class Model {
 	
 	public void setManager(Manager manager){
 		mgr = manager;
-//		System.out.println("printing methods");
-//		Class c = mgr.getClass();
-//		for (Method method : c.getDeclaredMethods()) {
-//		    System.out.println( method.toString());
-//		}
 	}
 	
 	public Map<String, String> createCmdMap(String filename) {

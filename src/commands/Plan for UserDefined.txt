@@ -1,9 +1,7 @@
 MakeUserInstruction
 
 Creates a UserInstruction
-Creates a local variable map, mapping strings to numbers. Specified variable names go in the keys, nothing goes in the values (yet)
-	Make sure the order of the keys is exactly the order in which the variables are specified in the TO command
-Pass the variable map to the UserInstruction
+
 Do nothing with the block of commands, pass string directly to the UserInstruction
 Store the custom UserInstruction object
 
