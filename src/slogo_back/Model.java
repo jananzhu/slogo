@@ -110,15 +110,7 @@ public class Model {
 	}
 	
 	public Double toFront(String cmd, double[] params){
-		Method toRun;
-		Double returnValue = null;
-		try {
-			toRun = Manager.class.getMethod(cmd, double[].class);
-			returnValue = (Double) toRun.invoke(mgr, params);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return returnValue;
+		return mgr.toGUI(cmd, new int[] {0}, params);
 	}
 	
 	public List<Double> toBack(String cmds) {
