@@ -1,5 +1,7 @@
-package view_panels;
+package menu_tabs;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Menu;
@@ -8,9 +10,11 @@ import javafx.scene.control.MenuItem;
 
 public class MenuPlus {
 	private Menu menuPlus;
-	private int displayIndex = 0;
+	private final static int INDEX = 0;
+	private IntegerProperty displayIndex = new SimpleIntegerProperty();
 
 	public MenuPlus(MenuBar toolBar) {
+		displayIndex.add(INDEX);
 		menuPlus = new Menu("Displays");
 		plus();
 		toolBar.getMenus().add(menuPlus);
@@ -32,7 +36,8 @@ public class MenuPlus {
 		MenuItem display = new MenuItem("Display " + displayIndex);
 		display.setOnAction(setIndex);
 		menuPlus.getItems().add(display);
-		displayIndex++;
+		int index = displayIndex.get() + 1;
+		displayIndex.add(index);
 	}
 
 	private EventHandler<ActionEvent> setIndex = new EventHandler<ActionEvent>() {

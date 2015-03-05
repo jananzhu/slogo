@@ -3,8 +3,11 @@ package slogo_front;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import slogo_back.Model;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -12,13 +15,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class Manager {
-
+public class Manager{
+	
 	/**
 	 * TODO: Please have all methods that back-end calls have "Number" as the
 	 * return type. If there's nothing to return, simply return null.
 	 */
-	View view;
+	private View view;
 	// canvas
 //	Display display;
 //	private static final int xCanvas = 1000;
@@ -27,15 +30,17 @@ public class Manager {
 //	private ArrayList<Turtle> turtles = new ArrayList<>();
 //	private int turtleCount = 1;
 	//display id list of all displays
+	public static final int DEFAULT_DISPLAY = 0;
 	private ArrayList<Integer> displayIndex = new ArrayList<>();
 //	private ArrayList<Integer> activeDisplayIndex = new ArrayList<>();
-	private int activeDisplayIndex = 0;
+	private IntegerProperty activeDisplayIndex = new SimpleIntegerProperty();
 	private Display currentDisplay;
 	private Model model;
 
 	Manager(View defaultView) {
+		activeDisplayIndex.add(DEFAULT_DISPLAY);
 		view = defaultView;
-		currentDisplay = view.getDisplay(activeDisplayIndex);
+		currentDisplay = view.getDisplay(activeDisplayIndex.get());
 		defaultView.setManager(this);
 		//set model language and references
 		model = new Model("resources/languages/English.properties");

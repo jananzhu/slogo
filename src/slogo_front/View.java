@@ -55,7 +55,7 @@ public class View {
 
 	public View() {
 		// resource bundles
-		activeDisplay = new Display(xCanvas, yCanvas, 1);
+		activeDisplay = new Display(xCanvas, yCanvas, 0);
 		displayList.add(activeDisplay);
 		
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle",
