@@ -44,13 +44,13 @@ public class ReadXML {
 	 * @param fileLoc
 	 * @return
 	 */
-	protected HashMap readXML(String fileLoc){
+	protected HashMap<String, String> readXML(String fileLoc){
 		readFile(fileLoc);
 		Node head = myDoc.getFirstChild();
 		Node head2 = defaultDoc.getFirstChild();
 		getElements(head,"properties",params);
 		getElements(head2,"properties",defaults);
-		
+		checkParams();
 		return params;
 	}
 	
@@ -89,7 +89,7 @@ public class ReadXML {
 	}
 	
 	/**
-	 * recursive method to populate params map
+	 * recursive method to populate parameters HashMap
 	 * derived from stackoverflow
 	 * @param node
 	 */
