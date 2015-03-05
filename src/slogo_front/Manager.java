@@ -3,8 +3,11 @@ package slogo_front;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import slogo_back.Model;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
@@ -12,34 +15,38 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 
-public class Manager {
-
+public class Manager{
+	
 	/**
 	 * TODO: Please have all methods that back-end calls have "Number" as the
 	 * return type. If there's nothing to return, simply return null.
 	 */
-	View view;
+	private View view;
 	// canvas
-	Display display;
-	private static final int xCanvas = 1000;
-	private static final int yCanvas = 600;
-	private ArrayList<Turtle> turtles = new ArrayList<>();
-	private int turtleCount = 1;
 
-	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1.1,
-			"/images/turtle_small.png", true, true);
-
-//	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1,"/images/turtle_small.png", true, true);
-
-	Model model;
+//	Display display;
+//	private static final int xCanvas = 1000;
+//	private static final int yCanvas = 600;
+	//toRemove turtle list in displays now
+//	private ArrayList<Turtle> turtles = new ArrayList<>();
+//	private int turtleCount = 1;
+	//display id list of all displays
+	public static final int DEFAULT_DISPLAY = 0;
+	private ArrayList<Integer> displayIndex = new ArrayList<>();
+//	private ArrayList<Integer> activeDisplayIndex = new ArrayList<>();
+	private IntegerProperty activeDisplayIndex = new SimpleIntegerProperty();
+	private Display currentDisplay;
+	private Model model;
 
 	Manager(View defaultView) {
+		activeDisplayIndex.add(DEFAULT_DISPLAY);
 		view = defaultView;
-		display = view.getDisplay();
+		currentDisplay = view.getDisplay(activeDisplayIndex.get());
 		defaultView.setManager(this);
-		
+		//set model language and references
 		model = new Model("resources/languages/English.properties");
 		model.setManager(this);
+		
 		initialize();
 		// turtle = new Turtle(0,0,0, )
 	}
@@ -52,42 +59,43 @@ public class Manager {
 	 * @param params
 	 * @return
 	 */
-	public Double toGUI(String methodName, int[] turtleID, double[] params){
-		// add getter for turtles from turtleID & display from turtle ID
 
-		Method toRun;
-		Double returnValue = null;
-		try {
-			Class<?>[] param_types = new Class<?>[3];
-			param_types[0] = Integer.TYPE;
-			param_types[1] = Turtle.class;
-			param_types[2] = double[].class;
-			toRun = Display.class.getDeclaredMethod(methodName, param_types); // TODO modify all methods in display
-			returnValue = (Double) toRun.invoke(display, 0, turtle, params); //change to arraylist of turtles 
-			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return returnValue;
-	}
+//	public Double toGUI(String methodName, int[] turtleID, double[] params){
+//		// add getter for turtles from turtleID & display from turtle ID
+//		
+//		Method toRun;
+//		Double returnValue = null;
+//		try {
+//			Class<?>[] param_types = new Class<?>[3];
+//			param_types[0] = Integer.TYPE;
+//			param_types[1] = Turtle.class;
+//			param_types[2] = double[].class;
+//			toRun = Display.class.getDeclaredMethod(methodName, param_types); // TODO modify all methods in display
+//			returnValue = (Double) toRun.invoke(currentDisplay, 0, currentDisplay.getTurtles(), params); //change to arraylist of turtles 
+//			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return returnValue;
+//	}
 	
-	private Turtle[] getTurtles(int [] turtleID){ // TODO make more efficient
-		Turtle[] turtleList = new Turtle[turtleID.length];
-		for(int i = 0 ; i < turtleID.length; i++){
-			turtleList[i] = turtles.get(i);
-		}
-		return turtleList;
-	}
+//	private Turtle[] getTurtles(int [] turtleID){ // TODO make more efficient
+//		Turtle[] turtleList = new Turtle[turtleID.length];
+//		for(int i = 0 ; i < turtleID.length; i++){
+//			turtleList[i] = turtles.get(i);
+//		}
+//		return turtleList;
+//	}
 	
-	private int checkDisplays(int[] turtleID){ // TODO make more efficient
-		int display = turtles.get(turtleID[0]).getDisplayID();
-		for(int i : turtleID){
-			if (turtles.get(i).getDisplayID() != display){
-				return -1;
-			}
-		}
-		return display;
-	}
+//	private int checkDisplays(int[] turtleID){ // TODO make more efficient
+//		int display = turtles.get(turtleID[0]).getDisplayID();
+//		for(int i : turtleID){
+//			if (turtles.get(i).getDisplayID() != display){
+//				return -1;
+//			}
+//		}
+//		return display;
+//	}
 	
 	/*
 	 * BACKEND AND FRONTEND API INTEGRATION
@@ -158,10 +166,17 @@ public class Manager {
 //	 public double isShowing(double[] var){
 //		 return display.showing(turtle);
 //	 }
-	 */
-	
-	public Turtle getTurtle(){
-		 return turtle;
+//<<<<<<< HEAD
+//	 */
+//	
+//	public Turtle getTurtle(){
+//		 return turtle;
+//=======
+	 
+	 public Turtle getTurtle(){
+		return null;
+//		 return turtle;
+//>>>>>>> 691e92c581de2438aabe7e3df2cae5624cb27030
 	 }
 	 
 	 public Model getModel(){
@@ -170,9 +185,9 @@ public class Manager {
 
 	private void initialize() {
 		// setting handlers
-		Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0,0, Color.BLACK, turtleCount,
-				"/images/turtle_small.png", true, true);
-		turtles.add(turtle);
+//		Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0,0, Color.BLACK, turtleCount,
+//				"/images/turtle_small.png", true, true);
+//		turtles.add(turtle);
 		view.setCommandLine(parse);
 //		display.show(0, turtle, new double[] {});
 		
@@ -181,26 +196,26 @@ public class Manager {
 	
 	private EventHandler<KeyEvent> parse = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent event) {
-			String parse;
-			KeyCode keyCode = event.getCode();
-			if (keyCode == KeyCode.ENTER) {
-				parse = view.commandLineText();
-				if (parse.toLowerCase().equals("clear")) {
-					view.clearHistoryText();
-				}
-				view.addHistoryText(parse);
-				System.out.println(parse);
-
-				// TODO throw error here
-//				try{
-					List<Double> results = model.toBack(parse.toLowerCase() + "\n");
-					for (Double value : results) {
-						System.out.println(value);
-					}
-//				}catch(InvalidParameterException e){
-					
+//			String parse;
+//			KeyCode keyCode = event.getCode();
+//			if (keyCode == KeyCode.ENTER) {
+//				parse = view.commandLineText();
+//				if (parse.toLowerCase().equals("clear")) {
+//					view.clearHistoryText();
 //				}
-			}
+//				view.addHistoryText(parse);
+//				System.out.println(parse);
+//
+//				// TODO throw error here
+////				try{
+//					List<Double> results = model.toBack(parse.toLowerCase() + "\n");
+//					for (Double value : results) {
+//						System.out.println(value);
+//					}
+////				}catch(InvalidParameterException e){
+//					
+////				}
+//			}
 
 		}
 	};

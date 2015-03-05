@@ -1,4 +1,4 @@
-package slogo_front;
+package control_buttons;
 
 import java.util.HashMap;
 

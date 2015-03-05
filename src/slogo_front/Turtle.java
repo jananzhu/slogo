@@ -106,18 +106,18 @@ public class Turtle{
 	 * @param x
 	 * @param y
 	 * @param direction
-	 * @param turtleID
+	 * @param turtleID, display
 	 * @param color
 	 * @param imageURL
 	 * @param leaveTrail
 	 * @param showTurtleImage
 	 */
-	protected Turtle(double x, double y, float direction, int id, int display, Color color, double lineWidth,
+	protected Turtle(double x, double y, float direction, int id, Color color, double lineWidth,
 			String imageURL, boolean leaveTrail, boolean showTurtleImage){
 		xPosition = x;
 		yPosition = y;
 		myID = id;
-		displayID = display; 
+//		displayID = display; 
 		penColor = color;
 		penWidth = lineWidth;
 		heading = direction;
