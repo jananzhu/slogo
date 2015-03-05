@@ -23,6 +23,7 @@ public class Manager{
 	 */
 	private View view;
 	// canvas
+
 //	Display display;
 //	private static final int xCanvas = 1000;
 //	private static final int yCanvas = 600;
@@ -58,6 +59,7 @@ public class Manager{
 	 * @param params
 	 * @return
 	 */
+
 //	public Double toGUI(String methodName, int[] turtleID, double[] params){
 //		// add getter for turtles from turtleID & display from turtle ID
 //		
@@ -99,6 +101,7 @@ public class Manager{
 	 * BACKEND AND FRONTEND API INTEGRATION
 	 * generic signature: list of turtles, list of double parameters (degrees, heading, x/y coordinates ,etc)
 	 */
+	/*
 //	 public double home(double[] var){
 //		 return display.home(turtle);
 //	 }
@@ -163,10 +166,17 @@ public class Manager{
 //	 public double isShowing(double[] var){
 //		 return display.showing(turtle);
 //	 }
+//<<<<<<< HEAD
+//	 */
+//	
+//	public Turtle getTurtle(){
+//		 return turtle;
+//=======
 	 
 	 public Turtle getTurtle(){
 		return null;
 //		 return turtle;
+//>>>>>>> 691e92c581de2438aabe7e3df2cae5624cb27030
 	 }
 	 
 	 public Model getModel(){
@@ -179,16 +189,10 @@ public class Manager{
 //				"/images/turtle_small.png", true, true);
 //		turtles.add(turtle);
 		view.setCommandLine(parse);
+//		display.show(0, turtle, new double[] {});
+		
 //		view.setMoveForward(forwardEvent);
 	}
-
-	// private EventHandler parse = new EventHandler<KeyEvent>() {
-	// public void handle(KeyEvent event) {
-	//
-	// view.
-	// }
-	//
-	// };
 	
 	private EventHandler<KeyEvent> parse = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent event) {
