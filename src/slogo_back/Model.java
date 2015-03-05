@@ -11,8 +11,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
 
-import commands.Command;
 
+import commands.Command;
+import commands.UserInstruction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import slogo_front.Manager;
@@ -22,7 +23,7 @@ public class Model {
 	private Manager mgr;
 	private Parser myParser;
 	private Map<String, String> cmdMap;
-	private Map<String, Command> usrCmdMap;
+	private Map<String, UserInstruction> usrCmdMap;
 	private ObservableMap<String, Stack<Double>> varMap;
 	
 	public static void main(String[] args){
@@ -121,11 +122,11 @@ public class Model {
 		setUsrCmd(usrCmd, null);
 	}
 	
-	public void setUsrCmd(String usrCmd, Command cmd) {
+	public void setUsrCmd(String usrCmd, UserInstruction cmd) {
 		usrCmdMap.put(usrCmd, cmd);
 	}
 	
-	public Command getUsrCmd(String usrCmd) {
+	public UserInstruction getUsrCmd(String usrCmd) {
 		return usrCmdMap.get(usrCmd);
 	}
 	

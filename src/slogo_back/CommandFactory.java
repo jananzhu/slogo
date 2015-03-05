@@ -22,7 +22,9 @@ public class CommandFactory {
         String commandName = null;
         if(myDictionary.containsKey(userInput)){
             commandName = myDictionary.get(userInput);
-        } else{
+        } else if(myModel.usrCmdExists(userInput)){
+            return myModel.getUsrCmd(userInput).cloneCommand(tokens);
+        }else{
             throw new InvalidParameterException(userInput + " is not a command");
         }
         commandName = "commands." + commandName;

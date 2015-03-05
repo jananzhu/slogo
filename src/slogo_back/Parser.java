@@ -39,6 +39,10 @@ public class Parser {
 
     }
 
+    public void addNewCommand(String command){
+        
+    }
+    
     public ISyntaxNode buildParseTree(Queue<String> tokenQueue){
         String token = tokenQueue.poll();
         Matcher listMatch = listPattern.matcher(token);
