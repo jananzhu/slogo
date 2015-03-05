@@ -182,10 +182,39 @@ public class Manager{
 //				"/images/turtle_small.png", true, true);
 //		turtles.add(turtle);
 		view.setCommandLine(parse);
+		view.setCommandHistory(historyEvent);
 //		display.show(0, turtle, new double[] {});
 		
 //		view.setMoveForward(forwardEvent);
 	}
+	
+	private EventHandler<MouseEvent> historyEvent = new EventHandler<MouseEvent>() {
+		public void handle(MouseEvent event) {
+			// // TODO turtle within display or in view? think about allowances
+			// for
+			// multiple turtles
+			String s = (String) view.getCommandHistory().getCommandList().getSelectionModel()
+					.getSelectedItem();
+			s = s.substring(3, s.length()); // remove ">> "
+			System.out.println(s);
+
+			if (s.toLowerCase().equals("clear")) {
+				view.getCommandHistory().resetHistory();
+			}
+			// addHistoryText(s);
+
+			// TODO throw error here
+			// try{
+			List<Double> results = view.getManager().getModel().toBack(
+					s.toLowerCase() + "\n");
+			for (Double value : results) {
+				System.out.println(value);
+			}
+			// }catch(InvalidParameterException e){
+
+			// }
+		}
+	};
 	
 	private EventHandler<KeyEvent> parse = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent event) {
