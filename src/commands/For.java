@@ -53,7 +53,7 @@ public class For extends Command {
     protected ISyntaxNode[] defineParams(int numParams){
         ISyntaxNode[] returnParams = new ISyntaxNode[numParams];
         String parameterString = myCmds.poll();
-        Queue<String> parameterQueue = myParser.inputTokenizer(parameterString);
+        Queue<String> parameterQueue = myParser.inputTokenizer(parameterString.substring(1, parameterString.length()-1));
         myVariable = parameterQueue.poll();
         if(myVariable.matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))){
             for(int i=0; i< numParams-1;i++){
@@ -61,7 +61,8 @@ public class For extends Command {
             }
             //TODO:Throw exception for nonstandard number of parameters here, ie. >4
         } else{
-            throw new InvalidParameterException(parameterString + " is invalid list of For parameters");
+            throw new InvalidParameterException(parameterString + " is invalid list of For parameters and " + myVariable
+                                                + " is not a valid variable");
         }
 
         returnParams[numParams-1] = myParser.buildParseTree(myCmds, myVariableMap);
@@ -76,9 +77,10 @@ public class For extends Command {
         int myIncrement = (int) myParams[2].getValue();
         for(int i = myStart; i<myEnd; i+=myIncrement){
             myVariableMap.put(myVariable,(double) i);
+            System.out.println("value of i is " + i);
             returnValue = myParams[3].getValue();
         }
+        System.out.println("exited loop");
         return returnValue;
     }
-
 }

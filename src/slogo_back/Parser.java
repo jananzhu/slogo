@@ -49,7 +49,7 @@ public class Parser {
         }else if(listMatch.matches()){
             node = new ListNode(parseInput(token.substring(1, token.length()-1)));
         }else if(token.matches(variablePattern.toString())){
-            node = new VariableNode(token.substring(1, token.length()),myModel.getVarMap());
+            node = new VariableNode(token,myModel.getVarMap());
         }else{
             throw new InvalidParameterException(token + " is invalid syntax");
         }
@@ -122,7 +122,6 @@ public class Parser {
 
     private String processListToken(Pattern pattern, Matcher matcher, Queue<String> queue, 
                                     String input){
-        System.out.println("My input is:" + input);
         int index = 0;
         int braceCount = 0;
         while(index < input.length()){
@@ -139,7 +138,7 @@ public class Parser {
             index++;
         }
         if(braceCount != 0){
-            throw new InvalidParameterException("Error with bracket closure");
+            throw new InvalidParameterException("Error with bracket closure at:" + input);
         }
         queue.add(input.substring(0, index+1));
         String newString;
