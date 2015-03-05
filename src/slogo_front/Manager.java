@@ -25,7 +25,13 @@ public class Manager {
 	private static final int yCanvas = 600;
 	private ArrayList<Turtle> turtles = new ArrayList<>();
 	private int turtleCount = 1;
-	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1,"/images/turtle_small.png", true, true);
+
+	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1.1,
+			"/images/turtle_small.png", true, true);
+	
+
+//	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1,"/images/turtle_small.png", true, true);
+
 	Model model;
 
 	Manager(View defaultView) {

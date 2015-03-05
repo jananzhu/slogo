@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
 /**
  * class for Turtle object + properties
  */
-public class Turtle {
+public class Turtle{
 	private int myID;
 	private int displayID;
 	private double xPosition;
