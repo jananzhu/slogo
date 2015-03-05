@@ -77,10 +77,8 @@ public class For extends Command {
         int myIncrement = (int) myParams[2].getValue();
         for(int i = myStart; i<myEnd; i+=myIncrement){
             myVariableMap.put(myVariable,(double) i);
-            System.out.println("value of i is " + i);
             returnValue = myParams[3].getValue();
         }
-        System.out.println("exited loop");
         return returnValue;
     }
 }

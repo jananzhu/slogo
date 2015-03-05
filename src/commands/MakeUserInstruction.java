@@ -9,22 +9,25 @@ import slogo_back.Model;
 public class MakeUserInstruction extends Command {
 
     private static final int numParams = 3;
-    private String variableName;
+    private String instName;
+    private UserInstruction usrInst;
     
     public MakeUserInstruction (Queue<String> cmdQueue, Model model, int numParams,Map<String,Double> variableMap) {
         super(cmdQueue, model, numParams, variableMap);
-        String nextToken = cmdQueue.peek();
-        if(nextToken.matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))){
-            variableName = nextToken;
-        }else{
-            throw new InvalidParameterException();
-        }
+        //Get instruction name
+        //Get list of variable names
+        //Get list of Commands
     }
 
     @Override
     public double getValue () {
-        Double variableValue = myParams[1].getValue();
-        myModel.getVarMap().put(variableName,variableValue);
-        return variableValue;
+        usrInst = new UserInstruction(myCmds, myModel, myVariableMap, instName);
+        if (usrInst != null) {
+        	//set variable names
+        	//set commands
+        	return 1;
+        } else {
+        	return 0;
+        }
     }
 }
