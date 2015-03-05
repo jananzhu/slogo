@@ -1,4 +1,4 @@
-package slogo_front;
+package control_buttons;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -15,7 +15,7 @@ public class SlogoButton {
 		controlPanel.getChildren().add(button);
 	}
 	
-	protected Button getButton(){
+	public Button getButton(){
 		return button;
 	}
 

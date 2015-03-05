@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<setup>
+	<module id="properties">
+		<imageURL>src/images/turtle_small.png</imageURL>
+		<backgroundcolor>white</backgroundcolor>
+		<language>english</language>
+		<turtlecount>1</turtlecount>
+		<pendown>1</pendown>
+		<linestyle>line</linestyle>
+	</module>
+</setup>
