@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+
 import slogo_back.ISyntaxNode;
 import slogo_back.Model;
 import slogo_back.Parser;
@@ -26,6 +27,7 @@ public abstract class Command implements ISyntaxNode{
 	public Command(Queue<String> cmdQueue, Model model, int numParams, Map<String, Double> variableMap) {
 		this(cmdQueue, model, variableMap);
 		myNewVariableNames = defineVariableNames();
+		saveCmdQueue();
 		myParams = defineParams(numParams);
 	}
 	
@@ -48,5 +50,18 @@ public abstract class Command implements ISyntaxNode{
 	 */
 	protected List<String> defineVariableNames(){
 	    return new ArrayList<String>();
+	}
+	
+	protected void saveCmdQueue() {
+	}
+	
+	protected void setLocalVars(Map<String, Double> varMap) {
+		for (String var:varMap.keySet())
+    		myModel.setVar(var, varMap.get(var));;
+	}
+	
+	protected void clearLocalVars(Map<String, Double> varMap) {
+		for (String var:varMap.keySet())
+    		myModel.popVar(var);
 	}
 }

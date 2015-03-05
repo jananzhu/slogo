@@ -21,14 +21,15 @@ public class MakeUserInstruction extends Command {
     public MakeUserInstruction (Queue<String> cmdQueue, Model model, Map<String,Double> variableMap) {
         super(cmdQueue, model, variableMap);
         newInstName = cmdQueue.poll();
+        myModel.addNewUsrCmd(newInstName);
         newVarList = cmdQueue.poll();
         //Check if actually a list of variables
         //Remove brackets
         newVarMap = new HashMap<>();
         for (String var:myParser.inputTokenizer(newVarList)) {
-        	newVarMap.put(var, null);
-        	myModel.setVar(var, 0.0);
+        	newVarMap.put(var, 0.0);
         }
+        setLocalVars(newVarMap);
         newCmdList = cmdQueue.poll();
         //Check if actually a list of commands
         //DON'T remove brackets
@@ -40,17 +41,17 @@ public class MakeUserInstruction extends Command {
         	//TODO: Add handlers
         	
         } finally {
-        	for (String var:newVarMap.keySet())
-        		myModel.popVar(var);
+        	clearLocalVars(newVarMap);
         }
     } 
 
     @Override
     public double getValue () {  
         if (newUsrInst != null) {
-        	//add command to list of userInsts
+        	myModel.setUsrCmd(newInstName, newUsrInst);
         	return 1;
         } else {
+        	myModel.remUsrCmd(newInstName);
         	return 0;
         }
     }

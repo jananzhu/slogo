@@ -12,6 +12,9 @@ import java.util.Properties;
 import java.util.Stack;
 
 
+
+import commands.Command;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 import slogo_front.Manager;
@@ -21,6 +24,7 @@ public class Model {
 	private Manager mgr;
 	private Parser myParser;
 	private Map<String, String> cmdMap;
+	private Map<String, Command> usrCmdMap;
 	private ObservableMap<String, Stack<Double>> varMap;
 	
 //	public static void main(String[] args){
@@ -45,6 +49,7 @@ public class Model {
 	 */
 	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
+		usrCmdMap = new HashMap<>();
 		myParser = new Parser(this, cmdMap);
 		Map<String, Stack<Double>> map = new HashMap<>();
 		varMap = FXCollections.observableMap(map);
@@ -112,6 +117,22 @@ public class Model {
 	
 	public void popVar(String key) {
 		varMap.get(key).pop();
+	}
+	
+	public void addNewUsrCmd(String usrCmd) {
+		setUsrCmd(usrCmd, null);
+	}
+	
+	public void setUsrCmd(String usrCmd, Command cmd) {
+		usrCmdMap.put(usrCmd, cmd);
+	}
+	
+	public boolean usrCmdExists(String usrCmd) {
+		return usrCmdMap.keySet().contains(usrCmd);
+	}
+	
+	public void remUsrCmd(String usrCmd) {
+		usrCmdMap.remove(usrCmd);
 	}
 	
 	public Double toFront(String cmd, double[] params){
