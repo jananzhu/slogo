@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import slogo_back.Model;
 import view_panels.CommandHistory;
 import view_panels.CommandLine;
 import view_panels.ControlPanel;
@@ -64,7 +65,7 @@ public class View {
 		
 		root = new BorderPane();
 		control = new ControlPanel(10, 200);
-		history = new CommandHistory(200);
+		history = new CommandHistory(200, this);
 		tools = new ToolBar();
 		commandLine = new CommandLine(COMMAND_HEIGHT);
 
@@ -203,6 +204,10 @@ public class View {
 	public void setManager(Manager m) {
 		manager = m;
 	}
+	
+	public Manager getManager(){
+		return manager;
+	}
 
 	// sets command line
 	public void setCommandLine(EventHandler<KeyEvent> handler) {
@@ -276,6 +281,7 @@ public class View {
 
 	};
 
+	
 	
 
 	// opens window for help page
