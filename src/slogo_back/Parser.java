@@ -7,50 +7,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Queue;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Parser {
     private List<String> myValidCommands;
     private ResourceBundle myResourceBundle;
-    private Pattern constantPattern;
-    private Pattern listPattern;
-    private Pattern variablePattern;
     private Pattern whitespacePattern;
     private CommandFactory myCommandFactory;
     private TokenProcessorFactory myProcessorFactory;
+    private ISyntaxNodeFactory myISyntaxNodeFactory;
     private Model myModel;
 
     public Parser(Model currentModel, Map<String,String> dictionary){
         myValidCommands = new ArrayList<String>();
         myValidCommands.addAll(dictionary.keySet());
         myResourceBundle = ResourceBundle.getBundle("resources/languages/Syntax");
-        constantPattern = Pattern.compile(myResourceBundle.getString("HeadConstant"));
-        listPattern = Pattern.compile
-                (myResourceBundle.getString("ListBlock"), Pattern.DOTALL);
-        variablePattern = Pattern.compile(myResourceBundle.getString("HeadVariable"));
         whitespacePattern = Pattern.compile(myResourceBundle.getString("LeadingWhitespace"));
         myCommandFactory = new CommandFactory(currentModel, dictionary);
         myModel = currentModel;
         myProcessorFactory = new TokenProcessorFactory();
+        myISyntaxNodeFactory = new ISyntaxNodeFactory(currentModel, myValidCommands,
+                                                      myCommandFactory, this);
     }
 
     public ISyntaxNode buildParseTree(Queue<String> tokenQueue, Map<String,Double> variableMap){
         String token = tokenQueue.poll();
-        Matcher listMatch = listPattern.matcher(token);
-        ISyntaxNode node;
-        if(myValidCommands.contains(token)){
-            node = myCommandFactory.getCommand(token,tokenQueue);
-        }else if(token.matches(constantPattern.toString())){
-            node = new ParameterNode(Double.parseDouble(token));
-        }else if(listMatch.matches()){
-            node = new ListNode(parseInput(token.substring(1, token.length()-1)));
-        }else if(token.matches(variablePattern.toString())){
-            node = new VariableNode(token,myModel.getVarMap());
-        }else{
-            throw new InvalidParameterException(token + " is invalid syntax");
-        }
-        return node;
+        return myISyntaxNodeFactory.getNode(token, tokenQueue);
     }
 
     public List<ISyntaxNode> parseInput(String input){
@@ -74,5 +56,9 @@ public class Parser {
             input = processor.processToken(input, tokenQueue);
         }
         return tokenQueue;
+    }
+    
+    public void addCommand(String commandName){
+        
     }
 }
