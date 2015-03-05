@@ -28,7 +28,6 @@ public class Manager {
 
 	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1.1,
 			"/images/turtle_small.png", true, true);
-	
 
 //	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1,"/images/turtle_small.png", true, true);
 
@@ -94,6 +93,7 @@ public class Manager {
 	 * BACKEND AND FRONTEND API INTEGRATION
 	 * generic signature: list of turtles, list of double parameters (degrees, heading, x/y coordinates ,etc)
 	 */
+	/*
 //	 public double home(double[] var){
 //		 return display.home(turtle);
 //	 }
@@ -158,8 +158,9 @@ public class Manager {
 //	 public double isShowing(double[] var){
 //		 return display.showing(turtle);
 //	 }
-	 
-	 public Turtle getTurtle(){
+	 */
+	
+	public Turtle getTurtle(){
 		 return turtle;
 	 }
 	 
@@ -173,16 +174,10 @@ public class Manager {
 				"/images/turtle_small.png", true, true);
 		turtles.add(turtle);
 		view.setCommandLine(parse);
+//		display.show(0, turtle, new double[] {});
+		
 //		view.setMoveForward(forwardEvent);
 	}
-
-	// private EventHandler parse = new EventHandler<KeyEvent>() {
-	// public void handle(KeyEvent event) {
-	//
-	// view.
-	// }
-	//
-	// };
 	
 	private EventHandler<KeyEvent> parse = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent event) {

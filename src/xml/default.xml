@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<setup>
+	<module id="properties">
+		<defaultImageURL></defaultImageURL>
+		<backgroundcolor>white</backgroundcolor>
+		<language>english</language>
+		<turtlecount>1</turtlecount>
+	</module>
+	<module id="0">
+		<imageURL></imageURL>
+		<pendown>1</pendown>
+		<linestyle>line</linestyle>
+	</module>
+	<module id="1">
+		<imageURL></imageURL>
+		<pendown>1</pendown>
+		<linestyle>line</linestyle>
+	</module>
+	<module id="2">
+		<imageURL></imageURL>
+		<pendown>1</pendown>
+		<linestyle>line</linestyle>
+	</module>
+</setup>
