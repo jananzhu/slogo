@@ -11,6 +11,7 @@ import view_panels.ToolBar;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -79,6 +80,14 @@ public class View {
 		scene.getStylesheets().add("css/view.css");
 	}
 	
+	public CommandLine getCommandLine(){
+		return commandLine;
+	}
+	
+	public CommandHistory getCommandHistory(){
+		return history;
+	}
+	
 	public Display getDisplay(int displayIndex) {
 		
 		return displayList.get(displayIndex);
@@ -107,12 +116,12 @@ public class View {
 
 	// gets and clears command line text
 	//TODO handlers need to be working
-	protected String commandLineText() {
-		return null;
-//		String parse = commandLine.getText();
-//		commandLine.clear();
-//		return parse;
-	}
+//	protected String commandLineText() {
+//		return null;
+////		String parse = commandLine.getText();
+////		commandLine.clear();
+////		return parse;
+//	}
 
 	// figureout if this should be private somehow
 //	protected void addHistoryText(String text) {
@@ -197,7 +206,7 @@ public class View {
 
 	// sets command line
 	public void setCommandLine(EventHandler<KeyEvent> handler) {
-//		commandLine.setOnKeyPressed(handler);
+		commandLine.setCommandHandler(handler);
 	}
 
 
