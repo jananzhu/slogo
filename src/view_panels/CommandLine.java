@@ -1,4 +1,4 @@
-package slogo_front;
+package view_panels;
 
 import javafx.scene.control.TextField;
 
@@ -10,7 +10,7 @@ public class CommandLine {
 		commandLine.setPrefHeight(height);
 	}
 
-	TextField getCommandLine() {
+	public TextField getCommandLine() {
 		return commandLine;
 	}
 }

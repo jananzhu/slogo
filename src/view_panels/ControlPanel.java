@@ -1,9 +1,15 @@
-package slogo_front;
+package view_panels;
 
 import java.io.File;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
+import control_buttons.SlogoButton;
+import control_buttons.SlogoColorPicker;
+import control_buttons.SlogoSlider;
+import control_buttons.SlogoVariableList;
+import slogo_front.Display;
+import slogo_front.Turtle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -75,7 +81,7 @@ public class ControlPanel {
 		setLabels();
 	}
 
-	protected VBox getControlpanel() {
+	public VBox getControlpanel() {
 		return controlPanel;
 	}
 

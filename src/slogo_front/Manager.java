@@ -20,27 +20,27 @@ public class Manager {
 	 */
 	View view;
 	// canvas
-	Display display;
-	private static final int xCanvas = 1000;
-	private static final int yCanvas = 600;
-	private ArrayList<Turtle> turtles = new ArrayList<>();
-	private int turtleCount = 1;
-
-	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1.1,
-			"/images/turtle_small.png", true, true);
-	
-
-//	Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0, 0, Color.BLACK, 1,"/images/turtle_small.png", true, true);
-
-	Model model;
+//	Display display;
+//	private static final int xCanvas = 1000;
+//	private static final int yCanvas = 600;
+	//toRemove turtle list in displays now
+//	private ArrayList<Turtle> turtles = new ArrayList<>();
+//	private int turtleCount = 1;
+	//display id list of all displays
+	private ArrayList<Integer> displayIndex = new ArrayList<>();
+//	private ArrayList<Integer> activeDisplayIndex = new ArrayList<>();
+	private int activeDisplayIndex = 0;
+	private Display currentDisplay;
+	private Model model;
 
 	Manager(View defaultView) {
 		view = defaultView;
-		display = view.getDisplay();
+		currentDisplay = view.getDisplay(activeDisplayIndex);
 		defaultView.setManager(this);
-		
+		//set model language and references
 		model = new Model("resources/languages/English.properties");
 		model.setManager(this);
+		
 		initialize();
 		// turtle = new Turtle(0,0,0, )
 	}
@@ -53,42 +53,42 @@ public class Manager {
 	 * @param params
 	 * @return
 	 */
-	public Double toGUI(String methodName, int[] turtleID, double[] params){
-		// add getter for turtles from turtleID & display from turtle ID
-		
-		Method toRun;
-		Double returnValue = null;
-		try {
-			Class<?>[] param_types = new Class<?>[3];
-			param_types[0] = Integer.TYPE;
-			param_types[1] = Turtle.class;
-			param_types[2] = double[].class;
-			toRun = Display.class.getDeclaredMethod(methodName, param_types); // TODO modify all methods in display
-			returnValue = (Double) toRun.invoke(display, 0, turtle, params); //change to arraylist of turtles 
-			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return returnValue;
-	}
+//	public Double toGUI(String methodName, int[] turtleID, double[] params){
+//		// add getter for turtles from turtleID & display from turtle ID
+//		
+//		Method toRun;
+//		Double returnValue = null;
+//		try {
+//			Class<?>[] param_types = new Class<?>[3];
+//			param_types[0] = Integer.TYPE;
+//			param_types[1] = Turtle.class;
+//			param_types[2] = double[].class;
+//			toRun = Display.class.getDeclaredMethod(methodName, param_types); // TODO modify all methods in display
+//			returnValue = (Double) toRun.invoke(currentDisplay, 0, currentDisplay.getTurtles(), params); //change to arraylist of turtles 
+//			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return returnValue;
+//	}
 	
-	private Turtle[] getTurtles(int [] turtleID){ // TODO make more efficient
-		Turtle[] turtleList = new Turtle[turtleID.length];
-		for(int i = 0 ; i < turtleID.length; i++){
-			turtleList[i] = turtles.get(i);
-		}
-		return turtleList;
-	}
+//	private Turtle[] getTurtles(int [] turtleID){ // TODO make more efficient
+//		Turtle[] turtleList = new Turtle[turtleID.length];
+//		for(int i = 0 ; i < turtleID.length; i++){
+//			turtleList[i] = turtles.get(i);
+//		}
+//		return turtleList;
+//	}
 	
-	private int checkDisplays(int[] turtleID){ // TODO make more efficient
-		int display = turtles.get(turtleID[0]).getDisplayID();
-		for(int i : turtleID){
-			if (turtles.get(i).getDisplayID() != display){
-				return -1;
-			}
-		}
-		return display;
-	}
+//	private int checkDisplays(int[] turtleID){ // TODO make more efficient
+//		int display = turtles.get(turtleID[0]).getDisplayID();
+//		for(int i : turtleID){
+//			if (turtles.get(i).getDisplayID() != display){
+//				return -1;
+//			}
+//		}
+//		return display;
+//	}
 	
 	/*
 	 * BACKEND AND FRONTEND API INTEGRATION
@@ -160,7 +160,8 @@ public class Manager {
 //	 }
 	 
 	 public Turtle getTurtle(){
-		 return turtle;
+		return null;
+//		 return turtle;
 	 }
 	 
 	 public Model getModel(){
@@ -169,9 +170,9 @@ public class Manager {
 
 	private void initialize() {
 		// setting handlers
-		Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0,0, Color.BLACK, turtleCount,
-				"/images/turtle_small.png", true, true);
-		turtles.add(turtle);
+//		Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0,0, Color.BLACK, turtleCount,
+//				"/images/turtle_small.png", true, true);
+//		turtles.add(turtle);
 		view.setCommandLine(parse);
 //		view.setMoveForward(forwardEvent);
 	}
