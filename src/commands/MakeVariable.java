@@ -32,7 +32,7 @@ public class MakeVariable extends Command {
     @Override
     public double getValue () {
         Double variableValue = myParams[1].getValue();
-        myModel.getVarMap().put(myNewVarNames.get(0),variableValue);
+        myModel.setVar(myNewVarNames.get(0), variableValue);
         return variableValue;
     }
 }

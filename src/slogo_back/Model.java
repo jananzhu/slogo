@@ -28,7 +28,7 @@ public class Model {
 	
 	public static void main(String[] args){
 		Model model = new Model("resources/languages/English.properties");
-		String cmds = "";
+		String cmds = "to sumU [:A :B] [sum :A :B] sumU 1 2 \n";
 		List<Double> results = model.toBack(cmds);
 		for (Double value : results) {
 			System.out.println(value);

@@ -33,6 +33,8 @@ public class UserInstruction extends Command {
 		int paramInd = 0;
 		for (String var : myVarMap.keySet())
 			myVarMap.put(var, myParams[paramInd++].getValue());
+		for (String var : myVarMap.keySet())
+		    System.out.println(var + " : " + myVarMap.get(var));
 	}
 	
 	@Override

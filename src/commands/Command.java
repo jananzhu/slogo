@@ -53,11 +53,11 @@ public abstract class Command implements ISyntaxNode{
 	
 	protected void setLocalVars(Map<String, Double> varMap) {
 		for (String var:varMap.keySet())
-    		myModel.setVar(var, varMap.get(var));;
+    		    myModel.setVar(var, varMap.get(var));
 	}
 	
 	protected void clearLocalVars(Map<String, Double> varMap) {
 		for (String var:varMap.keySet())
-    		myModel.popVar(var);
+    		    myModel.popVar(var);
 	}
 }

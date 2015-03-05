@@ -22,9 +22,10 @@ public class MakeUserInstruction extends Command {
         super(cmdQueue, model, variableMap);
         newInstName = cmdQueue.poll();
         myModel.addNewUsrCmd(newInstName);
+        myModel.getParser().addCommand(newInstName);
         newVarList = cmdQueue.poll();
         //Check if actually a list of variables
-        //Remove brackets
+        newVarList = newVarList.substring(1, newVarList.length()-1);
         newVarMap = new HashMap<>();
         for (String var:myParser.inputTokenizer(newVarList)) {
         	newVarMap.put(var, 0.0);
@@ -35,16 +36,16 @@ public class MakeUserInstruction extends Command {
         newCmdQueue = new LinkedList<>();
         newCmdQueue.add(newCmdList);
         newUsrInst = new UserInstruction(newCmdQueue, myModel, newVarMap, newInstName);
+        myModel.setUsrCmd(newInstName, newUsrInst);
     } 
 
     @Override
     public double getValue () {  
-        if (newUsrInst != null) {
-        	myModel.setUsrCmd(newInstName, newUsrInst);
-        	return 1;
-        } else {
-        	myModel.remUsrCmd(newInstName);
-        	return 0;
+        if (newUsrInst == null) {
+            myModel.remUsrCmd(newInstName);
+            myModel.getParser().removeCommand(newInstName);
+            return 0;
         }
+        return 1;
     }
 }
