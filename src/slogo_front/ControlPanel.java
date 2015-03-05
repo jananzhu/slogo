@@ -23,10 +23,9 @@ public class ControlPanel {
 	ResourceBundle labels;
 	Locale[] supportedLocales = { Locale.ENGLISH, Locale.FRENCH };
 	Locale defaultLocale = Locale.ENGLISH;
-
 	// Display reference
 	Display currentDisplay;
-
+	Turtle currentTurtle;
 	// Button UI elements
 	private VBox controlPanel;
 	private static final String CSS = "controlPanel";
@@ -34,15 +33,12 @@ public class ControlPanel {
 	private SlogoButton clearCommandHistory;
 	private SlogoButton moveForward;
 	private SlogoButton moveBackward;
-	Label degreeLabel;
-	TextField degreeField;
 	private SlogoButton turnTurtle;
 	private SlogoSlider turnDegree;
 	private SlogoColorPicker turtleColor;
 	private SlogoButton setColor;
 	private SlogoButton setPen;
 	private SlogoButton setTurtleImage;
-
 	// variable list objects
 	private SlogoVariableList varList;
 	// what is this thing?
@@ -77,11 +73,6 @@ public class ControlPanel {
 		varList = new SlogoVariableList(controlPanel);
 
 		setLabels();
-
-		// controlPanel.getChildren().addAll(clearScreen, clearCommandHistory,
-		// moveForward,
-		// moveBackward, turnDegree, turnTurtle , turtleColor, setColor, setPen,
-		// setTurtleImage,varList);
 	}
 
 	protected VBox getControlpanel() {
@@ -89,8 +80,6 @@ public class ControlPanel {
 	}
 
 	private void makeControlPanel(double offSet, double width) {
-		// original offset = 10
-		// original width = 200
 		controlPanel = new VBox(offSet);
 		controlPanel.setMaxWidth(width);
 		controlPanel.getStyleClass().add(CSS);
@@ -117,28 +106,28 @@ public class ControlPanel {
 	private EventHandler<MouseEvent> changeTurtleImage = new EventHandler<MouseEvent>() {
 		// within manager?
 		public void handle(MouseEvent event) {
-			// Stage fileSystem = new Stage();
-			// FileChooser fileChooser = new FileChooser();
-			// fileChooser.setTitle("Open Resource File");
-			// File file = fileChooser.showOpenDialog(fileSystem);
-			// // some method to change the imageview in display
-			// String filePath = "C:"+file.getPath();
-			// int index = filePath.indexOf("/images");
-			// // System.out.println(index);
-			// // System.out.println(filePath);
-			// // System.out.println(filePath.substring(index));
-			// Turtle turtle = manager.getTurtle();
-			// display.hide(turtle);
-			// manager.getTurtle().setImage(filePath.substring(index));
-			// display.show(turtle);
+//			 Stage fileSystem = new Stage();
+//			 FileChooser fileChooser = new FileChooser();
+//			 fileChooser.setTitle("Open Resource File");
+//			 File file = fileChooser.showOpenDialog(fileSystem);
+//			 // some method to change the imageview in display
+//			 String filePath = "C:"+file.getPath();
+//			 int index = filePath.indexOf("/images");
+//			 // System.out.println(index);
+//			 // System.out.println(filePath);
+//			 // System.out.println(filePath.substring(index));
+//			 Turtle turtle = manager.getTurtle();
+//			 display.hide(turtle);
+//			 manager.getTurtle().setImage(filePath.substring(index));
+//			 display.show(turtle);
 		}
 
 	};
 
 	private EventHandler<MouseEvent> clear = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-			// display.clearScreen(manager.getTurtle());
-			// addHistoryText("clearscreen");
+//			 currentDisplay.clearScreen(currentTurtle);
+//			 addHistoryText("clearscreen");
 		}
 
 	};
