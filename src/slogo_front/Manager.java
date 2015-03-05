@@ -58,24 +58,24 @@ public class Manager{
 	 * @param params
 	 * @return
 	 */
-//	public Double toGUI(String methodName, int[] turtleID, double[] params){
-//		// add getter for turtles from turtleID & display from turtle ID
-//		
-//		Method toRun;
-//		Double returnValue = null;
-//		try {
-//			Class<?>[] param_types = new Class<?>[3];
-//			param_types[0] = Integer.TYPE;
-//			param_types[1] = Turtle.class;
-//			param_types[2] = double[].class;
-//			toRun = Display.class.getDeclaredMethod(methodName, param_types); // TODO modify all methods in display
-//			returnValue = (Double) toRun.invoke(currentDisplay, 0, currentDisplay.getTurtles(), params); //change to arraylist of turtles 
-//			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return returnValue;
-//	}
+	public Double toGUI(String methodName, int[] turtleID, double[] params){
+		// add getter for turtles from turtleID & display from turtle ID
+		
+		Method toRun;
+		Double returnValue = null;
+		try {
+			Class<?>[] param_types = new Class<?>[3];
+			param_types[0] = Integer.TYPE;
+			param_types[1] = ArrayList.class;
+			param_types[2] = double[].class;
+			toRun = Display.class.getDeclaredMethod(methodName, param_types); // TODO modify all methods in display
+			returnValue = (Double) toRun.invoke(currentDisplay, 0, currentDisplay.getTurtles(), params); //change to arraylist of turtles 
+			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return returnValue;
+	}
 	
 //	private Turtle[] getTurtles(int [] turtleID){ // TODO make more efficient
 //		Turtle[] turtleList = new Turtle[turtleID.length];
@@ -192,26 +192,27 @@ public class Manager{
 	
 	private EventHandler<KeyEvent> parse = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent event) {
-//			String parse;
-//			KeyCode keyCode = event.getCode();
-//			if (keyCode == KeyCode.ENTER) {
-//				parse = view.commandLineText();
-//				if (parse.toLowerCase().equals("clear")) {
-//					view.clearHistoryText();
-//				}
+			String parse;
+			KeyCode keyCode = event.getCode();
+			if (keyCode == KeyCode.ENTER) {
+				parse = view.getCommandLine().getText();
+				if (parse.toLowerCase().equals("clear")) {
+					view.getCommandHistory().resetHistory();
+				}
 //				view.addHistoryText(parse);
-//				System.out.println(parse);
-//
-//				// TODO throw error here
-////				try{
-//					List<Double> results = model.toBack(parse.toLowerCase() + "\n");
-//					for (Double value : results) {
-//						System.out.println(value);
-//					}
-////				}catch(InvalidParameterException e){
-//					
-////				}
-//			}
+				view.getCommandHistory().addHistoryText(parse);
+				System.out.println(parse);
+
+				// TODO throw error here
+//				try{
+					List<Double> results = model.toBack(parse.toLowerCase() + "\n");
+					for (Double value : results) {
+						System.out.println(value);
+					}
+//				}catch(InvalidParameterException e){
+					
+//				}
+			}
 
 		}
 	};
