@@ -186,26 +186,26 @@ public class Manager {
 	
 	private EventHandler<KeyEvent> parse = new EventHandler<KeyEvent>() {
 		public void handle(KeyEvent event) {
-			String parse;
-			KeyCode keyCode = event.getCode();
-			if (keyCode == KeyCode.ENTER) {
-				parse = view.commandLineText();
-				if (parse.toLowerCase().equals("clear")) {
-					view.clearHistoryText();
-				}
-				view.addHistoryText(parse);
-				System.out.println(parse);
-
-				// TODO throw error here
-//				try{
-					List<Double> results = model.toBack(parse.toLowerCase() + "\n");
-					for (Double value : results) {
-						System.out.println(value);
-					}
-//				}catch(InvalidParameterException e){
-					
+//			String parse;
+//			KeyCode keyCode = event.getCode();
+//			if (keyCode == KeyCode.ENTER) {
+//				parse = view.commandLineText();
+//				if (parse.toLowerCase().equals("clear")) {
+//					view.clearHistoryText();
 //				}
-			}
+//				view.addHistoryText(parse);
+//				System.out.println(parse);
+//
+//				// TODO throw error here
+////				try{
+//					List<Double> results = model.toBack(parse.toLowerCase() + "\n");
+//					for (Double value : results) {
+//						System.out.println(value);
+//					}
+////				}catch(InvalidParameterException e){
+//					
+////				}
+//			}
 
 		}
 	};

@@ -33,8 +33,8 @@ public class Display {
 	private static final int defaultHeading = 0;
 	private double defaults[] = {xOrigin,yOrigin,defaultHeading};
 	double[] origins = {xOrigin,yOrigin};
-	// TODO move arrayList to manager class
-//	private ArrayList<Turtle> turtles = new ArrayList<>();
+	//turtle array
+	private ArrayList<Turtle> turtleList = new ArrayList<>();
 	
 	/**
 	 * basic constructor
@@ -56,6 +56,10 @@ public class Display {
 		graphics = canvas.getGraphicsContext2D();
 		
 		background.getGraphicsContext2D().rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		
+		//default turtle initialized in display
+		Turtle turtle = new Turtle(xOrigin, yOrigin, 0, 1, Color.BLACK, 1, "/images/turtle_small.png",true, true);
+		turtleList.add(turtle);
 		
 //		test();
 	}
