@@ -23,7 +23,11 @@ public class ControlPanel {
 	ResourceBundle labels;
 	Locale[] supportedLocales = { Locale.ENGLISH, Locale.FRENCH };
 	Locale defaultLocale = Locale.ENGLISH;
-	
+
+	// Display reference
+	Display currentDisplay;
+
+	// Button UI elements
 	private VBox controlPanel;
 	private static final String CSS = "controlPanel";
 	private SlogoButton clearScreen;
@@ -38,137 +42,139 @@ public class ControlPanel {
 	private SlogoButton setColor;
 	private SlogoButton setPen;
 	private SlogoButton setTurtleImage;
-	
+
+	// variable list objects
 	private SlogoVariableList varList;
-	//what is this thing?
+	// what is this thing?
 	private ObservableList<String> variableItems;
-	
+
 	public ControlPanel(double offSet, double width) {
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle",
-					defaultLocale);
-		 
-		 
+				defaultLocale);
+
 		makeControlPanel(offSet, width);
-		
-		clearScreen = new SlogoButton(Double.MAX_VALUE,clear,controlPanel);
-		clearCommandHistory = new SlogoButton(Double.MAX_VALUE,clearHistory, controlPanel);
-		moveForward = new SlogoButton(Double.MAX_VALUE, forwardEvent, controlPanel);
-		moveBackward = new SlogoButton(Double.MAX_VALUE,backwardEvent, controlPanel);
-	
-//		//turn turtle
+
+		clearScreen = new SlogoButton(Double.MAX_VALUE, clear, controlPanel);
+		clearCommandHistory = new SlogoButton(Double.MAX_VALUE, clearHistory,
+				controlPanel);
+		moveForward = new SlogoButton(Double.MAX_VALUE, forwardEvent,
+				controlPanel);
+		moveBackward = new SlogoButton(Double.MAX_VALUE, backwardEvent,
+				controlPanel);
+
+		// //turn turtle
 		turnDegree = new SlogoSlider(-180, 180, controlPanel);
 		turnTurtle = new SlogoButton(Double.MAX_VALUE, turnEvent, controlPanel);
-//
+		//
 		turtleColor = new SlogoColorPicker(Double.MAX_VALUE, controlPanel);
 
-		setColor = new SlogoButton(Double.MAX_VALUE, changeBackground, controlPanel);
+		setColor = new SlogoButton(Double.MAX_VALUE, changeBackground,
+				controlPanel);
 		setPen = new SlogoButton(Double.MAX_VALUE, changePenColor, controlPanel);
-		setTurtleImage = new SlogoButton(Double.MAX_VALUE, changeTurtleImage, controlPanel);
+		setTurtleImage = new SlogoButton(Double.MAX_VALUE, changeTurtleImage,
+				controlPanel);
 
 		varList = new SlogoVariableList(controlPanel);
 
 		setLabels();
 
-//		controlPanel.getChildren().addAll(clearScreen, clearCommandHistory, moveForward,
-//				moveBackward, turnDegree, turnTurtle , turtleColor, setColor, setPen,
-//				setTurtleImage,varList);
+		// controlPanel.getChildren().addAll(clearScreen, clearCommandHistory,
+		// moveForward,
+		// moveBackward, turnDegree, turnTurtle , turtleColor, setColor, setPen,
+		// setTurtleImage,varList);
 	}
-	
-	protected VBox getControlpanel(){
+
+	protected VBox getControlpanel() {
 		return controlPanel;
 	}
-	
+
 	private void makeControlPanel(double offSet, double width) {
-		//original offset = 10
-		//original width = 200
+		// original offset = 10
+		// original width = 200
 		controlPanel = new VBox(offSet);
 		controlPanel.setMaxWidth(width);
 		controlPanel.getStyleClass().add(CSS);
 	}
 
-	
+	public void setActiveDisplay(Display display) {
+		display = currentDisplay;
+	}
+
 	private void setLabels() {
-		//TODO cound set text in the button class
+		// TODO cound set text in the button class
 		clearScreen.getButton().setText(labels.getString("CLEAR"));
-		clearCommandHistory.getButton().setText(labels.getString("CLEARHISTORY"));
+		clearCommandHistory.getButton().setText(
+				labels.getString("CLEARHISTORY"));
 		moveForward.getButton().setText(labels.getString("FORWARD"));
 		moveBackward.getButton().setText(labels.getString("BACKWARD"));
 		turnTurtle.getButton().setText(labels.getString("TURN"));
 		setColor.getButton().setText(labels.getString("BACKGROUND"));
 		setPen.getButton().setText(labels.getString("PEN"));
 		setTurtleImage.getButton().setText(labels.getString("IMAGE"));
-	}	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-//HANDLERS.. DONT TOUCH
+	}
+
+	// HANDLERS.. DONT TOUCH
 	private EventHandler<MouseEvent> changeTurtleImage = new EventHandler<MouseEvent>() {
 		// within manager?
 		public void handle(MouseEvent event) {
-//			Stage fileSystem = new Stage();
-//			FileChooser fileChooser = new FileChooser();
-//			fileChooser.setTitle("Open Resource File");
-//			File file = fileChooser.showOpenDialog(fileSystem);
-//			// some method to change the imageview in display
-//			String filePath = "C:"+file.getPath();
-//			int index = filePath.indexOf("/images");
-////			System.out.println(index);
-////			System.out.println(filePath);
-////			System.out.println(filePath.substring(index));
-//			Turtle turtle = manager.getTurtle();
-//			display.hide(turtle);
-//			manager.getTurtle().setImage(filePath.substring(index));
-//			display.show(turtle);
+			// Stage fileSystem = new Stage();
+			// FileChooser fileChooser = new FileChooser();
+			// fileChooser.setTitle("Open Resource File");
+			// File file = fileChooser.showOpenDialog(fileSystem);
+			// // some method to change the imageview in display
+			// String filePath = "C:"+file.getPath();
+			// int index = filePath.indexOf("/images");
+			// // System.out.println(index);
+			// // System.out.println(filePath);
+			// // System.out.println(filePath.substring(index));
+			// Turtle turtle = manager.getTurtle();
+			// display.hide(turtle);
+			// manager.getTurtle().setImage(filePath.substring(index));
+			// display.show(turtle);
 		}
 
 	};
 
 	private EventHandler<MouseEvent> clear = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-//			display.clearScreen(manager.getTurtle());
-//			addHistoryText("clearscreen");
+			// display.clearScreen(manager.getTurtle());
+			// addHistoryText("clearscreen");
 		}
 
 	};
-	
+
 	private EventHandler<MouseEvent> clearHistory = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-//			resetHistory();
+			// resetHistory();
 		}
 
 	};
-	
+
 	private EventHandler<MouseEvent> changeBackground = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-//			display.changeBackground(turtleColor.getValue());
+			// display.changeBackground(turtleColor.getValue());
 		}
 
 	};
-	
+
 	private EventHandler<MouseEvent> turnEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
-//			double degree = turnDegree.getValue();
-//			display.setHeading(manager.getTurtle(), degree);
-//			if(degree >= 0){
-//				addHistoryText("left " + (int) degree);
-//			}else{
-//				addHistoryText("right " + (int) Math.abs(degree));
-//			}
+			// double degree = turnDegree.getValue();
+			// display.setHeading(manager.getTurtle(), degree);
+			// if(degree >= 0){
+			// addHistoryText("left " + (int) degree);
+			// }else{
+			// addHistoryText("right " + (int) Math.abs(degree));
+			// }
 		}
 
 	};
 
 	private EventHandler<MouseEvent> changePenColor = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-//			manager.getTurtle().setPenColor(turtleColor.getValue());
+			// manager.getTurtle().setPenColor(turtleColor.getValue());
 
 		}
 
@@ -178,8 +184,8 @@ public class ControlPanel {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
-//			display.forward(manager.getTurtle(), 100);
-//			addHistoryText("forward 100");
+			// display.forward(manager.getTurtle(), 100);
+			// addHistoryText("forward 100");
 		}
 
 	};
@@ -188,9 +194,10 @@ public class ControlPanel {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
-//			display.back(manager.getTurtle(), 100);
-//			addHistoryText("backward 100");
+			// display.back(manager.getTurtle(), 100);
+			// addHistoryText("backward 100");
 		}
-	
+
 	};
+
 }
