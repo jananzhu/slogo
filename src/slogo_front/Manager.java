@@ -49,7 +49,7 @@ public class Manager {
 	 */
 	public Double toGUI(String methodName, int[] turtleID, double[] params){
 		// add getter for turtles from turtleID & display from turtle ID
-		
+
 		Method toRun;
 		Double returnValue = null;
 		try {
