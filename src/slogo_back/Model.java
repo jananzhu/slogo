@@ -9,8 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Stack;
 
-import javax.annotation.PostConstruct;
+
+
+import commands.Command;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
@@ -21,16 +24,17 @@ public class Model {
 	private Manager mgr;
 	private Parser myParser;
 	private Map<String, String> cmdMap;
-	private ObservableMap<String, Double> varMap;
+	private Map<String, Command> usrCmdMap;
+	private ObservableMap<String, Stack<Double>> varMap;
 	
-//	public static void main(String[] args){
-//		Model model = new Model("resources/languages/English.properties");
-//		String cmds = "difference product sum sum 10 10 10 2 50\n";
-//		List<Double> results = model.toBack(cmds);
-//		for (Double value : results) {
-//			System.out.println(value);
-//		}
-//	}
+	public static void main(String[] args){
+		Model model = new Model("resources/languages/English.properties");
+		String cmds = "";
+		List<Double> results = model.toBack(cmds);
+		for (Double value : results) {
+			System.out.println(value);
+		}
+	}
 	
 	
 	/*
@@ -45,18 +49,14 @@ public class Model {
 	 */
 	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
+		usrCmdMap = new HashMap<>();
 		myParser = new Parser(this, cmdMap);
-		Map<String, Double> map = new HashMap<>();
+		Map<String, Stack<Double>> map = new HashMap<>();
 		varMap = FXCollections.observableMap(map);
 	}
 	
 	public void setManager(Manager manager){
 		mgr = manager;
-//		System.out.println("printing methods");
-//		Class c = mgr.getClass();
-//		for (Method method : c.getDeclaredMethods()) {
-//		    System.out.println( method.toString());
-//		}
 	}
 	
 	public Map<String, String> createCmdMap(String filename) {
@@ -97,16 +97,42 @@ public class Model {
 		return cmdMap;
 	}
 	
-	public ObservableMap<String, Double> getVarMap() {
+	public ObservableMap<String, Stack<Double>> getVarMap() {
 		return varMap;
 	}
 	
 	public void setVar(String key, Double value) {
-		varMap.put(key, value);
+		if (varMap.containsKey(key))
+			varMap.get(key).add(value);
+		else {
+			Stack<Double> temp = new Stack<>();
+			temp.push(value);
+			varMap.put(key, temp);
+		}
 	}
 	
 	public Double getVar(String key) {
-		return varMap.get(key);
+		return varMap.get(key).peek();
+	}
+	
+	public void popVar(String key) {
+		varMap.get(key).pop();
+	}
+	
+	public void addNewUsrCmd(String usrCmd) {
+		setUsrCmd(usrCmd, null);
+	}
+	
+	public void setUsrCmd(String usrCmd, Command cmd) {
+		usrCmdMap.put(usrCmd, cmd);
+	}
+	
+	public boolean usrCmdExists(String usrCmd) {
+		return usrCmdMap.keySet().contains(usrCmd);
+	}
+	
+	public void remUsrCmd(String usrCmd) {
+		usrCmdMap.remove(usrCmd);
 	}
 	
 	public Double toFront(String cmd, double[] params){

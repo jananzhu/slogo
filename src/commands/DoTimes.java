@@ -29,14 +29,14 @@ public class DoTimes extends Command {
         myVariable = parameterQueue.poll();
         if(myVariable.matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))){
             for(int i=0; i< numParams-1;i++){
-                returnParams[i] = myParser.buildParseTree(parameterQueue, myVariableMap);
+                returnParams[i] = myParser.buildParseTree(parameterQueue);
             }
             //TODO:Throw exception for nonstandard number of parameters here, ie. >4
         } else{
             throw new InvalidParameterException(parameterString + " is invalid list of For parameters");
         }
 
-        returnParams[numParams-1] = myParser.buildParseTree(myCmds, myVariableMap);
+        returnParams[numParams-1] = myParser.buildParseTree(myCmds);
         return returnParams;
     }
 
@@ -45,7 +45,7 @@ public class DoTimes extends Command {
         double returnValue = 0;
         myLimit = (int) myParams[0].getValue();
         for(double i = 1; i<=myLimit; i++){
-            myVariableMap.put(myVariable, i);
+            myVarMap.put(myVariable, i);
             returnValue = myParams[1].getValue();
         }
         return returnValue;        

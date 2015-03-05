@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,7 +39,7 @@ public class Parser {
 
     }
 
-    public ISyntaxNode buildParseTree(Queue<String> tokenQueue, Map<String,Double> variableMap){
+    public ISyntaxNode buildParseTree(Queue<String> tokenQueue){
         String token = tokenQueue.poll();
         Matcher listMatch = listPattern.matcher(token);
         ISyntaxNode node;
@@ -61,7 +62,7 @@ public class Parser {
         List<ISyntaxNode> commands = new ArrayList<ISyntaxNode>();
         while(!tokens.isEmpty()){
             if(myValidCommands.contains(tokens.peek())){
-                ISyntaxNode command = buildParseTree(tokens,myModel.getVarMap());
+                ISyntaxNode command = buildParseTree(tokens);
                 commands.add(command);
             }else{
                 throw new InvalidParameterException(tokens.peek() + " is an invalid command");
@@ -71,6 +72,7 @@ public class Parser {
     }
 
     public Queue<String> inputTokenizer(String input){
+        System.out.println("making tokens");
         Queue<String> tokenQueue = new LinkedList<String>();
         while(!input.matches(whitespacePattern.toString())){
             Matcher constantMatch =constantPattern.matcher(input);

@@ -57,7 +57,7 @@ public class For extends Command {
         myVariable = parameterQueue.poll();
         if(myVariable.matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))){
             for(int i=0; i< numParams-1;i++){
-                returnParams[i] = myParser.buildParseTree(parameterQueue, myVariableMap);
+                returnParams[i] = myParser.buildParseTree(parameterQueue, myVarMap);
             }
             //TODO:Throw exception for nonstandard number of parameters here, ie. >4
         } else{
@@ -65,7 +65,7 @@ public class For extends Command {
                                                 + " is not a valid variable");
         }
 
-        returnParams[numParams-1] = myParser.buildParseTree(myCmds, myVariableMap);
+        returnParams[numParams-1] = myParser.buildParseTree(myCmds, myVarMap);
         return returnParams;
     }
 
@@ -76,7 +76,7 @@ public class For extends Command {
         int myEnd = (int) myParams[1].getValue();
         int myIncrement = (int) myParams[2].getValue();
         for(int i = myStart; i<myEnd; i+=myIncrement){
-            myVariableMap.put(myVariable,(double) i);
+            myVarMap.put(myVariable,(double) i);
             System.out.println("value of i is " + i);
             returnValue = myParams[3].getValue();
         }
