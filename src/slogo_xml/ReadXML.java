@@ -13,7 +13,6 @@ import org.w3c.dom.Element;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Parses XML file and stores variables.
@@ -26,20 +25,12 @@ public class ReadXML {
 	private Document myDoc;
 	private Document defaultDoc;
 	private String defaultURL = "src/xml/default.xml";
-	private HashMap<String,String> propertiesMap = new HashMap<>();
-	
-	public HashMap<String,String> getProperties(String fileLoc){
-		readFile(fileLoc);
-		
-		return propertiesMap;
-		
-	}
 	
 	/**
 	 * takes in file location and initializes/cleans document
 	 * @param fileLoc
 	 */
-	private void readFile(String fileLoc) {
+	public void readFile(String fileLoc) {
 		try {
 			System.out.println("Reading file");
 			File xml = new File(fileLoc);
@@ -144,7 +135,7 @@ public class ReadXML {
 	 * String checking 
 	 */
 	
-	protected String getAsString(String id, String label, String root){
+	public String getAsString(String id, String label, String root){
 		String val = getNode(id,label,root,false);
 		if(val.isEmpty()){
 			return getNode(id,label,root,true);
@@ -165,7 +156,7 @@ public class ReadXML {
 	 * @param elementID
 	 * @return
 	 */
-	protected int getAsInt(String id, String label, String root){
+	public int getAsInt(String id, String label, String root){
 		String val = getNode(id,label,root,false);
 		if(checkInt(val)){
 			return stringToInt(val);
@@ -175,7 +166,7 @@ public class ReadXML {
 		}
 	}
 
-	private int stringToInt(String s){
+	public int stringToInt(String s){
 		return Integer.parseInt(s);
 	}
 	
@@ -206,7 +197,7 @@ public class ReadXML {
 	 * @param elementID
 	 * @return
 	 */
-	protected boolean getAsBool(String id, String label, String root){
+	public boolean getAsBool(String id, String label, String root){
 		String val = getNode(id,label,root,false);
 		if(checkYesNo(val)){
 			return stringToBool(val);
