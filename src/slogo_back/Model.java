@@ -125,6 +125,10 @@ public class Model {
 		usrCmdMap.put(usrCmd, cmd);
 	}
 	
+	public Command getUsrCmd(String usrCmd) {
+		return usrCmdMap.get(usrCmd);
+	}
+	
 	public boolean usrCmdExists(String usrCmd) {
 		return usrCmdMap.keySet().contains(usrCmd);
 	}
