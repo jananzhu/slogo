@@ -54,7 +54,7 @@ public class For extends Command {
     public double getValue () {
         double returnValue = 0;
         for(int i = myStart; i<myEnd; i+=myIncrement){
-            myVariableMap.put(myNewVariableNames.get(0),(double) i);
+            myVarMap.put(myNewVarNames.get(0),(double) i);
             returnValue = myParams[0].getValue();
         }
         return returnValue;

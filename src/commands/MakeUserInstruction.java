@@ -29,20 +29,12 @@ public class MakeUserInstruction extends Command {
         for (String var:myParser.inputTokenizer(newVarList)) {
         	newVarMap.put(var, 0.0);
         }
-        setLocalVars(newVarMap);
         newCmdList = cmdQueue.poll();
         //Check if actually a list of commands
         //DON'T remove brackets
         newCmdQueue = new LinkedList<>();
         newCmdQueue.add(newCmdList);
-        try {
-        	newUsrInst = new UserInstruction(newCmdQueue, myModel, newVarMap, newInstName);
-        } catch (Exception e){
-        	//TODO: Add handlers
-        	
-        } finally {
-        	clearLocalVars(newVarMap);
-        }
+        newUsrInst = new UserInstruction(newCmdQueue, myModel, newVarMap, newInstName);
     } 
 
     @Override

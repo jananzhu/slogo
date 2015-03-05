@@ -14,20 +14,19 @@ public abstract class Command implements ISyntaxNode{
 	protected Queue<String> myCmds;
 	protected ISyntaxNode[] myParams;
 	protected Model myModel;
-	protected Map<String,Double> myVariableMap;
-	protected List<String> myNewVariableNames;
+	protected Map<String,Double> myVarMap;
+	protected List<String> myNewVarNames;
 	
 	public Command(Queue<String> cmdQueue, Model model, Map<String, Double> variableMap) {
 		myParser = model.getParser();
 		myCmds = cmdQueue;
 		myModel = model;
-		myVariableMap = variableMap;
+		myVarMap = variableMap;
 	}
 	
 	public Command(Queue<String> cmdQueue, Model model, int numParams, Map<String, Double> variableMap) {
 		this(cmdQueue, model, variableMap);
-		myNewVariableNames = defineVariableNames();
-		saveCmdQueue();
+		myNewVarNames = defineVariableNames();
 		myParams = defineParams(numParams);
 	}
 	
@@ -38,7 +37,7 @@ public abstract class Command implements ISyntaxNode{
 		for (int i = 0; i < numParams; i++){
 		    System.out.println("numParams is" + numParams);
 		    System.out.println("Calling buildParseTree from define " + i + "th parameter");
-			returnParams[i] = myParser.buildParseTree(myCmds,myVariableMap);
+			returnParams[i] = myParser.buildParseTree(myCmds,myVarMap);
 		}
 		return returnParams;
 	}
@@ -50,9 +49,6 @@ public abstract class Command implements ISyntaxNode{
 	 */
 	protected List<String> defineVariableNames(){
 	    return new ArrayList<String>();
-	}
-	
-	protected void saveCmdQueue() {
 	}
 	
 	protected void setLocalVars(Map<String, Double> varMap) {

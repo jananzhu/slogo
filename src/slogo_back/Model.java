@@ -27,14 +27,14 @@ public class Model {
 	private Map<String, Command> usrCmdMap;
 	private ObservableMap<String, Stack<Double>> varMap;
 	
-//	public static void main(String[] args){
-//		Model model = new Model("resources/languages/English.properties");
-//		String cmds = "difference product sum sum 10 10 10 2 50\n";
-//		List<Double> results = model.toBack(cmds);
-//		for (Double value : results) {
-//			System.out.println(value);
-//		}
-//	}
+	public static void main(String[] args){
+		Model model = new Model("resources/languages/English.properties");
+		String cmds = "";
+		List<Double> results = model.toBack(cmds);
+		for (Double value : results) {
+			System.out.println(value);
+		}
+	}
 	
 	
 	/*

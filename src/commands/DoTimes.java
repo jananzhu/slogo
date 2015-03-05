@@ -28,10 +28,10 @@ public class DoTimes extends Command {
                 myVariable = parameters[0].substring(1, parameters[0].length());
                 myLimit = (int) Double.parseDouble(parameters[1]);
                 Map<String,Double> newVariableMap = new HashMap<String,Double>();
-                for(String key: myVariableMap.keySet()){
-                    newVariableMap.put(key,myVariableMap.get(key));
+                for(String key: myVarMap.keySet()){
+                    newVariableMap.put(key,myVarMap.get(key));
                 }
-                myVariableMap.put(myVariable, (double) 1);
+                myVarMap.put(myVariable, (double) 1);
             }else{
                 throw new InvalidParameterException();
             }
@@ -41,7 +41,7 @@ public class DoTimes extends Command {
     public double getValue () {
         double returnValue = 0;
         for(double i = 1; i<=myLimit; i++){
-            myVariableMap.put(myVariable, i);
+            myVarMap.put(myVariable, i);
             returnValue = myParams[1].getValue();
         }
         return returnValue;        
