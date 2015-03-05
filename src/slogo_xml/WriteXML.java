@@ -25,21 +25,17 @@ import org.w3c.dom.Element;
 public class WriteXML {
 	private Element rootElement;
 	private Document doc;
-	private String[] propertiesLabels = {"imageURL","backgroundcolor",
-			"language","turtlecount","pendown","linestyle"};
-	
-	// API method
-	public void writeXML(String[] properties, String fileLocation){
-		initialize();
-		configureProperties(properties);
-		closeFile(fileLocation);
+	private String[] propertiesLabels;
+
+	protected WriteXML(String[] labels) {
+		propertiesLabels = labels;
 	}
-	
+
 	/**
 	 * initializes document builder & root
 	 * sets rootElement and doc variables
 	 */
-	private void initialize(){
+	protected void initialize(){
 		try {
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
@@ -57,7 +53,7 @@ public class WriteXML {
 	 * closes file by using transformer & transformer factory
 	 * @param fileLocation
 	 */
-	private void closeFile(String fileLocation){
+	protected void closeFile(String fileLocation){
 		try{
 		TransformerFactory transformerFactory = TransformerFactory.newInstance();
 		Transformer transformer = transformerFactory.newTransformer();
@@ -79,7 +75,7 @@ public class WriteXML {
 	 * imageURL, background color, language, turtle count
 	 * @param params
 	 */
-	private void configureProperties(String[] params){
+	protected void configureProperties(String[] params){
 		writeElements("module","properties",propertiesLabels,params);
 	}
 	
