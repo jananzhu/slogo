@@ -11,8 +11,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
 
-
-
 import commands.Command;
 
 import javafx.collections.FXCollections;
