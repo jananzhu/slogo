@@ -30,6 +30,8 @@ public class ToolBar {
 		MenuLanguage menuLanguage = new MenuLanguage(toolBar);
 		//file save/load
 		MenuFile file = new MenuFile(toolBar);
+		
+		MenuPlus plus = new MenuPlus(toolBar);
 
 		// setLanguageListener(menuLanguage);
 		
