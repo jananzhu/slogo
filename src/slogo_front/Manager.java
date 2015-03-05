@@ -24,13 +24,6 @@ public class Manager{
 	private View view;
 	// canvas
 
-//	Display display;
-//	private static final int xCanvas = 1000;
-//	private static final int yCanvas = 600;
-	//toRemove turtle list in displays now
-//	private ArrayList<Turtle> turtles = new ArrayList<>();
-//	private int turtleCount = 1;
-	//display id list of all displays
 	public static final int DEFAULT_DISPLAY = 0;
 	private ArrayList<Integer> displayIndex = new ArrayList<>();
 //	private ArrayList<Integer> activeDisplayIndex = new ArrayList<>();
