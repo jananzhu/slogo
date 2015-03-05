@@ -1,4 +1,4 @@
-package slogo_front;
+package view_panels;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +24,7 @@ public class CommandHistory {
 		commandList.setOnMouseClicked(historyEvent);
 	}
 	
-	protected ListView getCommandHistory(){
+	public ListView getCommandHistory(){
 		return commandList;
 	}
 	

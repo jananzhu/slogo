@@ -1,37 +1,19 @@
 package slogo_front;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
+import view_panels.CommandHistory;
+import view_panels.CommandLine;
+import view_panels.ControlPanel;
+import view_panels.ToolBar;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ColorPicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
-import javafx.scene.web.WebView;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 // TODO please comment this code tonight
 /**
@@ -50,7 +32,10 @@ public class View {
 	private ToolBar tools;
 	private CommandLine commandLine;
 
-	private Display display;
+	//probably going to remove this instance
+	private Display activeDisplay;
+	//keeps track of the multiple displays
+	private ArrayList<Display> displayList = new ArrayList<>();
 
 	// private VBox displayBackground ;
 	// Canvas Dimensions
@@ -70,6 +55,9 @@ public class View {
 
 	public View() {
 		// resource bundles
+		activeDisplay = new Display(xCanvas, yCanvas, 0);
+		displayList.add(activeDisplay);
+		
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle",
 				defaultLocale);
 		
@@ -83,22 +71,27 @@ public class View {
 		root.setRight(history.getCommandHistory());
 		root.setBottom(commandLine.getCommandLine());
 		
-		root.setCenter(makeCanvas());
+		root.setCenter(activeDisplay.getDisplay());
 		
 		root.setLeft(control.getControlpanel());
 
 		scene = new Scene(root);
 		scene.getStylesheets().add("css/view.css");
 	}
+	
+	public Display getDisplay(int displayIndex) {
+		
+		return displayList.get(displayIndex);
+	}
 	//TODO this will go away
-	private Node makeCanvas() {
-		display = new Display(xCanvas, yCanvas);
-		return display.getDisplay();
-	}
+//	private Node makeCanvas() {
+//		display = new Display(xCanvas, yCanvas, 1);
+//		return display.getDisplay();
+//	}
 
-	protected Display getDisplay() {
-		return display;
-	}
+//	protected Display getDisplay() {
+//		return display;
+//	}
 
 //	private Node makeTextField() {
 //		commandLine = new TextField();
@@ -198,12 +191,12 @@ public class View {
 //	}
 	
 	// set manager
-	protected void setManager(Manager m) {
+	public void setManager(Manager m) {
 		manager = m;
 	}
 
 	// sets command line
-	protected void setCommandLine(EventHandler<KeyEvent> handler) {
+	public void setCommandLine(EventHandler<KeyEvent> handler) {
 //		commandLine.setOnKeyPressed(handler);
 	}
 
@@ -273,6 +266,8 @@ public class View {
 		}
 
 	};
+
+	
 
 	// opens window for help page
 //	private EventHandler<ActionEvent> launchWebView = new EventHandler<ActionEvent>() {

@@ -32,9 +32,11 @@ public class Display {
 	private GraphicsContext graphics;
 	private static final int defaultHeading = 0;
 	private double defaults[] = {xOrigin,yOrigin,defaultHeading};
-	double[] origins = {xOrigin,yOrigin};
+	private double[] origins = {xOrigin,yOrigin};
 	//turtle array
 	private ArrayList<Turtle> turtleList = new ArrayList<>();
+	//display id
+	private int displayID;
 	
 	/**
 	 * basic constructor
@@ -42,7 +44,8 @@ public class Display {
 	 * @param yDimension
 	 * @param myCanvas
 	 */
-	protected Display(double canvasWidth, double canvasHeight){
+	public Display(double canvasWidth, double canvasHeight, int id){
+		displayID = id;
 		overlay = new Pane();
 		canvas = new Canvas (canvasWidth,canvasHeight);
 		background = new Canvas(canvasWidth,canvasHeight);
@@ -58,7 +61,7 @@ public class Display {
 		background.getGraphicsContext2D().rect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
 		
 		//default turtle initialized in display
-		Turtle turtle = new Turtle(xOrigin, yOrigin, 0, 1, Color.BLACK, 1, "/images/turtle_small.png",true, true);
+		Turtle turtle = new Turtle(xOrigin, yOrigin, 0, 0, Color.BLACK, 1, "/images/turtle_small.png",true, true);
 		turtleList.add(turtle);
 		
 //		test();
@@ -84,7 +87,7 @@ public class Display {
 	
 	// queries
 	
-	protected Node getDisplay(){
+	public Node getDisplay(){
 		return overlay;
 	}
 	
@@ -456,6 +459,10 @@ public class Display {
 			return 360 - degrees;
 		}
 		return 0; // returns zero if error exists
+	}
+
+	public ArrayList<Turtle> getTurtles() {
+		return turtleList;
 	}
 
 }
