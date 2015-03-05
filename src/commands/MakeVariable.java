@@ -22,7 +22,7 @@ public class MakeVariable extends Command {
         List<String> variableNames = new ArrayList<String>();
         String nextToken = myCmds.peek();
         if(nextToken.matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))){
-            variableNames.add(nextToken.substring(1, nextToken.length()));
+            variableNames.add(nextToken);
         }else{
             throw new InvalidParameterException(nextToken + " is not in correct variable syntax");
         }
