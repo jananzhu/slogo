@@ -16,7 +16,6 @@ public class Parser {
     private CommandFactory myCommandFactory;
     private TokenProcessorFactory myProcessorFactory;
     private ISyntaxNodeFactory myISyntaxNodeFactory;
-    private Model myModel;
 
     public Parser(Model currentModel, Map<String,String> dictionary){
         myValidCommands = new ArrayList<String>();
@@ -24,15 +23,11 @@ public class Parser {
         myResourceBundle = ResourceBundle.getBundle("resources/languages/Syntax");
         whitespacePattern = Pattern.compile(myResourceBundle.getString("LeadingWhitespace"));
         myCommandFactory = new CommandFactory(currentModel, dictionary);
-        myModel = currentModel;
         myProcessorFactory = new TokenProcessorFactory();
         myISyntaxNodeFactory = new ISyntaxNodeFactory(currentModel, myValidCommands,
                                                       myCommandFactory, this);
     }
 
-    public void addNewCommand(String command){
-        
-    }
     
     public ISyntaxNode buildParseTree(Queue<String> tokenQueue){
         String token = tokenQueue.poll();
@@ -64,6 +59,13 @@ public class Parser {
     }
     
     public void addCommand(String commandName){
+        myValidCommands.add(commandName);
+        myISyntaxNodeFactory.addCommands(commandName);
         
+    }
+    
+    public void removeCommand(String commandName){
+        myValidCommands.remove(commandName);
+        myISyntaxNodeFactory.removeCommands(commandName);
     }
 }

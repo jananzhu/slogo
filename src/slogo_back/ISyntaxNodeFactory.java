@@ -41,4 +41,13 @@ public class ISyntaxNodeFactory {
         }
         return node;
     }
+    
+    public void addCommands(String command){
+        myValidCommands.add(command);
+    }
+    
+    public void removeCommands(String command){
+        myValidCommands.remove(command);
+    }
+    
 }
