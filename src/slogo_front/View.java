@@ -66,7 +66,7 @@ public class View {
 		root = new BorderPane();
 		control = new ControlPanel(10, 200);
 		history = new CommandHistory(200);
-		tools = new ToolBar();
+		tools = new ToolBar(this);
 		commandLine = new CommandLine(COMMAND_HEIGHT);
 
 		root.setTop(tools.getToolBar());
@@ -89,9 +89,14 @@ public class View {
 		return history;
 	}
 
-	public Display getDisplay(int displayIndex) {
+	public Display getActiveDisplay(int displayIndex) {
 
-		return displayList.get(displayIndex);
+		return activeDisplay;
+	}
+	
+	//sets active, otherwise creates new display altogether
+	public void setActiveDisplay(int index){
+		
 	}
 
 	// TODO this will go away
