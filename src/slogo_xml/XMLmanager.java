@@ -1,5 +1,8 @@
 package slogo_xml;
 
+import java.awt.Color;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class XMLmanager {
