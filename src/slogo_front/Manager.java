@@ -28,20 +28,19 @@ public class Manager{
 	private ArrayList<Integer> displayIndex = new ArrayList<>();
 //	private ArrayList<Integer> activeDisplayIndex = new ArrayList<>();
 	private IntegerProperty activeDisplayIndex = new SimpleIntegerProperty();
-	private Display currentDisplay;
+//	private Display currentDisplay;
 	private Model model;
 
 	Manager(View defaultView) {
-		activeDisplayIndex.add(DEFAULT_DISPLAY);
+		activeDisplayIndex.set(DEFAULT_DISPLAY);
 		view = defaultView;
-		currentDisplay = view.getDisplay(activeDisplayIndex.get());
+//		currentDisplay = view.getActiveDisplay();
 		defaultView.setManager(this);
 		//set model language and references
 		model = new Model("resources/languages/English.properties");
 		model.setManager(this);
-		
-		initialize();
-		// turtle = new Turtle(0,0,0, )
+		//handlers from manager to view
+		initializeViewHandlers();
 	}
 	
 	/**
@@ -63,7 +62,7 @@ public class Manager{
 			param_types[1] = Turtle.class;
 			param_types[2] = double[].class;
 			toRun = Display.class.getDeclaredMethod(methodName, param_types); // TODO modify all methods in display
-			returnValue = (Double) toRun.invoke(currentDisplay, 0, currentDisplay.getTurtles().get(0), params); //change to arraylist of turtles 
+			returnValue = (Double) toRun.invoke(view.getActiveDisplay(), 0, view.getActiveDisplay().getTurtles().get(0), params); //change to arraylist of turtles 
 			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -176,7 +175,7 @@ public class Manager{
 		 return model;
 	 }
 
-	private void initialize() {
+	private void initializeViewHandlers() {
 		// setting handlers
 //		Turtle turtle = new Turtle(xCanvas/2, yCanvas/2, 0, 0,0, Color.BLACK, turtleCount,
 //				"/images/turtle_small.png", true, true);

@@ -9,13 +9,18 @@ import view_panels.CommandHistory;
 import view_panels.CommandLine;
 import view_panels.ControlPanel;
 import view_panels.ToolBar;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 // TODO please comment this code tonight
 /**
@@ -57,8 +62,8 @@ public class View {
 
 	public View() {
 		// resource bundles
-		activeDisplay = new Display(xCanvas, yCanvas, 0);
-		displayList.add(activeDisplay);
+//		activeDisplay = new Display(xCanvas, yCanvas);
+//		displayList.add(activeDisplay);
 
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle",
 				defaultLocale);
@@ -72,13 +77,29 @@ public class View {
 		root.setTop(tools.getToolBar());
 		root.setRight(history.getCommandHistory());
 		root.setBottom(commandLine.getCommandLine());
-
-		root.setCenter(activeDisplay.getDisplay());
+//		root.setCenter(null);
+//		Pane placeHolder = new Pane();
+		Display placeHolder = new Display(xCanvas, yCanvas);
+		placeHolder.changeBackground(Color.GRAY);
+		root.setCenter(placeHolder.getDisplay());
 
 		root.setLeft(control.getControlpanel());
 
 		scene = new Scene(root);
 		scene.getStylesheets().add("css/view.css");
+//		initializeDisplays();
+		initializeToolbarHandlers();
+		System.out.println(displayList.size());
+	}
+
+//	private void initializeDisplays() {
+//		
+//		
+//	}
+
+	// TODO
+	private void initializeToolbarHandlers() {
+		tools.setMenuPlusHandler(addDisplay);
 	}
 
 	public CommandLine getCommandLine() {
@@ -89,33 +110,26 @@ public class View {
 		return history;
 	}
 
-	public Display getActiveDisplay(int displayIndex) {
-
+	public Display getActiveDisplay() {
 		return activeDisplay;
 	}
-	
-	//sets active, otherwise creates new display altogether
-	public void setActiveDisplay(int index){
-		
+
+	// attach new display when active display set
+	public void setActiveDisplay(int displayIndex) {
+//		if (displayIndex >= displayList.size()) {
+//			System.out.println("too big");
+//			return;
+//		}
+		System.out.println("sisze" + displayList.size());
+		activeDisplay = displayList.get(displayIndex);
+		root.setCenter(activeDisplay.getDisplay());
+		return;
 	}
 
-	// TODO this will go away
-	// private Node makeCanvas() {
-	// display = new Display(xCanvas, yCanvas, 1);
-	// return display.getDisplay();
-	// }
-
-	// protected Display getDisplay() {
-	// return display;
-	// }
-
-	// private Node makeTextField() {
-	// commandLine = new TextField();
-	// // textField.setPrefWidth(HISTORY_WIDTH);
-	// commandLine.setPrefHeight(COMMAND_HEIGHT);
-	// // commandLine.setLayoutX(0);
-	// return commandLine;
-	// }
+	public void createDisplay() {
+//		activeDisplay = new Display(xCanvas, yCanvas);
+		displayList.add(new Display(xCanvas, yCanvas));
+	}
 
 	public Scene getScene() {
 		return scene;
@@ -222,6 +236,22 @@ public class View {
 	public void setCommandHistory(EventHandler<MouseEvent> handler) {
 		history.setCommandHandler(handler);
 	}
+
+	private EventHandler<ActionEvent> addDisplay = new EventHandler<ActionEvent>() {
+		public void handle(ActionEvent event) {
+			MenuItem display = new MenuItem("Display " + displayList.size());
+			display.setId("" + displayList.size());
+			display.setOnAction(new EventHandler<ActionEvent>() {
+				public void handle(ActionEvent event) {
+					System.out.println(Integer.parseInt(display.getId()));
+					setActiveDisplay(Integer.parseInt(display.getId()));
+				}
+			});
+			//add menuitem to the menu
+			createDisplay();
+			tools.addMenuPlusItem(display);
+		}
+	};
 
 	private EventHandler<MouseEvent> changeTurtleImage = new EventHandler<MouseEvent>() {
 		// within manager?

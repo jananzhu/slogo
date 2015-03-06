@@ -44,8 +44,7 @@ public class Display {
 	 * @param yDimension
 	 * @param myCanvas
 	 */
-	public Display(double canvasWidth, double canvasHeight, int id){
-		displayID = id;
+	public Display(double canvasWidth, double canvasHeight){
 		overlay = new Pane();
 		canvas = new Canvas (canvasWidth,canvasHeight);
 		background = new Canvas(canvasWidth,canvasHeight);
