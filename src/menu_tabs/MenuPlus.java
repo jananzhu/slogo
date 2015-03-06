@@ -1,5 +1,7 @@
 package menu_tabs;
 
+import java.util.ResourceBundle;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
@@ -9,12 +11,13 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 
 public class MenuPlus {
+	// created by the toolBar
 	private Menu menuPlus;
-	private final static int INDEX = 0;
+	private int INDEX = 0;
 	private IntegerProperty displayIndex = new SimpleIntegerProperty();
 
 	public MenuPlus(MenuBar toolBar) {
-		displayIndex.add(INDEX);
+		displayIndex.set(INDEX);
 		menuPlus = new Menu("Displays");
 		plus();
 		toolBar.getMenus().add(menuPlus);
@@ -25,24 +28,36 @@ public class MenuPlus {
 		add.setOnAction(new EventHandler<ActionEvent>() {
 			public void handle(ActionEvent t) {
 				addDisplay();
+				// create a new display in the view
+				// bind property to the display index in manager?
 			}
 
 		});
-
 		menuPlus.getItems().addAll(add);
+		addDisplay();
 	}
 
 	private void addDisplay() {
-		MenuItem display = new MenuItem("Display " + displayIndex);
-		display.setOnAction(setIndex);
+		// TODO create display in VIew
+
+		MenuItem display = new MenuItem("Display " + INDEX);
+		display.setId("" + INDEX);
+		display.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent t) {
+				//
+				Integer index = Integer.parseInt(display.getId());
+				System.out.println(index);
+			}
+		});
 		menuPlus.getItems().add(display);
-		int index = displayIndex.get() + 1;
-		displayIndex.add(index);
+		INDEX++;
+		displayIndex.set(INDEX);
 	}
 
 	private EventHandler<ActionEvent> setIndex = new EventHandler<ActionEvent>() {
 		public void handle(ActionEvent event) {
-			//TODO set manager index to display index
+			// TODO set manager index to display index
+
 		}
 
 	};
