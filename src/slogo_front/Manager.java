@@ -34,7 +34,7 @@ public class Manager{
 	Manager(View defaultView) {
 		activeDisplayIndex.add(DEFAULT_DISPLAY);
 		view = defaultView;
-		currentDisplay = view.getDisplay(activeDisplayIndex.get());
+		currentDisplay = view.getActiveDisplay(activeDisplayIndex.get());
 		defaultView.setManager(this);
 		//set model language and references
 		model = new Model("resources/languages/English.properties");
