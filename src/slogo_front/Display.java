@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
  */
 public class Display {
 	// References the middle of the canvas
+	private int turtleID = 0;
 	private double xOrigin;
 	private double yOrigin;
 	// Outer bounds of the display
@@ -34,7 +35,8 @@ public class Display {
 	private double[] origins = { xOrigin, yOrigin };
 	// turtle array
 	//list of all turtles
-	private ArrayList<Turtle> turtleList = new ArrayList<>();
+	// private ArrayList<Turtle> turtleList = new ArrayList<>();
+	private TurtleList turtleList;
 
 	// display id
 
@@ -46,6 +48,7 @@ public class Display {
 	 * @param myCanvas
 	 */
 	public Display(double canvasWidth, double canvasHeight) {
+		turtleList = new TurtleList(this);
 		overlay = new Pane();
 		canvas = new Canvas(canvasWidth, canvasHeight);
 		background = new Canvas(canvasWidth, canvasHeight);
@@ -62,28 +65,12 @@ public class Display {
 				maxCanvasWidth, maxCanvasHeight);
 
 		// default turtle initialized in display
-		addTurtle();
+		addTurtle(null);
 
 		// test();
 	}
 
-	/**
-	 * testing area
-	 */
-	// private void test(){
-	// Turtle turtle = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE, 1,
-	// "/images/turtle_small.png", true,true);
-	// Turtle turtle2 = new Turtle(xOrigin,yOrigin, 0,0, Color.BLUE,1,
-	// "/images/turtle_small.png", true,true);
-	// turtle.setHeading(170);
-	// turtle2.setHeading(50);
-	// forward(turtle2,10);
-	// moveForward(turtle, 10000); // observer observable
-	// turtle.setHeading(60);
-	// turtle.setPenWidth(3);
-	// moveForward(turtle,100);
-	// left(turtle,50);
-	// }
+	// TODO fix return values
 
 	// queries
 
@@ -91,22 +78,22 @@ public class Display {
 		return overlay;
 	}
 
-	protected double xCor(Turtle turtle, double[] params) {
-		return turtle.getXloc() + xOrigin;
+	protected double xCor(double[] params) {
+		return turtleList.getXloc() + xOrigin;
 	}
 
-	protected double yCor(Turtle turtle, double[] params) {
-		return turtle.getYloc() + yOrigin;
+	protected double yCor(double[] params) {
+		return turtleList.getYloc() + yOrigin;
 	}
 
-	protected double showing(Turtle turtle, double[] params) {
-		if (turtle.getShowTurtle())
+	protected double showing(double[] params) {
+		if (turtleList.getShowTurtle())
 			return 1;
 		return 0;
 	}
 
-	protected double isPenDown(Turtle turtle, double[] params) {
-		if (turtle.getPenDown())
+	protected double isPenDown(double[] params) {
+		if (turtleList.getPenDown())
 			return 1;
 		return 0;
 	}
@@ -126,13 +113,14 @@ public class Display {
 	 * @param turtle
 	 * @return
 	 */
-	public double clearScreen(Turtle turtle, double[] params) {
+	public double clearScreen(double[] params) {
 		graphics.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth,
 				maxCanvasHeight);
-		double distance = getDistance(turtle.getXloc(), turtle.getYloc(),
-				xOrigin, yOrigin);
-		home(turtle, params);
-		return distance;
+		
+//		double distance = getDistance(turtleList.getXloc(), turtleList.getYloc(),
+//				xOrigin, yOrigin);
+//		home(params);
+		return turtleList.home();
 	}
 
 	/**
@@ -141,8 +129,8 @@ public class Display {
 	 * @param turtle
 	 * @return
 	 */
-	protected double penDown(Turtle turtle, double[] params) {
-		turtle.setPenDown(true);
+	protected double penDown(double[] params) {
+		turtleList.setPenDown(true);
 		return 1;
 	}
 
@@ -152,18 +140,18 @@ public class Display {
 	 * @param turtle
 	 * @return
 	 */
-	protected double penUp(Turtle turtle, double[] params) {
-		turtle.setPenDown(false);
+	protected double penUp(double[] params) {
+		turtleList.setPenDown(false);
 		return 0;
 	}
 
-	public double show(Turtle turtle, double[] params) {
-		turtle.setShowTurtle(true);
+	public double show(double[] params) {
+		turtleList.setShowTurtle(true);
 		return 1;
 	}
 
-	public double hide(Turtle turtle, double[] params) {
-		turtle.setShowTurtle(false);
+	public double hide(double[] params) {
+		turtleList.setShowTurtle(false);
 		return 0;
 	}
 
@@ -172,7 +160,7 @@ public class Display {
 	 * 
 	 * @param turtle
 	 */
-	private void updateTurtleImage(Turtle turtle) {
+	protected void updateTurtleImage(Turtle turtle) {
 		ImageView turtleImage = turtle.getTurtleImage();
 		turtleImage.setRotate(turtle.getAdjustedHeading());
 		double widthAdj = turtleImage.getImage().getWidth() / 2;
@@ -188,11 +176,8 @@ public class Display {
 	 * @param degrees
 	 * @return
 	 */
-	protected double left(Turtle turtle, double[] params) {
-		double newHeading = turtle.getHeading() + params[0];
-		newHeading %= 360;
-		turtle.setHeading(newHeading);
-		updateTurtleImage(turtle);
+	protected double left(double[] params) {
+		turtleList.left(params[0]);
 		return params[0];
 	}
 
@@ -203,11 +188,8 @@ public class Display {
 	 * @param degrees
 	 * @return
 	 */
-	protected double right(Turtle turtle, double[] params) {
-		double newHeading = turtle.getHeading() - params[0];
-		newHeading %= 360;
-		turtle.setHeading(newHeading);
-		updateTurtleImage(turtle);
+	protected double right(double[] params) {
+		turtleList.right(params[0]);
 		return params[0];
 	}
 
@@ -218,13 +200,9 @@ public class Display {
 	 * @param degrees
 	 * @return
 	 */
-	protected double setHeading(Turtle turtle, double[] params) {
-		double newHeading = params[0];
-		double oldHeading = turtle.getHeading();
-		newHeading %= 360;
-		turtle.setHeading(newHeading);
-		updateTurtleImage(turtle);
-		return Math.abs(oldHeading - newHeading);
+	protected double setHeading(double[] params) {
+		return turtleList.setHeading(params[0]);
+		
 	}
 
 	/**
@@ -235,14 +213,8 @@ public class Display {
 	 * @param y
 	 * @return
 	 */
-	protected double setXY(Turtle turtle, double[] params) {
-		double x = params[0];
-		double y = params[1];
-		double distance = getDistance(turtle.getXloc(), turtle.getYloc(), x, y);
-		turtle.setXPosition(x + xOrigin);
-		turtle.setYPosition(yOrigin - y);
-		updateTurtleImage(turtle);
-		return distance;
+	protected double setXY(double[] params) {
+		return turtleList.setXY(params[0], params[1]);
 	}
 
 	/**
@@ -251,14 +223,8 @@ public class Display {
 	 * @param turtle
 	 * @return
 	 */
-	protected double home(Turtle turtle, double[] params) {
-		double distance = setXY(turtle, origins);
-		turtle.setXPosition(xOrigin);
-		turtle.setYPosition(yOrigin);
-		double[] heading = { defaultHeading };
-		setHeading(turtle, heading);
-		updateTurtleImage(turtle);
-		return distance;
+	protected double home(double[] params) {
+		return turtleList.home();
 	}
 
 	/**
@@ -268,8 +234,9 @@ public class Display {
 	 * @param pixels
 	 * @return
 	 */
-	protected double forward(Turtle turtle, double[] params) {
-		moveTurtle(turtle, params[0], turtle.getPenDown());
+	protected double forward(double[] params) {
+		// moveTurtle(turtle, params[0], turtle.getPenDown());
+		turtleList.moveTurtle(params[0]);
 		return params[0];
 	}
 
@@ -280,8 +247,9 @@ public class Display {
 	 * @param pixels
 	 * @return
 	 */
-	protected double back(Turtle turtle, double[] params) {
-		moveTurtle(turtle, params[0] * -1, turtle.getPenDown());
+	protected double back(double[] params) {
+//		moveTurtle(turtle, params[0] * -1, turtle.getPenDown());
+		turtleList.moveTurtle(params[0] * -1);
 		return params[0];
 	}
 
@@ -294,78 +262,81 @@ public class Display {
 	 * @param y
 	 * @return
 	 */
-	protected double towards(Turtle turtle, double[] params) {
-		double oldHeading = turtle.getHeading();
-		double xTranslated = params[0] + xOrigin;
-		double yTranslated = yOrigin - params[1];
-		double newHeading = calculateDirection(xTranslated - turtle.getXloc(), turtle.getYloc() - yTranslated);
-		turtle.setHeading(newHeading);
-		updateTurtleImage(turtle);
-		return Math.abs(oldHeading - newHeading);
+	protected double towards(double[] params) {
+//		double oldHeading = turtle.getHeading();
+//		double xTranslated = params[0] + xOrigin;
+//		double yTranslated = yOrigin - params[1];
+//		double newHeading = calculateDirection(xTranslated - turtle.getXloc(),
+//				turtle.getYloc() - yTranslated);
+//		turtle.setHeading(newHeading);
+//		updateTurtleImage(turtle);
+//		return Math.abs(oldHeading - newHeading);
+		return 0;
 	}
 
-	/**
-	 * calculates direction of turtle (adjusts for arctan values)
-	 * 
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	private double calculateDirection(double x, double y) {
-		double rawAngle = Math.toDegrees(Math.atan(y / x));
-		System.out.println(rawAngle);
-		if (x < 0) {
-			rawAngle += 180; // second & third quadrant
-		}
-		if (y < 0) {
-			rawAngle += 360; // fourth quadrant
-		}
-		return rawAngle;
-	}
+//	/**
+//	 * calculates direction of turtle (adjusts for arctan values)
+//	 * 
+//	 * @param x
+//	 * @param y
+//	 * @return
+//	 */
+//	private double calculateDirection(double x, double y) {
+//		double rawAngle = Math.toDegrees(Math.atan(y / x));
+//		System.out.println(rawAngle);
+//		if (x < 0) {
+//			rawAngle += 180; // second & third quadrant
+//		}
+//		if (y < 0) {
+//			rawAngle += 360; // fourth quadrant
+//		}
+//		return rawAngle;
+//	}
 
-	/**
-	 * moves turtle forward/backward depending on sign of pixels
-	 * 
-	 * @param turtle
-	 * @param pixels
-	 * @param leaveTrail
-	 */
-	private void moveTurtle(Turtle turtle, double pixels, boolean leaveTrail) {
-		double heading = turtle.getHeading();
-		if (pixels < 0) {
-			heading += 180;
-			pixels *= -1;
-		}
-		while (pixels != 0) {
-			double xDistance = getXDistance(heading, 1);
-			double yDistance = getYDistance(heading, 1);
-			double x = turtle.getXloc();
-			double y = turtle.getYloc();
-			double x2 = x + xDistance;
-			double y2 = y - yDistance;
-			if (getOffScreen(x2, y2)) { // next pixel is off screen
-				x = (x2 + maxCanvasWidth) % maxCanvasWidth;
-				y = (y2 + maxCanvasHeight) % maxCanvasHeight;
-				turtle.setXPosition(x);
-				turtle.setYPosition(y);
-			} else { // move turtle if next pixel is on screen
-				if (leaveTrail) {
-					paintLine(turtle, x, y, x2, y2);
-				}
-				turtle.setXPosition(x2);
-				turtle.setYPosition(y2);
-				pixels--;
-			}
-		}
-		updateTurtleImage(turtle); // update image at very end
-	}
+//	/**
+//	 * moves turtle forward/backward depending on sign of pixels
+//	 * 
+//	 * @param turtle
+//	 * @param pixels
+//	 * @param leaveTrail
+//	 */
+//	private void moveTurtle(Turtle turtle, double pixels, boolean leaveTrail) {
+//		double heading = turtle.getHeading();
+//		if (pixels < 0) {
+//			heading += 180;
+//			pixels *= -1;
+//		}
+//		while (pixels != 0) {
+//			double xDistance = getXDistance(heading, 1);
+//			double yDistance = getYDistance(heading, 1);
+//			double x = turtle.getXloc();
+//			double y = turtle.getYloc();
+//			double x2 = x + xDistance;
+//			double y2 = y - yDistance;
+//			if (getOffScreen(x2, y2)) { // next pixel is off screen
+//				x = (x2 + maxCanvasWidth) % maxCanvasWidth;
+//				y = (y2 + maxCanvasHeight) % maxCanvasHeight;
+//				turtle.setXPosition(x);
+//				turtle.setYPosition(y);
+//			} else { // move turtle if next pixel is on screen
+//				if (leaveTrail) {
+//					paintLine(turtle, x, y, x2, y2);
+//				}
+//				turtle.setXPosition(x2);
+//				turtle.setYPosition(y2);
+//				pixels--;
+//			}
+//		}
+//		updateTurtleImage(turtle); // update image at very end
+//	}
 
-	private boolean getOffScreen(double x, double y) {
-		return ((x > maxCanvasWidth) | (x < minCanvasWidth)
-				| (y > maxCanvasHeight) | (y < minCanvasHeight));
-	}
+//	private boolean getOffScreen(double x, double y) {
+//		return ((x > maxCanvasWidth) | (x < minCanvasWidth)
+//				| (y > maxCanvasHeight) | (y < minCanvasHeight));
+//	}
 
-	private void paintLine(Turtle t, double x1, double y1, double x2, double y2) {
+	protected void paintLine(Turtle t, double x1, double y1, double x2,
+			double y2) {
 		graphics.setStroke(t.getPenColor());
 		graphics.setLineWidth(t.getPenWidth());
 		graphics.strokeLine(x1, y1, x2, y2);
@@ -373,55 +344,73 @@ public class Display {
 
 	// helper methods for geometry calculations
 
-	/**
-	 * gets distance between 2 points
-	 * 
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
-	 * @return
-	 */
-	private double getDistance(double x1, double y1, double x2, double y2) {
-		double xDiff = Math.abs(x2 - x1);
-		double yDiff = Math.abs(y2 - y1);
-		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
-	}
+//	/**
+//	 * gets distance between 2 points
+//	 * 
+//	 * @param x1
+//	 * @param y1
+//	 * @param x2
+//	 * @param y2
+//	 * @return
+//	 */
+//	private double getDistance(double x1, double y1, double x2, double y2) {
+//		double xDiff = Math.abs(x2 - x1);
+//		double yDiff = Math.abs(y2 - y1);
+//		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
+//	}
 
-	/**
-	 * gets distance along x axis between 2 points
-	 * 
-	 * @param heading
-	 * @param pixels
-	 * @return
-	 */
-	private double getXDistance(double heading, double pixels) {
-		return pixels * Math.cos(Math.toRadians(heading));
-	}
+//	/**
+//	 * gets distance along x axis between 2 points
+//	 * 
+//	 * @param heading
+//	 * @param pixels
+//	 * @return
+//	 */
+//	private double getXDistance(double heading, double pixels) {
+//		return pixels * Math.cos(Math.toRadians(heading));
+//	}
+//
+//	/**
+//	 * gets distance along y axis between 2 points
+//	 * 
+//	 * @param heading
+//	 * @param pixels
+//	 * @return
+//	 */
+//	private double getYDistance(double heading, double pixels) {
+//		return pixels * Math.sin(Math.toRadians(heading));
+//	}
 
-	/**
-	 * gets distance along y axis between 2 points
-	 * 
-	 * @param heading
-	 * @param pixels
-	 * @return
-	 */
-	private double getYDistance(double heading, double pixels) {
-		return pixels * Math.sin(Math.toRadians(heading));
-	}
-
-	public ArrayList<Turtle> getTurtles() {
+	public TurtleList getTurtles() {
 		return turtleList;
 	}
 
+	protected double getMaxCanvasWidth() {
+		return maxCanvasWidth;
+	}
+
+	protected double getMaxCanvasHeight() {
+		return maxCanvasHeight;
+	}
+
+	protected double getMinCanvasWidth() {
+		return minCanvasWidth;
+	}
+
+	protected double getMinCanvasHeight() {
+		return minCanvasHeight;
+	}
+
 	// multiple turtles
-	public void addTurtle() {
-		//method for control panel
-		Turtle turtle = new Turtle(xOrigin, yOrigin, 0, turtleList.size(), Color.BLACK, 1,
-				"/images/turtle_small.png", true, true);
+	public void addTurtle(double[] params) {
+		// method for control panel
+		Turtle turtle = new Turtle(xOrigin, yOrigin, 0, turtleID,
+				"/images/turtle_small.png", this);
+		turtleID++;
 		overlay.getChildren().add(turtle.getTurtleImage());
-		updateTurtleImage(turtle);
 		turtleList.add(turtle);
+		updateTurtleImage(turtle);
+
 	}
 
 }

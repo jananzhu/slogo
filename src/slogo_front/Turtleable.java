@@ -4,7 +4,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
-public interface Turtleable {
+public abstract class Turtleable {
 	//TODO unsure how to implement this
 	/**
 	 * basic constructor for Turtle object
@@ -22,48 +22,61 @@ public interface Turtleable {
 //			String imageURL, boolean leaveTrail, boolean showTurtleImage);
 	
 	// getters
-//	int getID();
-//	
-//	double getXloc();
-//
-//	double getYloc();
+	protected abstract int getID();
 	
-//	double getHeading();
+	protected abstract double getXloc();
+
+	protected abstract double getYloc();
 	
-//	double getAdjustedHeading();
+//	protected abstract double getHeading();
 //	
-//	Color getPenColor();
-//	
-//	double getPenWidth();
-//	
-//	boolean getPenDown();
-//	
-//	boolean getShowTurtle();
-//	
-//	ImageView getTurtleImage();
+//	protected abstract double getAdjustedHeading();
+	
+	protected abstract Color getPenColor();
+	
+	protected abstract double getPenWidth();
+	
+	protected abstract boolean getPenDown();
+	
+	protected abstract boolean getShowTurtle();
+	
+	protected abstract ImageView getTurtleImage();
 	
 	// setters
-	void setXPosition(double x);
+//	protected abstract void setXPosition(double x);
+//	
+//	protected abstract void setYPosition(double y);
 	
-	void setYPosition(double y);
+//	protected abstract void setDisplayID(int id);
 	
-	void setDisplayID(int id);
+	protected abstract double setHeading(double direction);
 	
-	void setHeading(double direction);
+	protected abstract void setPenColor(Color color);
 	
-	void setPenColor(Color color);
+	protected abstract void setPenWidth(double width);
 	
-	void setPenWidth(double width);
+	protected abstract void setPenDown(Boolean leaveTrail);
 	
-	void setPenDown(Boolean leaveTrail);
+	protected abstract void setShowTurtle(Boolean showTurtleImage);
 	
-	void setShowTurtle(Boolean showTurtleImage);
+	protected abstract void setImage(String imageURL);
 	
-	void setImage(String imageURL);
-	/**
-	 * takes location of image, retrieves and converts to imageview
-	 * @param imageURL
-	 * @return
-	 */
-
+	//movement
+	
+//	protected abstract void forward(double pixel);
+//	
+//	protected abstract void back(double pixel);
+	
+	protected abstract void moveTurtle(double pixel);
+	
+	protected abstract double home();
+	
+	protected abstract double setXY(double x, double y);
+	
+	protected abstract double left(double degree);
+	
+	protected abstract double right(double degree);
+	
+	protected abstract double towards(double x, double y);
+	
 }

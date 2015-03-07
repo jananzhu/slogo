@@ -11,6 +11,7 @@ import control_buttons.SlogoSlider;
 import control_buttons.SlogoVariableList;
 import slogo_front.Display;
 import slogo_front.Turtle;
+import slogo_front.TurtleList;
 import slogo_front.View;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -123,17 +124,17 @@ public class ControlPanel {
 			 // some method to change the imageview in display
 			 String filePath = "C:"+file.getPath();
 			 int index = filePath.indexOf("/images");
-			 Turtle turtle = view.getActiveDisplay().getTurtles().get(0);
-			 view.getActiveDisplay().hide(turtle, null);
-			 view.getActiveDisplay().getTurtles().get(0).setImage(filePath.substring(index));
-			 view.getActiveDisplay().show(turtle, null);
+			 TurtleList turtle = view.getActiveDisplay().getTurtles();
+			 view.getActiveDisplay().hide(null);
+			 view.getActiveDisplay().getTurtles().setImage(filePath.substring(index));
+			 view.getActiveDisplay().show(null);
 		}
 
 	};
 
 	private EventHandler<MouseEvent> clear = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-				view.getActiveDisplay().clearScreen(view.getActiveDisplay().getTurtles().get(0), null);
+				view.getActiveDisplay().clearScreen(null);
 				view.getHistory().addHistoryText("clearscreen");
 		}
 
@@ -170,7 +171,7 @@ public class ControlPanel {
 
 	private EventHandler<MouseEvent> changePenColor = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-			view.getActiveDisplay().getTurtles().get(0).setPenColor(turtleColor.getValue());
+			view.getActiveDisplay().getTurtles().setPenColor(turtleColor.getValue());
 
 		}
 
