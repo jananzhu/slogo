@@ -31,10 +31,10 @@ public class Sum extends Command {
 
     @Override
     public double getValue() {
-        int sum = 0;
         if(!myParams[0].hasMultipleValues()){
             return myParams[0].getValue() + myParams[1].getValue();
         }else{
+            int sum = 0;
             while(myParams[0].hasMultipleValues()){
                 sum+=myParams[0].getValue();
             }
