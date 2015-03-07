@@ -28,19 +28,33 @@ public class Parser {
                                                       myCommandFactory, this);
     }
 
-    
+
     public ISyntaxNode buildParseTree(Queue<String> tokenQueue){
         String token = tokenQueue.poll();
-        return myISyntaxNodeFactory.getNode(token, tokenQueue);
+        try{
+            return myISyntaxNodeFactory.getNode(token, tokenQueue);
+        } catch(InvalidParameterException e){
+            throw e;
+        }
     }
 
     public List<ISyntaxNode> parseInput(String input){
-        Queue<String> tokens = inputTokenizer(input);
+        Queue<String> tokens;
+        try{
+            tokens = inputTokenizer(input);
+        } catch(InvalidParameterException e){
+            throw e;
+        }
         List<ISyntaxNode> commands = new ArrayList<ISyntaxNode>();
         while(!tokens.isEmpty()){
             if(myValidCommands.contains(tokens.peek())){
-                ISyntaxNode command = buildParseTree(tokens);
-                commands.add(command);
+                ISyntaxNode command;
+                try{
+                    command = buildParseTree(tokens);
+                    commands.add(command);
+                }catch(InvalidParameterException e){
+                    throw e;
+                }
             }else{
                 throw new InvalidParameterException(tokens.peek() + " is an invalid command");
             }
@@ -49,21 +63,25 @@ public class Parser {
     }
 
     public Queue<String> inputTokenizer(String input){
-        System.out.println("making tokens");
         Queue<String> tokenQueue = new LinkedList<String>();
         while(!input.matches(whitespacePattern.toString())){
-            SyntaxTokenProcessor processor = myProcessorFactory.getTokenProcessor(input);
-            input = processor.processToken(input, tokenQueue);
+            SyntaxTokenProcessor processor;
+            try{
+                processor = myProcessorFactory.getTokenProcessor(input);
+                input = processor.processToken(input, tokenQueue);
+            } catch(InvalidParameterException e){
+                throw e;
+            }
         }
         return tokenQueue;
     }
-    
+
     public void addCommand(String commandName){
         myValidCommands.add(commandName);
         myISyntaxNodeFactory.addCommands(commandName);
-        
+
     }
-    
+
     public void removeCommand(String commandName){
         myValidCommands.remove(commandName);
         myISyntaxNodeFactory.removeCommands(commandName);

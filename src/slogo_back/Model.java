@@ -3,6 +3,7 @@ package slogo_back;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -10,8 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Stack;
-
-
 import commands.Command;
 import commands.UserInstruction;
 import javafx.collections.FXCollections;
@@ -143,7 +142,12 @@ public class Model {
 	}
 	
 	public List<Double> toBack(String cmds) {
-		List<ISyntaxNode> syntaxTrees = myParser.parseInput(cmds);
+	    List<ISyntaxNode> syntaxTrees;
+	    try{
+		 syntaxTrees = myParser.parseInput(cmds);
+	    }catch(InvalidParameterException e){
+	        throw e;
+	    }
 		List<Double> returnValues = new ArrayList<Double>();
 		for(ISyntaxNode node : syntaxTrees){
 		    returnValues.add(node.getValue());
