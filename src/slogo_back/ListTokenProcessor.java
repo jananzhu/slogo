@@ -7,8 +7,13 @@ import java.util.regex.Pattern;
 
 public class ListTokenProcessor extends SyntaxTokenProcessor {
 
-    public ListTokenProcessor (Pattern pattern) {
+    private char myListOpening;
+    private char myListClosing;
+    
+    public ListTokenProcessor (Pattern pattern, char listOpening, char listClosing) {
         super(pattern);
+        myListOpening = listOpening;
+        myListClosing = listClosing;
     }
 
     @Override
@@ -18,10 +23,10 @@ public class ListTokenProcessor extends SyntaxTokenProcessor {
         int braceCount = 0;
         while(index < input.length()){
             char currentChar = input.charAt(index);
-            if(currentChar == '['){
+            if(currentChar == myListOpening){
                 braceCount++;
             }
-            if(currentChar == ']'){
+            if(currentChar == myListClosing){
                 braceCount--;
             }
             if(braceCount == 0){

@@ -35,8 +35,10 @@ public class ISyntaxNodeFactory {
             node = new ParameterNode(Double.parseDouble(token));
         }else if(listMatch.matches()){
             node = new ListNode(myParser.parseInput(token.substring(1, token.length()-1)));
-        }else if(token.matches(myResourceBundle.getString("HeadVariable").toString())){
+        }else if(token.matches(myResourceBundle.getString("HeadVariable"))){
             node = new VariableNode(token,myModel.getVarMap());
+        }else if (token.matches(myResourceBundle.getString("UnlimitedParameterBlock"))){
+            node = new QueueNode(token.substring(1, token.length()-1),myParser);
         }else{
             throw new InvalidParameterException(token + " is invalid syntax");
         }
