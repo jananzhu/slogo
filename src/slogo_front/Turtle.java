@@ -95,6 +95,7 @@ public class Turtle{
 	
 	protected void setShowTurtle(Boolean showTurtleImage){
 		showTurtle = showTurtleImage;
+		turtleImage.setVisible(showTurtleImage);
 	}
 	
 	public void setImage(String imageURL){
@@ -124,7 +125,7 @@ public class Turtle{
 		penDown = leaveTrail;
 		showTurtle = showTurtleImage;
 		turtleImage = getImageFromURL(imageURL);
-		
+		turtleImage.setVisible(false);
 	}
 	
 	/**

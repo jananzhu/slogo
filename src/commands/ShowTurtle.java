@@ -13,7 +13,7 @@ public class ShowTurtle extends Command {
 
     @Override
     public double getValue () {
-        myModel.toFront("showTurtle", null);
+        myModel.toFront("show", null);
         return 1;
     }
 

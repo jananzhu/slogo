@@ -14,7 +14,7 @@ public class SetTowards extends Command {
 
     @Override
     public double getValue (){
-        return myModel.toFront("setTowards", new double[]{myParams[0].getValue(), myParams[1].getValue()});
+        return myModel.toFront("towards", new double[]{myParams[0].getValue(), myParams[1].getValue()});
     }
 
 }
