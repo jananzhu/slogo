@@ -2,7 +2,6 @@ package slogo_back;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -12,7 +11,6 @@ import java.util.Properties;
 import java.util.Stack;
 
 
-import commands.Command;
 import commands.UserInstruction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;

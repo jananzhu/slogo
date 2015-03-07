@@ -1,7 +1,6 @@
 package slogo_back;
 
 import java.util.LinkedList;
-import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class QueueNode implements ISyntaxNode {
