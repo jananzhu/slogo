@@ -35,8 +35,9 @@ public class MakeUserInstruction extends Command {
         //DON'T remove brackets
         newCmdQueue = new LinkedList<>();
         newCmdQueue.add(newCmdList);
-        newUsrInst = new UserInstruction(newCmdQueue, myModel, newVarMap, newInstName);
-        myModel.setUsrCmd(newInstName, newUsrInst);
+        newUsrInst = new UserInstruction(newCmdQueue, myModel, newVarMap);
+        newUsrInst.postConstructProcessing(newInstName);
+        //myModel.setUsrCmd(newInstName, newUsrInst);
     } 
 
     @Override

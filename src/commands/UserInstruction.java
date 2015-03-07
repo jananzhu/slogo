@@ -8,15 +8,14 @@ import slogo_back.Model;
 
 public class UserInstruction extends Command {
 	
-	private static final int initNumParams = 1;
+	private final static int INITIAL_NUMBER_PARAMETERS = 1;
 	private ISyntaxNode mySynTree;
 
 	
 	//Methods for New Instance
 	public UserInstruction(Queue<String> cmdQueue, Model model,
-			Map<String, Double> variableMap, String name) {
-		super(cmdQueue, model, initNumParams, variableMap);
-		mySynTree = myParams[0];
+			Map<String, Double> variableMap) {
+		super(cmdQueue, model, variableMap);
 	}
 	
 	//define local variables before creating new instance
@@ -43,6 +42,13 @@ public class UserInstruction extends Command {
 		double retValue = mySynTree.getValue();
 		clearLocalVars(myVarMap);
 		return retValue;
+	}
+	
+	protected void postConstructProcessing(String instName) {
+		myModel.setUsrCmd(instName, this);
+		myParams = super.defineParams(INITIAL_NUMBER_PARAMETERS);
+		mySynTree = myParams[0];
+		//System.out.println("Updated command map");
 	}
 
 }
