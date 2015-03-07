@@ -1,5 +1,6 @@
 package slogo_front;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -10,7 +11,6 @@ import javafx.scene.paint.Color;
 public class Turtle extends Turtleable{
 	private static final int defaultHeading = 0;
 	private int myID;
-	private int displayID;
 	private double xPosition;
 	private double yPosition;
 	private double heading; // from 0-360
@@ -58,9 +58,6 @@ public class Turtle extends Turtleable{
 		return myID;
 	}
 	
-	protected int getDisplayID(){
-		return displayID;
-	}
 	
 	protected double getXloc() {
 		return xPosition;
@@ -105,10 +102,6 @@ public class Turtle extends Turtleable{
 	}
 	protected void setYPosition(double y){
 		yPosition = y;
-	}
-	
-	protected void setDisplayID(int id){
-		displayID = id;
 	}
 	
 	protected double setHeading(double direction){
@@ -302,6 +295,27 @@ public class Turtle extends Turtleable{
 			rawAngle += 360; // fourth quadrant
 		}
 		return rawAngle;
+	}
+
+
+	@Override
+	protected double stamp() {
+		// TODO Auto-generated method stub
+		GraphicsContext stamp = myDisplay.getStampBackground().getGraphicsContext2D();
+		
+
+		double widthAdj = turtleImage.getImage().getWidth() / 2;
+		double heightAdj = turtleImage.getImage().getHeight() / 2;
+		
+		stamp.drawImage(turtleImage.getImage(), xPosition - widthAdj, yPosition - heightAdj);
+		return myID;
+	}
+
+
+	protected void clearStamp() {
+		GraphicsContext stamp = myDisplay.getStampBackground().getGraphicsContext2D();
+		stamp.clearRect(minCanvasWidth, minCanvasHeight, maxCanvasWidth, maxCanvasHeight);
+		
 	}
 
 

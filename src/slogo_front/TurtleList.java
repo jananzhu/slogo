@@ -188,4 +188,16 @@ public class TurtleList extends Turtleable {
 		return distance;
 	}
 
+	@Override
+	protected double stamp() {
+		turtles.forEach(turtle->turtle.stamp());
+		return getLastTurtle().getID();
+	}
+
+	@Override
+	protected void clearStamp() {
+		turtles.forEach(turtle->turtle.clearStamp());
+		
+	}
+
 }

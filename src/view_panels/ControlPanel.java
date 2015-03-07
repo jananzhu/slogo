@@ -125,9 +125,9 @@ public class ControlPanel {
 			 String filePath = "C:"+file.getPath();
 			 int index = filePath.indexOf("/images");
 			 TurtleList turtle = view.getActiveDisplay().getTurtles();
-			 view.getActiveDisplay().hide(null);
+//			 view.getActiveDisplay().hide(null);
 			 view.getActiveDisplay().getTurtles().setImage(filePath.substring(index));
-			 view.getActiveDisplay().show(null);
+//			 view.getActiveDisplay().show(null);
 		}
 
 	};

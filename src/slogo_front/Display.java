@@ -29,6 +29,7 @@ public class Display {
 	private Pane overlay;
 	private Canvas canvas;
 	private Canvas background;
+	private Canvas stamp;
 	private GraphicsContext graphics;
 	private static final int defaultHeading = 0;
 	private double defaults[] = { xOrigin, yOrigin, defaultHeading };
@@ -51,9 +52,10 @@ public class Display {
 		turtleList = new TurtleList(this);
 		overlay = new Pane();
 		canvas = new Canvas(canvasWidth, canvasHeight);
+		stamp = new Canvas(canvasWidth, canvasHeight);
 		background = new Canvas(canvasWidth, canvasHeight);
 		overlay.setPrefSize(canvasWidth, canvasHeight);
-		overlay.getChildren().addAll(background, canvas);
+		overlay.getChildren().addAll(background, stamp, canvas);
 
 		xOrigin = canvasWidth / 2;
 		yOrigin = canvasHeight / 2;
@@ -263,77 +265,9 @@ public class Display {
 	 * @return
 	 */
 	protected double towards(double[] params) {
-//		double oldHeading = turtle.getHeading();
-//		double xTranslated = params[0] + xOrigin;
-//		double yTranslated = yOrigin - params[1];
-//		double newHeading = calculateDirection(xTranslated - turtle.getXloc(),
-//				turtle.getYloc() - yTranslated);
-//		turtle.setHeading(newHeading);
-//		updateTurtleImage(turtle);
-//		return Math.abs(oldHeading - newHeading);
-		return 0;
+		return turtleList.towards(params[0], params[1]);
 	}
 
-//	/**
-//	 * calculates direction of turtle (adjusts for arctan values)
-//	 * 
-//	 * @param x
-//	 * @param y
-//	 * @return
-//	 */
-//	private double calculateDirection(double x, double y) {
-//		double rawAngle = Math.toDegrees(Math.atan(y / x));
-//		System.out.println(rawAngle);
-//		if (x < 0) {
-//			rawAngle += 180; // second & third quadrant
-//		}
-//		if (y < 0) {
-//			rawAngle += 360; // fourth quadrant
-//		}
-//		return rawAngle;
-//	}
-
-//	/**
-//	 * moves turtle forward/backward depending on sign of pixels
-//	 * 
-//	 * @param turtle
-//	 * @param pixels
-//	 * @param leaveTrail
-//	 */
-//	private void moveTurtle(Turtle turtle, double pixels, boolean leaveTrail) {
-//		double heading = turtle.getHeading();
-//		if (pixels < 0) {
-//			heading += 180;
-//			pixels *= -1;
-//		}
-//		while (pixels != 0) {
-//			double xDistance = getXDistance(heading, 1);
-//			double yDistance = getYDistance(heading, 1);
-//			double x = turtle.getXloc();
-//			double y = turtle.getYloc();
-//			double x2 = x + xDistance;
-//			double y2 = y - yDistance;
-//			if (getOffScreen(x2, y2)) { // next pixel is off screen
-//				x = (x2 + maxCanvasWidth) % maxCanvasWidth;
-//				y = (y2 + maxCanvasHeight) % maxCanvasHeight;
-//				turtle.setXPosition(x);
-//				turtle.setYPosition(y);
-//			} else { // move turtle if next pixel is on screen
-//				if (leaveTrail) {
-//					paintLine(turtle, x, y, x2, y2);
-//				}
-//				turtle.setXPosition(x2);
-//				turtle.setYPosition(y2);
-//				pixels--;
-//			}
-//		}
-//		updateTurtleImage(turtle); // update image at very end
-//	}
-
-//	private boolean getOffScreen(double x, double y) {
-//		return ((x > maxCanvasWidth) | (x < minCanvasWidth)
-//				| (y > maxCanvasHeight) | (y < minCanvasHeight));
-//	}
 
 	protected void paintLine(Turtle t, double x1, double y1, double x2,
 			double y2) {
@@ -342,44 +276,6 @@ public class Display {
 		graphics.strokeLine(x1, y1, x2, y2);
 	}
 
-	// helper methods for geometry calculations
-
-//	/**
-//	 * gets distance between 2 points
-//	 * 
-//	 * @param x1
-//	 * @param y1
-//	 * @param x2
-//	 * @param y2
-//	 * @return
-//	 */
-//	private double getDistance(double x1, double y1, double x2, double y2) {
-//		double xDiff = Math.abs(x2 - x1);
-//		double yDiff = Math.abs(y2 - y1);
-//		return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
-//	}
-
-//	/**
-//	 * gets distance along x axis between 2 points
-//	 * 
-//	 * @param heading
-//	 * @param pixels
-//	 * @return
-//	 */
-//	private double getXDistance(double heading, double pixels) {
-//		return pixels * Math.cos(Math.toRadians(heading));
-//	}
-//
-//	/**
-//	 * gets distance along y axis between 2 points
-//	 * 
-//	 * @param heading
-//	 * @param pixels
-//	 * @return
-//	 */
-//	private double getYDistance(double heading, double pixels) {
-//		return pixels * Math.sin(Math.toRadians(heading));
-//	}
 
 	public TurtleList getTurtles() {
 		return turtleList;
@@ -402,7 +298,7 @@ public class Display {
 	}
 
 	// multiple turtles
-	public void addTurtle(double[] params) {
+	protected void addTurtle(double[] params) {
 		// method for control panel
 		Turtle turtle = new Turtle(xOrigin, yOrigin, 0, turtleID,
 				"/images/turtle_small.png", this);
@@ -412,5 +308,19 @@ public class Display {
 		updateTurtleImage(turtle);
 
 	}
+
+	protected double stamp(double[] params){
+		return turtleList.stamp();
+	}
+	
+	protected double clearStamps(double[] params){
+		turtleList.clearStamp();
+		return 0;
+	}
+	
+	protected Canvas getStampBackground(){
+		return stamp;
+	}
+	
 
 }

@@ -79,4 +79,9 @@ public abstract class Turtleable {
 	
 	protected abstract double towards(double x, double y);
 	
+	//new methods
+	protected abstract double stamp();
+	
+	protected abstract void clearStamp();
+	
 }
