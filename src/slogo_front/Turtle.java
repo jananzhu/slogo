@@ -30,6 +30,7 @@ public class Turtle{
 	 * @param leaveTrail
 	 * @param showTurtleImage
 	 */
+	
 	protected Turtle(double x, double y, float direction, int id, Color color, double lineWidth,
 			String imageURL, boolean leaveTrail, boolean showTurtleImage){
 		xPosition = x;
@@ -42,8 +43,9 @@ public class Turtle{
 		penDown = leaveTrail;
 		showTurtle = showTurtleImage;
 		turtleImage = getImageFromURL(imageURL);
-		
+		turtleImage.setVisible(false);
 	}
+
 	
 	// getters
 	protected int getID(){
@@ -121,13 +123,13 @@ public class Turtle{
 	
 	protected void setShowTurtle(Boolean showTurtleImage){
 		showTurtle = showTurtleImage;
+		turtleImage.setVisible(showTurtleImage);
 	}
 	
 	public void setImage(String imageURL){
 		turtleImage = getImageFromURL(imageURL);
 	}
-	
-	
+
 	
 	/**
 	 * takes location of image, retrieves and converts to imageview
