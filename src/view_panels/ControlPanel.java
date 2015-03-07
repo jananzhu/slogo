@@ -1,6 +1,7 @@
 package view_panels;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -10,6 +11,7 @@ import control_buttons.SlogoSlider;
 import control_buttons.SlogoVariableList;
 import slogo_front.Display;
 import slogo_front.Turtle;
+import slogo_front.View;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -49,6 +51,8 @@ public class ControlPanel {
 	private SlogoVariableList varList;
 	// what is this thing?
 	private ObservableList<String> variableItems;
+	
+	private View view;
 
 	public ControlPanel(double offSet, double width) {
 		labels = ResourceBundle.getBundle("resources.languages/LabelsBundle",
@@ -110,44 +114,41 @@ public class ControlPanel {
 
 	// HANDLERS.. DONT TOUCH
 	private EventHandler<MouseEvent> changeTurtleImage = new EventHandler<MouseEvent>() {
-		// within manager?
+		//TODO need to allow for multiple turtles
 		public void handle(MouseEvent event) {
-//			 Stage fileSystem = new Stage();
-//			 FileChooser fileChooser = new FileChooser();
-//			 fileChooser.setTitle("Open Resource File");
-//			 File file = fileChooser.showOpenDialog(fileSystem);
-//			 // some method to change the imageview in display
-//			 String filePath = "C:"+file.getPath();
-//			 int index = filePath.indexOf("/images");
-//			 // System.out.println(index);
-//			 // System.out.println(filePath);
-//			 // System.out.println(filePath.substring(index));
-//			 Turtle turtle = manager.getTurtle();
-//			 display.hide(turtle);
-//			 manager.getTurtle().setImage(filePath.substring(index));
-//			 display.show(turtle);
+			 Stage fileSystem = new Stage();
+			 FileChooser fileChooser = new FileChooser();
+			 fileChooser.setTitle("Open Resource File");
+			 File file = fileChooser.showOpenDialog(fileSystem);
+			 // some method to change the imageview in display
+			 String filePath = "C:"+file.getPath();
+			 int index = filePath.indexOf("/images");
+			 Turtle turtle = view.getActiveDisplay().getTurtles().get(0);
+			 view.getActiveDisplay().hide(turtle, null);
+			 view.getActiveDisplay().getTurtles().get(0).setImage(filePath.substring(index));
+			 view.getActiveDisplay().show(turtle, null);
 		}
 
 	};
 
 	private EventHandler<MouseEvent> clear = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-//			 currentDisplay.clearScreen(currentTurtle);
-//			 addHistoryText("clearscreen");
+				view.getActiveDisplay().clearScreen(view.getActiveDisplay().getTurtles().get(0), null);
+				view.getHistory().addHistoryText("clearscreen");
 		}
 
 	};
 
 	private EventHandler<MouseEvent> clearHistory = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-			// resetHistory();
+			view.getHistory().resetHistory();
 		}
 
 	};
 
 	private EventHandler<MouseEvent> changeBackground = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-			// display.changeBackground(turtleColor.getValue());
+			view.getActiveDisplay().changeBackground(turtleColor.getValue());
 		}
 
 	};
@@ -156,20 +157,20 @@ public class ControlPanel {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
-			// double degree = turnDegree.getValue();
-			// display.setHeading(manager.getTurtle(), degree);
-			// if(degree >= 0){
-			// addHistoryText("left " + (int) degree);
-			// }else{
-			// addHistoryText("right " + (int) Math.abs(degree));
-			// }
+//			double degree = turnDegree.getValue();
+//			view.getActiveDisplay().setHeading(view.getActiveDisplay().getTurtles().get(0), degree);
+//			if (degree >= 0) {
+//				addHistoryText("left " + (int) degree);
+//			} else {
+//				addHistoryText("right " + (int) Math.abs(degree));
+//			}
 		}
 
 	};
 
 	private EventHandler<MouseEvent> changePenColor = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-			// manager.getTurtle().setPenColor(turtleColor.getValue());
+			view.getActiveDisplay().getTurtles().get(0).setPenColor(turtleColor.getValue());
 
 		}
 
@@ -194,5 +195,11 @@ public class ControlPanel {
 		}
 
 	};
+
+	public void setView(View v) {
+		// TODO Auto-generated method stub
+		view = v;
+		
+	}
 
 }

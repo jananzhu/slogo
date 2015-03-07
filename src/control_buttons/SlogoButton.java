@@ -18,5 +18,4 @@ public class SlogoButton {
 	public Button getButton(){
 		return button;
 	}
-
 }

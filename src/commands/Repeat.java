@@ -18,7 +18,7 @@ public class Repeat extends Command {
         Double retValue = null;
         int currentIteration = 1;
         while(repeatTimes > 0){
-            myVariableMap.put(":repcount", (double) currentIteration);
+            myVarMap.put(":repcount", (double) currentIteration);
             retValue = myParams[1].getValue();
             repeatTimes--;
             currentIteration++;

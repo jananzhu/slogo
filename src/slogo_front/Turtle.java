@@ -81,7 +81,7 @@ public class Turtle{
 		heading = direction;
 	}
 	
-	protected void setPenColor(Color color){
+	public void setPenColor(Color color){
 		penColor = color;
 	}
 	
@@ -97,7 +97,7 @@ public class Turtle{
 		showTurtle = showTurtleImage;
 	}
 	
-	protected void setImage(String imageURL){
+	public void setImage(String imageURL){
 		turtleImage = getImageFromURL(imageURL);
 	}
 	

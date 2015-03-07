@@ -18,29 +18,29 @@ public interface Turtleable {
 	 * @param showTurtleImage
 	 * @return 
 	 */
-	void Turtle(double x, double y, float direction, int id, int display, Color color, double lineWidth,
-			String imageURL, boolean leaveTrail, boolean showTurtleImage);
+//	void Turtle(double x, double y, float direction, int id, int display, Color color, double lineWidth,
+//			String imageURL, boolean leaveTrail, boolean showTurtleImage);
 	
 	// getters
-	int getID();
+//	int getID();
+//	
+//	double getXloc();
+//
+//	double getYloc();
 	
-	double getXloc();
-
-	double getYloc();
+//	double getHeading();
 	
-	double getHeading();
-	
-	double getAdjustedHeading();
-	
-	Color getPenColor();
-	
-	double getPenWidth();
-	
-	boolean getPenDown();
-	
-	boolean getShowTurtle();
-	
-	ImageView getTurtleImage();
+//	double getAdjustedHeading();
+//	
+//	Color getPenColor();
+//	
+//	double getPenWidth();
+//	
+//	boolean getPenDown();
+//	
+//	boolean getShowTurtle();
+//	
+//	ImageView getTurtleImage();
 	
 	// setters
 	void setXPosition(double x);

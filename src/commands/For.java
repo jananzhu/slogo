@@ -1,9 +1,6 @@
 package commands;
 
 import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
@@ -14,8 +11,6 @@ public class For extends Command {
 
     private String myVariable;
 
-    //TODO: Note that numParams is currently set to 1 instead of 2 because first "param" is parsed through 
-    // defineVariableNames. Not sure if this is a good permanent solution. B
     private final static int numParams = 4;
 
     public For (Queue<String> cmdQueue, Model model,Map<String,Double> variableMap) {
@@ -57,7 +52,7 @@ public class For extends Command {
         myVariable = parameterQueue.poll();
         if(myVariable.matches(ResourceBundle.getBundle("resources/languages/Syntax").getString("HeadVariable"))){
             for(int i=0; i< numParams-1;i++){
-                returnParams[i] = myParser.buildParseTree(parameterQueue, myVariableMap);
+                returnParams[i] = myParser.buildParseTree(parameterQueue);
             }
             //TODO:Throw exception for nonstandard number of parameters here, ie. >4
         } else{
@@ -65,7 +60,7 @@ public class For extends Command {
                                                 + " is not a valid variable");
         }
 
-        returnParams[numParams-1] = myParser.buildParseTree(myCmds, myVariableMap);
+        returnParams[numParams-1] = myParser.buildParseTree(myCmds);
         return returnParams;
     }
 
@@ -76,7 +71,7 @@ public class For extends Command {
         int myEnd = (int) myParams[1].getValue();
         int myIncrement = (int) myParams[2].getValue();
         for(int i = myStart; i<myEnd; i+=myIncrement){
-            myVariableMap.put(myVariable,(double) i);
+            myVarMap.put(myVariable,(double) i);
             returnValue = myParams[3].getValue();
         }
         return returnValue;
