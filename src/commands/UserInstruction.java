@@ -13,34 +13,44 @@ public class UserInstruction extends Command {
 	private ISyntaxNode mySynTree;
 
 	
-	//Methods for New Instance
+	/*
+	 * To construct new user-defined commands use this constructor since the next parameter
+	 * is the list of commands for the new command to process
+	 */
 	public UserInstruction(Queue<String> cmdQueue, Model model,
 			Map<String, Double> variableMap) {
 		super(cmdQueue, model, variableMap);
 	}
 	
+	/*
+	 * First, this user-defined-command instance is added to the global map of
+	 * custom command names to their respective "source" instance. Next, the syntax
+	 * tree that this custom command will traverse upon each execution will be constructed.
+	 * The tree is saved to be passed on to later instances of this command.
+	 */
 	protected void postConstructProcessing(String instName) {
 		myModel.setUsrCmd(instName, this);
 		myParams = super.defineParams(INITIAL_NUMBER_PARAMETERS);
 		mySynTree = myParams[0];
-		//System.out.println("Updated command map");
 	}
 	
-	//define local variables before creating new instance
+	/**
+	 * User-defined commands need to be cloned since their code is not persistent and therefore
+	 * we cannot simply call the constructor for a new instance. 
+	 * 
+	 * @return Cloned instance of this user-defined command
+	 */
 	public Command cloneCommand(Queue<String> cmdQueue) {
 		return new UserInstruction(cmdQueue, myVarMap.size(), this);
 	}
 	
+	/*
+	 * All future instances of any user-defined command are copies of the original command created
+	 * by MakeUserInstructions
+	 */
 	public UserInstruction(Queue<String> cmdQueue, int numParams, UserInstruction parent) {
 		super(cmdQueue, parent.myModel, numParams, parent.myVarMap);
 		myParentInstruction = parent;
-	}
-	
-	//Methods for running instances
-	public UserInstruction(Queue<String> cmdQueue, Model model,
-			Map<String, Double> variableMap, int numParams, ISyntaxNode synTree) {
-		super(cmdQueue, model, numParams, variableMap);
-		mySynTree = synTree;
 	}
 	
 	@Override
@@ -49,14 +59,9 @@ public class UserInstruction extends Command {
 		int paramInd = 0;
 		for (String var : myVarMap.keySet())
 			myVarMap.put(var, myParams[paramInd++].getValue());
-		
-		System.out.println("Setting variables...");
-		for (String var : myVarMap.keySet())
-		    System.out.println(var + " : " + myVarMap.get(var));
-		System.out.println("Done variables\n\n");
-		setLocalVars(myVarMap);
+		setLocalVars();
 		double retValue = mySynTree.getValue();
-		clearLocalVars(myVarMap);
+		clearLocalVars();
 		return retValue;
 	}
 
