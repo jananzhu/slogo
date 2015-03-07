@@ -70,6 +70,7 @@ public class View {
 
 		root = new BorderPane();
 		control = new ControlPanel(10, 200);
+		control.setView(this);
 		history = new CommandHistory(200);
 		tools = new ToolBar(this);
 		commandLine = new CommandLine(COMMAND_HEIGHT);

@@ -160,7 +160,7 @@ public class Display {
 		}
 	}
 	
-	protected double show(int display, Turtle turtle, double[] params){
+	public double show(Turtle turtle){
 		turtle.setShowTurtle(true);
 		drawTurtleImage(turtle);
 		return 1;
@@ -181,7 +181,8 @@ public class Display {
 		overlay.getChildren().add(turtleImage);
 	}
 	
-	protected double hide(int display, Turtle turtle, double[] params){
+	//do we need the extra parameters?
+	public double hide(Turtle turtle){
 		removeTurtleImage(turtle);
 		turtle.setShowTurtle(false);
 		return 0;

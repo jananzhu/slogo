@@ -97,7 +97,7 @@ public class Turtle{
 		showTurtle = showTurtleImage;
 	}
 	
-	protected void setImage(String imageURL){
+	public void setImage(String imageURL){
 		turtleImage = getImageFromURL(imageURL);
 	}
 	
