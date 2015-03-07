@@ -419,11 +419,7 @@ public class Display {
 		graphics.setLineWidth(t.getPenWidth());
 		graphics.strokeLine(x1, y1, x2, y2);
 	}
-<<<<<<< HEAD
 	
-=======
-
->>>>>>> 54d53d8a7145f37a88a2fbf993f95bf45dae150f
 	// helper methods for geometry calculations
 
 	/**
