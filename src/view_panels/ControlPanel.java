@@ -124,31 +124,31 @@ public class ControlPanel {
 			 String filePath = "C:"+file.getPath();
 			 int index = filePath.indexOf("/images");
 			 Turtle turtle = view.getActiveDisplay().getTurtles().get(0);
-			 view.getActiveDisplay().hide(turtle);
+			 view.getActiveDisplay().hide(turtle, null);
 			 view.getActiveDisplay().getTurtles().get(0).setImage(filePath.substring(index));
-			 view.getActiveDisplay().show(turtle);
+			 view.getActiveDisplay().show(turtle, null);
 		}
 
 	};
 
 	private EventHandler<MouseEvent> clear = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-//			 currentDisplay.clearScreen(currentTurtle);
-//			 addHistoryText("clearscreen");
+				view.getActiveDisplay().clearScreen(view.getActiveDisplay().getTurtles().get(0), null);
+				view.getHistory().addHistoryText("clearscreen");
 		}
 
 	};
 
 	private EventHandler<MouseEvent> clearHistory = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-			// resetHistory();
+			view.getHistory().resetHistory();
 		}
 
 	};
 
 	private EventHandler<MouseEvent> changeBackground = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-			// display.changeBackground(turtleColor.getValue());
+			view.getActiveDisplay().changeBackground(turtleColor.getValue());
 		}
 
 	};
@@ -157,20 +157,20 @@ public class ControlPanel {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
-			// double degree = turnDegree.getValue();
-			// display.setHeading(manager.getTurtle(), degree);
-			// if(degree >= 0){
-			// addHistoryText("left " + (int) degree);
-			// }else{
-			// addHistoryText("right " + (int) Math.abs(degree));
-			// }
+//			double degree = turnDegree.getValue();
+//			view.getActiveDisplay().setHeading(view.getActiveDisplay().getTurtles().get(0), degree);
+//			if (degree >= 0) {
+//				addHistoryText("left " + (int) degree);
+//			} else {
+//				addHistoryText("right " + (int) Math.abs(degree));
+//			}
 		}
 
 	};
 
 	private EventHandler<MouseEvent> changePenColor = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {
-			// manager.getTurtle().setPenColor(turtleColor.getValue());
+			view.getActiveDisplay().getTurtles().get(0).setPenColor(turtleColor.getValue());
 
 		}
 

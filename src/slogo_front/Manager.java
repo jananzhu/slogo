@@ -58,12 +58,12 @@ public class Manager{
 		Method toRun;
 		Double returnValue = null;
 		try {
-			Class<?>[] param_types = new Class<?>[3];
-			param_types[0] = Integer.TYPE;
-			param_types[1] = Turtle.class;
-			param_types[2] = double[].class;
+			Class<?>[] param_types = new Class<?>[2];
+//			param_types[0] = Integer.TYPE;
+			param_types[0] = Turtle.class;
+			param_types[1] = double[].class;
 			toRun = Display.class.getDeclaredMethod(methodName, param_types); // TODO modify all methods in display
-			returnValue = (Double) toRun.invoke(view.getActiveDisplay(), 0, view.getActiveDisplay().getTurtles().get(0), params); //change to arraylist of turtles 
+			returnValue = (Double) toRun.invoke(view.getActiveDisplay(), view.getActiveDisplay().getTurtles().get(0), params); //change to arraylist of turtles 
 			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
 		} catch (Exception e) {
 			e.printStackTrace();

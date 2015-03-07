@@ -90,7 +90,6 @@ public class View {
 		scene.getStylesheets().add("css/view.css");
 //		initializeDisplays();
 		initializeToolbarHandlers();
-		System.out.println(displayList.size());
 	}
 
 //	private void initializeDisplays() {
@@ -121,7 +120,6 @@ public class View {
 //			System.out.println("too big");
 //			return;
 //		}
-		System.out.println("sisze" + displayList.size());
 		activeDisplay = displayList.get(displayIndex);
 		root.setCenter(activeDisplay.getDisplay());
 		return;
@@ -228,6 +226,10 @@ public class View {
 	public Manager getManager() {
 		return manager;
 	}
+	
+	public CommandHistory getHistory(){
+		return history;
+	}
 
 	// sets command line
 	public void setCommandLine(EventHandler<KeyEvent> handler) {
@@ -244,7 +246,6 @@ public class View {
 			display.setId("" + displayList.size());
 			display.setOnAction(new EventHandler<ActionEvent>() {
 				public void handle(ActionEvent event) {
-					System.out.println(Integer.parseInt(display.getId()));
 					setActiveDisplay(Integer.parseInt(display.getId()));
 				}
 			});
@@ -291,12 +292,12 @@ public class View {
 	//
 	// };
 
-	private EventHandler<MouseEvent> changeBackground = new EventHandler<MouseEvent>() {
-		public void handle(MouseEvent event) {
-			// display.changeBackground(turtleColor.getValue());
-		}
-
-	};
+//	private EventHandler<MouseEvent> changeBackground = new EventHandler<MouseEvent>() {
+//		public void handle(MouseEvent event) {
+//			 activeDisplay.changeBackground(backgroundColor);changeBackground(turtleColor.getValue());
+//		}
+//
+//	};
 
 	private EventHandler<MouseEvent> turnEvent = new EventHandler<MouseEvent>() {
 		public void handle(MouseEvent event) {

@@ -81,7 +81,7 @@ public class Turtle{
 		heading = direction;
 	}
 	
-	protected void setPenColor(Color color){
+	public void setPenColor(Color color){
 		penColor = color;
 	}
 	
