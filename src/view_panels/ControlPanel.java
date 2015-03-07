@@ -158,8 +158,8 @@ public class ControlPanel {
 		public void handle(MouseEvent event) {
 			// TODO turtle within display or in view? think about allowances for
 			// multiple turtles
-//			double degree = turnDegree.getValue();
-//			view.getActiveDisplay().setHeading(view.getActiveDisplay().getTurtles().get(0), degree);
+			double degree = turnDegree.getValue();
+			view.getActiveDisplay().getTurtles().setHeading(degree);
 //			if (degree >= 0) {
 //				addHistoryText("left " + (int) degree);
 //			} else {

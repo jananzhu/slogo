@@ -131,7 +131,9 @@ public class Turtle extends Turtleable{
 	}
 	
 	public void setImage(String imageURL){
+		turtleImage.setVisible(false);
 		turtleImage = getImageFromURL(imageURL);
+		myDisplay.changeImage(turtleImage);
 	}
 	
 

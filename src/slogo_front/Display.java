@@ -328,5 +328,9 @@ public class Display {
 		return stamp;
 	}
 	
+	protected void changeImage(ImageView image){
+		overlay.getChildren().add(image);
+	}
+	
 
 }

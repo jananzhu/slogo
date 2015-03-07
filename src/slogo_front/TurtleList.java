@@ -92,7 +92,7 @@ public class TurtleList extends Turtleable {
 //	}
 
 	@Override
-	protected double setHeading(double direction) {
+	public double setHeading(double direction) {
 		double distance = getLastTurtle().setHeading(direction);
 		turtles.forEach(turtle-> turtle.setHeading(direction));
 		return distance;
