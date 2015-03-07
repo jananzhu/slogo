@@ -309,7 +309,8 @@ public class Display {
 	 * @return
 	 */
 	protected double forward(Turtle turtle, double[] params) {
-		return moveForward(turtle, params[0]);
+		moveTurtle(turtle, params[0], turtle.getPenDown());
+		return params[0];
 	}
 
 	/**
@@ -320,12 +321,8 @@ public class Display {
 	 * @return
 	 */
 	protected double back(Turtle turtle, double[] params) {
-		return moveForward(turtle, params[0] * -1);
-	}
-
-	private double moveForward(Turtle turtle, double pixels) {
-		moveTurtle(turtle, pixels, turtle.getPenDown());
-		return pixels;
+		moveTurtle(turtle, params[0]*-1, turtle.getPenDown());
+		return params[0];
 	}
 
 	/**
@@ -374,6 +371,7 @@ public class Display {
 		double heading = turtle.getHeading();
 		if (pixels < 0) {
 			heading += 180;
+			pixels *= -1;
 		}
 		while (pixels != 0) {
 			double xDistance = getXDistance(heading, 1);
@@ -393,11 +391,7 @@ public class Display {
 				}
 				turtle.setXPosition(x2);
 				turtle.setYPosition(y2);
-				if (pixels > 0) {
-					pixels--;
-				} else {
-					pixels++;
-				}
+				pixels--;
 			}
 		}
 		updateTurtleImage(turtle); // update image at very end
@@ -485,7 +479,7 @@ public class Display {
 	// multiple turtles
 	public void addTurtle() {
 		//method for control panel
-		Turtle turtle = new Turtle(xOrigin, yOrigin, 0, 0, Color.BLACK, 1,
+		Turtle turtle = new Turtle(xOrigin, yOrigin, 0, turtleList.size(), Color.BLACK, 1,
 				"/images/turtle_small.png", true, true);
 		turtleList.add(turtle);
 	}

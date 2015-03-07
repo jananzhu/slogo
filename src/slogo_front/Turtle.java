@@ -19,6 +19,32 @@ public class Turtle{
 	private boolean showTurtle;
 	private ImageView turtleImage;
 	
+	/**
+	 * basic constructor for Turtle object
+	 * @param x
+	 * @param y
+	 * @param direction
+	 * @param turtleID, display
+	 * @param color
+	 * @param imageURL
+	 * @param leaveTrail
+	 * @param showTurtleImage
+	 */
+	protected Turtle(double x, double y, float direction, int id, Color color, double lineWidth,
+			String imageURL, boolean leaveTrail, boolean showTurtleImage){
+		xPosition = x;
+		yPosition = y;
+		myID = id;
+//		displayID = display; 
+		penColor = color;
+		penWidth = lineWidth;
+		heading = direction;
+		penDown = leaveTrail;
+		showTurtle = showTurtleImage;
+		turtleImage = getImageFromURL(imageURL);
+		
+	}
+	
 	// getters
 	protected int getID(){
 		return myID;
@@ -101,31 +127,7 @@ public class Turtle{
 		turtleImage = getImageFromURL(imageURL);
 	}
 	
-	/**
-	 * basic constructor for Turtle object
-	 * @param x
-	 * @param y
-	 * @param direction
-	 * @param turtleID, display
-	 * @param color
-	 * @param imageURL
-	 * @param leaveTrail
-	 * @param showTurtleImage
-	 */
-	protected Turtle(double x, double y, float direction, int id, Color color, double lineWidth,
-			String imageURL, boolean leaveTrail, boolean showTurtleImage){
-		xPosition = x;
-		yPosition = y;
-		myID = id;
-//		displayID = display; 
-		penColor = color;
-		penWidth = lineWidth;
-		heading = direction;
-		penDown = leaveTrail;
-		showTurtle = showTurtleImage;
-		turtleImage = getImageFromURL(imageURL);
-		
-	}
+	
 	
 	/**
 	 * takes location of image, retrieves and converts to imageview
