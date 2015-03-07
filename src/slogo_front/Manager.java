@@ -1,6 +1,7 @@
 package slogo_front;
 
 import java.lang.reflect.Method;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -66,6 +67,8 @@ public class Manager{
 			returnValue = (Double) toRun.invoke(view.getActiveDisplay(), view.getActiveDisplay().getTurtles().get(0), params); //change to arraylist of turtles 
 			// all methods take in displayID, array of turtles, parameters (int display, Turtle turtle, double[] params)
 		} catch (Exception e) {
+			ErrorDialogue ed = new ErrorDialogue();
+			ed.displayMessage("toGUI error!");
 			e.printStackTrace();
 		}
 		return returnValue;
@@ -202,17 +205,18 @@ public class Manager{
 				view.getCommandHistory().resetHistory();
 			}
 			// addHistoryText(s);
-
-			// TODO throw error here
-			// try{
-			List<Double> results = view.getManager().getModel().toBack(
-					s.toLowerCase() + "\n");
-			for (Double value : results) {
-				System.out.println(value);
+			try {
+				System.out.println("here");
+				List<Double> results = view.getManager().getModel()
+						.toBack(s.toLowerCase() + "\n");
+				for (Double value : results) {
+					System.out.println(value);
+				}
+			} catch (InvalidParameterException e) {
+				ErrorDialogue ed = new ErrorDialogue();
+				ed.displayMessage(e.getMessage());
+				System.out.println("HERE");
 			}
-			// }catch(InvalidParameterException e){
-
-			// }
 		}
 	};
 	
