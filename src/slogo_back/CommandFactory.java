@@ -5,7 +5,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidParameterException;
 import java.util.Map;
 import java.util.Queue;
-import java.util.ResourceBundle;
 import commands.*;
 
 public class CommandFactory {
@@ -29,14 +28,14 @@ public class CommandFactory {
             throw new InvalidParameterException(userInput + " is not a command");
         }
         commandName = "commands." + commandName;
-        Class commandClass = null;
+        Class<?> commandClass = null;
         try {
             commandClass = Class.forName(commandName);
         }
         catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        Constructor constructor = commandClass.getConstructors()[0];
+        Constructor<?> constructor = commandClass.getConstructors()[0];
         Command command = null;
         try {
             System.out.println(constructor.toString());

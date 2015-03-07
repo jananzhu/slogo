@@ -22,9 +22,25 @@ public class Model {
 
 	private Manager mgr;
 	private Parser myParser;
+	
+	/**
+	 * Map of commands a user might type in to the corresponding Command objects
+	 * for handling those commands. Only contains built-in commands.
+	 */
 	private Map<String, String> cmdMap;
-	private Map<String, UserInstruction> usrCmdMap;
+	
+	/**
+	 * Map of user-defined commands to the corresponding instance of those commands
+	 */
+	private ObservableMap<String, UserInstruction> usrCmdMap;
+	
+	/**
+	 * Map of user-defined variables to their value. The value is the next element
+	 * on the stack of values, which is also the value that will be used next time
+	 * anything queries the value of a specific user-defined variable
+	 */
 	private ObservableMap<String, Stack<Double>> varMap;
+	
 	
 	public static void main(String[] args){
 		Model model = new Model("resources/languages/English.properties");
@@ -46,17 +62,70 @@ public class Model {
             }
         });
 	 */
+	
+	/**
+	 * Constructor for Model object, back end point-of-contact.
+	 * 
+	 * @param langFile Name of language file to support a specific language
+	 */
 	public Model(String langFile){
 		cmdMap = createCmdMap(langFile);
-		usrCmdMap = new HashMap<>();
+		usrCmdMap = FXCollections.observableMap(new HashMap<>());
 		myParser = new Parser(this, cmdMap);
-		Map<String, Stack<Double>> map = new HashMap<>();
-		varMap = FXCollections.observableMap(map);
+		varMap = FXCollections.observableMap(new HashMap<>());
 	}
 	
+	/**
+	 * Connects this Model instance to a specific Manager so it is
+	 * able to call front end methods
+	 * 
+	 * @param manager Method that this Model instance is bound to
+	 */
 	public void setManager(Manager manager){
 		mgr = manager;
 	}
+	
+	public Parser getParser(){
+		return myParser;
+	}
+	
+	/**
+	 * Each command object calls this method to request a method
+	 * call on the front end to satisfy a specific user command
+	 * 
+	 * @param cmd Name of method to call on the front end
+	 * @param params Parameters for method to be called
+	 * @return Double returned by method in front end
+	 */
+	
+	public Double toFront(String cmd, double[] params){
+		return mgr.toGUI(cmd, new int[] {0}, params);
+	}
+	
+	/**
+	 * Front end passes a string of raw user input for parsing 
+	 * and processing in the back end using this method
+	 * 
+	 * @param cmds Raw user input as a string
+	 * @return The appropriate return value for the user input
+	 */
+	public List<Double> toBack(String cmds) {
+		List<ISyntaxNode> syntaxTrees = myParser.parseInput(cmds);
+		List<Double> returnValues = new ArrayList<Double>();
+		for(ISyntaxNode node : syntaxTrees){
+		    returnValues.add(node.getValue());
+		}
+		return returnValues;
+	}
+	
+	
+	/**
+	 * Using the supplied file name, this method creates map to allow lookup of the 
+	 * name of a corresponding Command object for a given command typed by the user.
+	 * 
+	 * @param filename Name of file that translates commands into english
+	 * @return Map of user-entered commands to names of corresponding Command objects
+	 */
 	
 	public Map<String, String> createCmdMap(String filename) {
 		cmdMap = new HashMap<>();
@@ -96,6 +165,10 @@ public class Model {
 		return cmdMap;
 	}
 	
+	/*
+	 * The next set of methods deal with updating the user-defined variable values
+	 */
+	
 	public ObservableMap<String, Stack<Double>> getVarMap() {
 		return varMap;
 	}
@@ -115,8 +188,14 @@ public class Model {
 	}
 	
 	public void popVar(String key) {
-		varMap.get(key).pop();
+		if (varMap.containsKey(key))
+			varMap.get(key).pop();
 	}
+	
+	/*
+	 * The new set of methods deal with adding new user-defined commands 
+	 * to the user-defined commands map
+	 */
 	
 	public void addNewUsrCmd(String usrCmd) {
 		setUsrCmd(usrCmd, null);
@@ -136,22 +215,5 @@ public class Model {
 	
 	public void remUsrCmd(String usrCmd) {
 		usrCmdMap.remove(usrCmd);
-	}
-	
-	public Double toFront(String cmd, double[] params){
-		return mgr.toGUI(cmd, new int[] {0}, params);
-	}
-	
-	public List<Double> toBack(String cmds) {
-		List<ISyntaxNode> syntaxTrees = myParser.parseInput(cmds);
-		List<Double> returnValues = new ArrayList<Double>();
-		for(ISyntaxNode node : syntaxTrees){
-		    returnValues.add(node.getValue());
-		}
-		return returnValues;
-	}
-	
-	public Parser getParser(){
-		return myParser;
 	}
 }
