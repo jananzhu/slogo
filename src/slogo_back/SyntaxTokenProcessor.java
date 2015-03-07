@@ -18,11 +18,17 @@ public class SyntaxTokenProcessor {
         whitespacePattern = Pattern.compile(myResourceBundle.getString("LeadingWhitespace"));
     }
     
+    /*
+     * Returns true if matches syntax pattern
+     */
     public boolean syntaxFound(String input){
         myCurrentMatcher = mySyntaxPattern.matcher(input);
         return myCurrentMatcher.find();
     }
     
+    /*
+     * Extracts token from beginning of input string and adds it to the Queue of tokens
+     */
     public String processToken(String input, Queue<String> commandQueue){
         return headTokenToQueue(mySyntaxPattern,myCurrentMatcher,commandQueue,input);
     }

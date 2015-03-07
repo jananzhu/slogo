@@ -22,6 +22,9 @@ public class TokenProcessorFactory {
         SyntaxProcessors.add(new CommentTokenProcessor(Pattern.compile(myResourceBundle.getString("HeadComment"))));
     }
 
+    /*
+     * makes the appropriate SyntaxTokenProcessor object based on the string input
+     */
     public SyntaxTokenProcessor getTokenProcessor(String input) throws InvalidParameterException{
         for(SyntaxTokenProcessor processor : SyntaxProcessors){
             if(processor.syntaxFound(input)){

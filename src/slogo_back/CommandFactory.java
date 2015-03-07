@@ -17,6 +17,9 @@ public class CommandFactory {
         myDictionary = dictionary;
     }
 
+    /*
+     * Generates appropriate command object based on command token string
+     */
     public Command getCommand(String userInput, Queue<String> tokens){
         String commandName = null;
         if(myDictionary.containsKey(userInput)){

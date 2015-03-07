@@ -24,7 +24,13 @@ public class ISyntaxNodeFactory {
         myParser = parser;
     }
     
-
+    /**
+     * Takes the token and the list of tokens in queue to process into an abstract syntax tree
+     * @param token
+     * @param tokenQueue
+     * @return
+     * @throws InvalidParameterException
+     */
     public ISyntaxNode getNode(String token,Queue<String> tokenQueue) throws InvalidParameterException{
         try{
             Matcher listMatch = Pattern.compile(myResourceBundle.getString("ListBlock"), 
