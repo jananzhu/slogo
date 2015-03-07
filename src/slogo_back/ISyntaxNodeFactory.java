@@ -14,7 +14,7 @@ public class ISyntaxNodeFactory {
     private ResourceBundle myResourceBundle;
     private Model myModel;
     private Parser myParser;
-    
+
     public ISyntaxNodeFactory(Model model, List<String> validCommands, CommandFactory factory,
                               Parser parser){
         myModel = model;
@@ -24,32 +24,37 @@ public class ISyntaxNodeFactory {
         myParser = parser;
     }
     
-    public ISyntaxNode getNode(String token,Queue<String> tokenQueue){
-        Matcher listMatch = Pattern.compile(myResourceBundle.getString("ListBlock"), 
-                                            Pattern.DOTALL).matcher(token);
-        ISyntaxNode node;
-        if(myValidCommands.contains(token)){
-            node = myCommandFactory.getCommand(token,tokenQueue);
-        }else if(token.matches(myResourceBundle.getString("HeadConstant"))){
-            node = new ParameterNode(Double.parseDouble(token));
-        }else if(listMatch.matches()){
-            node = new ListNode(myParser.parseInput(token.substring(1, token.length()-1)));
-        }else if(token.matches(myResourceBundle.getString("HeadVariable"))){
-            node = new VariableNode(token,myModel.getVarMap());
-        }else if (token.matches(myResourceBundle.getString("UnlimitedParameterBlock"))){
-            node = new QueueNode(token.substring(1, token.length()-1),myParser);
-        }else{
-            throw new InvalidParameterException(token + " is invalid syntax");
+
+    public ISyntaxNode getNode(String token,Queue<String> tokenQueue) throws InvalidParameterException{
+        try{
+            Matcher listMatch = Pattern.compile(myResourceBundle.getString("ListBlock"), 
+                                                Pattern.DOTALL).matcher(token);
+            ISyntaxNode node;
+            if(myValidCommands.contains(token)){
+                node = myCommandFactory.getCommand(token,tokenQueue);
+            }else if(token.matches(myResourceBundle.getString("HeadConstant"))){
+                node = new ParameterNode(Double.parseDouble(token));
+            }else if(listMatch.matches()){
+                node = new ListNode(myParser.parseInput(token.substring(1, token.length()-1)));
+            }else if(token.matches(myResourceBundle.getString("HeadVariable"))){
+                node = new VariableNode(token,myModel.getVarMap());
+            }else if (token.matches(myResourceBundle.getString("UnlimitedParameterBlock"))){
+                node = new QueueNode(token.substring(1, token.length()-1),myParser);
+            }else{
+                throw new InvalidParameterException(token + " is invalid syntax");
+            }
+            return node;
+        } catch(InvalidParameterException e){
+            throw e;
         }
-        return node;
     }
-    
+
     public void addCommands(String command){
         myValidCommands.add(command);
     }
-    
+
     public void removeCommands(String command){
         myValidCommands.remove(command);
     }
-    
+
 }

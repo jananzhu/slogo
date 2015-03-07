@@ -197,6 +197,8 @@ public class Manager{
 				view.getCommandHistory().resetHistory();
 			}
 			// addHistoryText(s);
+			
+			// TODO JANAN LOOK HERE
 			try {
 				System.out.println("here");
 				List<Double> results = view.getManager().getModel()
