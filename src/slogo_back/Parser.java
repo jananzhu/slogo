@@ -49,7 +49,6 @@ public class Parser {
     }
 
     public Queue<String> inputTokenizer(String input){
-        System.out.println("making tokens");
         Queue<String> tokenQueue = new LinkedList<String>();
         while(!input.matches(whitespacePattern.toString())){
             SyntaxTokenProcessor processor = myProcessorFactory.getTokenProcessor(input);

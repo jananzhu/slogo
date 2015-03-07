@@ -23,4 +23,9 @@ public class VariableNode implements ISyntaxNode{
         }
     }
 
+    @Override
+    public boolean hasMultipleValues () {
+        return false;
+    }
+
 }

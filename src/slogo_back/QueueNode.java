@@ -10,21 +10,23 @@ public class QueueNode implements ISyntaxNode {
 
     public QueueNode(String valueBlock, Parser parser){
         Queue<String> tokenQueue = parser.inputTokenizer(valueBlock);
-        Queue<ISyntaxNode> valueQueue = new LinkedList<ISyntaxNode>();
+        
+        myValueQueue = new LinkedList<ISyntaxNode>();
         while(!tokenQueue.isEmpty()){
-            valueQueue.add(parser.buildParseTree(tokenQueue));
+            myValueQueue.add(parser.buildParseTree(tokenQueue));
         }
     }
 
     @Override
     public double getValue () {
         ISyntaxNode value;
-        try{
-            value = myValueQueue.poll();
-        } catch(NoSuchElementException e){
-            throw e;
-        }
+        value = myValueQueue.remove();
         return value.getValue();
+    }
+
+    @Override
+    public boolean hasMultipleValues () {
+        return (!myValueQueue.isEmpty());
     }
 
 }

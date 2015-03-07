@@ -19,4 +19,9 @@ public class ListNode implements ISyntaxNode {
         return returnValue;
     }
 
+    @Override
+    public boolean hasMultipleValues () {
+        return false;
+    }
+
 }

@@ -25,7 +25,6 @@ public class ISyntaxNodeFactory {
     }
     
     public ISyntaxNode getNode(String token,Queue<String> tokenQueue){
-        System.out.println(token);
         Matcher listMatch = Pattern.compile(myResourceBundle.getString("ListBlock"), 
                                             Pattern.DOTALL).matcher(token);
         ISyntaxNode node;
