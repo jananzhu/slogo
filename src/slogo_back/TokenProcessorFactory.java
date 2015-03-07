@@ -17,7 +17,8 @@ public class TokenProcessorFactory {
         SyntaxProcessors.add(new SyntaxTokenProcessor(Pattern.compile(myResourceBundle.getString("HeadConstant"))));
         SyntaxProcessors.add(new SyntaxTokenProcessor(Pattern.compile(myResourceBundle.getString("HeadCommand"))));
         SyntaxProcessors.add(new SyntaxTokenProcessor(Pattern.compile(myResourceBundle.getString("HeadVariable"))));
-        SyntaxProcessors.add(new ListTokenProcessor(Pattern.compile(myResourceBundle.getString("ListBlock"))));
+        SyntaxProcessors.add(new ListTokenProcessor(Pattern.compile(myResourceBundle.getString("ListBlock")), '[', ']'));
+        SyntaxProcessors.add(new ListTokenProcessor(Pattern.compile(myResourceBundle.getString("UnlimitedParameterBlock")),'(',')'));
         SyntaxProcessors.add(new CommentTokenProcessor(Pattern.compile(myResourceBundle.getString("HeadComment"))));
     }
 
