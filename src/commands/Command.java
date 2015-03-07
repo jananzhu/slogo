@@ -52,8 +52,6 @@ public abstract class Command implements ISyntaxNode{
 	protected ISyntaxNode[] defineParams(int numParams){
 		ISyntaxNode[] returnParams = new ISyntaxNode[numParams];
 		for (int i = 0; i < numParams; i++){
-		    //System.out.println("numParams is" + numParams);
-		    //System.out.println("Calling buildParseTree from define " + i + "th parameter");
 			returnParams[i] = myParser.buildParseTree(myCmds);
 		}
 		return returnParams;
@@ -76,4 +74,7 @@ public abstract class Command implements ISyntaxNode{
     		    myModel.popVar(var);
 	}
 	
+	public boolean hasMultipleValues(){
+	    return false;
+	}
 }

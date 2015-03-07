@@ -10,5 +10,9 @@ public class ParameterNode implements ISyntaxNode {
     public double getValue () {
         return myValue;
     }
+    @Override
+    public boolean hasMultipleValues () {
+        return false;
+    }
 
 }

@@ -22,7 +22,6 @@ public class CommandFactory {
         if(myDictionary.containsKey(userInput)){
             commandName = myDictionary.get(userInput);
         } else if(myModel.usrCmdExists(userInput)){
-            System.out.println(userInput);
             return myModel.getUsrCmd(userInput).cloneCommand(tokens);
         }else{
             throw new InvalidParameterException(userInput + " is not a command");
@@ -38,7 +37,6 @@ public class CommandFactory {
         Constructor<?> constructor = commandClass.getConstructors()[0];
         Command command = null;
         try {
-            System.out.println(constructor.toString());
             command = (Command) constructor.newInstance(tokens,myModel, myModel.getVarMap());
         }
         catch (InstantiationException e) {

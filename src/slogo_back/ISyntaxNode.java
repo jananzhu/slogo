@@ -6,4 +6,7 @@ public interface ISyntaxNode {
 
 
 public double getValue();
+
+public boolean hasMultipleValues();
 }
+
